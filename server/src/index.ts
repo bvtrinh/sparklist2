@@ -7,7 +7,7 @@ import Routes from "./routes";
 
 // Dotenv config
 if (process.env.NODE_ENV === "development") {
-  config({ path: resolve(__dirname, "../.env") });
+  config({ path: resolve(__dirname, "../.env.development") });
 }
 const port = process.env.PORT || 5000;
 
