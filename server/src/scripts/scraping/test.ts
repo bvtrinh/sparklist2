@@ -1,4 +1,4 @@
-import { uniqloScrape } from "./uniqlo";
+import { uniqloScrape, massUniqloScrape } from "./uniqlo";
 import { americanEagleScrape } from "./americanEagle";
 import { memoryExpressScrape } from "./memoryExpress";
 import { walmartScrape } from "./walmart";
@@ -31,3 +31,8 @@ import { amazonScrape } from "./amazon";
 // ];
 
 // amazonScrape(AMAZON_URLS[1]);
+
+/* SEARCH RESULTS SCRAPING */
+
+const UNIQLO_SEARCH_URLS = ["https://www.uniqlo.com/ca/en/men/tops/sweaters-and-cardigans"];
+massUniqloScrape(UNIQLO_SEARCH_URLS[0]);
