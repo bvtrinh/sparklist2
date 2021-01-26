@@ -1,7 +1,7 @@
 import { By } from "selenium-webdriver";
 import { driver, itemInfo } from "./index";
+import { FLOAT_REGEX } from "../../config/constants";
 
-const FLOAT_REGEX = /[^\d.-]/g;
 const TITLE_CLASS = "product-name cms-ae-product-name";
 const SALE_PRICE_CLASS = ".product-sale-price";
 const LIST_PRICE_CLASS = ".product-list-price";
