@@ -1,6 +1,7 @@
 import { uniqloScrape } from "./uniqlo";
 import { americanEagleScrape } from "./americanEagle";
 import { memoryExpressScrape } from "./memoryExpress";
+import { walmartScrape } from "./walmart";
 
 // const UNIQLO_URLS = ["https://www.uniqlo.com/ca/en/products/E433399-000?colorCode=COL00"];
 // uniqloScrape(UNIQLO_URLS[0]);
@@ -11,9 +12,16 @@ import { memoryExpressScrape } from "./memoryExpress";
 // ];
 // americanEagleScrape(AEO_URLS[1]);
 
-const MEM_EXPRESS_URLS = [
-  "https://www.memoryexpress.com/Products/MX70319",
-  "https://www.memoryexpress.com/Products/MX00113042",
+// const MEM_EXPRESS_URLS = [
+//   "https://www.memoryexpress.com/Products/MX70319",
+//   "https://www.memoryexpress.com/Products/MX00113042",
+// ];
+
+// memoryExpressScrape(MEM_EXPRESS_URLS[1]);
+
+const WALAMRT_URLS = [
+  "https://www.walmart.ca/en/ip/blue-microphones-yeti-usb-microphone-blackout-edition/PRD6ELCF922S7Z9?rrid=richrelevance",
+  "https://www.walmart.ca/en/ip/keurig-k-mini-single-serve-coffee-maker-black/6000198453943?rrid=richrelevance",
 ];
 
-memoryExpressScrape(MEM_EXPRESS_URLS[1]);
+walmartScrape(WALAMRT_URLS[1]);
