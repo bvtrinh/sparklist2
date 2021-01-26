@@ -23,7 +23,12 @@ export const americanEagleScrape = async (url: string) => {
     const imageURL = await (await driver.findElement(By.css(IMAGE_CLASS))).getAttribute("src");
 
     const info: itemInfo = { title, price, imageURL, itemURL: url };
+    console.log(info);
+
     return info;
+  } catch (err) {
+    console.log(err);
+    return err;
   } finally {
     await driver.quit();
   }
