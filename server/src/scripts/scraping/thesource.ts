@@ -18,7 +18,7 @@ export const massTheSourceScrape = async (url: string) => {
   try {
     await driver.get(url);
     await driver.executeScript(
-      'window.scrollBy({top:document.body.scrollHeight, left: 0, behaviour: "smooth"})'
+      'window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });'
     );
     await (await driver).sleep(5000);
     const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));

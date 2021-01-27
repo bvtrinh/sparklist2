@@ -48,7 +48,7 @@ export const massMemoryExpressScrape = async (url: string) => {
   try {
     await driver.get(url);
     await driver.executeScript(
-      'window.scrollBy({top:document.body.scrollHeight, left: 0, behaviour: "smooth"})'
+      'window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });'
     );
     const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
 
