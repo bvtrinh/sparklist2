@@ -40,7 +40,7 @@ const GRID_ITEM_IMAGE_URL_CLASS = "div.fr-product-image > img";
   Get the grid of items, go through each grid item and scrape itemInfo
   @return returns an array of itemInfo objects
   @params
-    url: link to a search result page
+    url: link to a listing of uniqlo items (ex. viewing all mens long sleeve shirts)
 */
 export const massUniqloScrape = async (url: string) => {
   try {

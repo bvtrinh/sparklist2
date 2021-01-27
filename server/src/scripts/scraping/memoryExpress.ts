@@ -1,4 +1,4 @@
-import { By } from "selenium-webdriver";
+import { By, until } from "selenium-webdriver";
 import { driver, itemInfo } from "./index";
 import { LINE_BREAK_REGEX, FLOAT_REGEX } from "../../config/constants";
 
@@ -24,6 +24,56 @@ export const memoryExpressScrape = async (url: string) => {
     const info: itemInfo = { title, price, imageURL, itemURL: url };
     console.log(info);
     return info;
+  } catch (err) {
+    console.log(err);
+    return err;
+  } finally {
+    await driver.quit();
+  }
+};
+
+const GRID_ITEM_CLASS = ".c-shca-icon-item";
+const GRID_ITEM_TITLE_CLASS = ".c-shca-icon-item__body-name > a";
+const GRID_ITEM_PRICE_CLASS = ".c-shca-icon-item__summary-list > span";
+const GRID_ITEM_URL_CLASS = ".c-shca-icon-item__body-image > a";
+const GRID_ITEM_IMAGE_URL_CLASS = ".c-shca-icon-item__body-image a > img";
+
+/**
+  Get the grid of items, go through each grid item and scrape itemInfo
+  @return returns an array of itemInfo objects
+  @params
+    url: link to a listing of memory express items (ex. viewing all mens long sleeve shirts)
+*/
+export const massMemoryExpressScrape = async (url: string) => {
+  try {
+    await driver.get(url);
+    await driver.executeScript(
+      'window.scrollBy({top:document.body.scrollHeight, left: 0, behaviour: "smooth"})'
+    );
+    const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
+
+    let items: itemInfo[] = [];
+    let title, price, itemURL, imageURL;
+    for (const item of itemGrid) {
+      title = await (
+        await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText()
+      ).replace(LINE_BREAK_REGEX, "");
+
+      price = +(await (
+        await (await item.findElement(By.css(GRID_ITEM_PRICE_CLASS))).getText()
+      ).replace(FLOAT_REGEX, ""));
+
+      itemURL = await (await item.findElement(By.css(GRID_ITEM_URL_CLASS))).getAttribute("href");
+
+      imageURL = await (await item.findElement(By.css(GRID_ITEM_IMAGE_URL_CLASS))).getAttribute(
+        "src"
+      );
+
+      items.push({ title, price, itemURL, imageURL });
+    }
+
+    console.log(items);
+    return items;
   } catch (err) {
     console.log(err);
     return err;

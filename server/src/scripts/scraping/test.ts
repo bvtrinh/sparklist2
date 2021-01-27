@@ -1,6 +1,6 @@
 import { uniqloScrape, massUniqloScrape } from "./uniqlo";
-import { americanEagleScrape } from "./americanEagle";
-import { memoryExpressScrape } from "./memoryExpress";
+import { americanEagleScrape, massAmericanEagleScrape } from "./americanEagle";
+import { memoryExpressScrape, massMemoryExpressScrape } from "./memoryExpress";
 import { walmartScrape } from "./walmart";
 import { amazonScrape } from "./amazon";
 
@@ -32,7 +32,19 @@ import { amazonScrape } from "./amazon";
 
 // amazonScrape(AMAZON_URLS[1]);
 
-/* SEARCH RESULTS SCRAPING */
+/* RESULT PAGE SCRAPING */
 
-const UNIQLO_SEARCH_URLS = ["https://www.uniqlo.com/ca/en/men/tops/sweaters-and-cardigans"];
-massUniqloScrape(UNIQLO_SEARCH_URLS[0]);
+// const UNIQLO_SEARCH_URLS = ["https://www.uniqlo.com/ca/en/men/tops/sweaters-and-cardigans"];
+// massUniqloScrape(UNIQLO_SEARCH_URLS[0]);
+
+// const AEO_SEARCH_URLS = [
+//   "https://www.ae.com/ca/en/c/men/tops/shirts-flannels/cat40005?pagetype=plp",
+//   "https://www.ae.com/ca/en/c/men/jeans/slim-fit-jeans/cat5180058?pagetype=plp",
+// ];
+// massAmericanEagleScrape(AEO_SEARCH_URLS[1]);
+
+const MEMORY_EXPRESS_SEARCH_URLS = [
+  "https://www.memoryexpress.com/Category/HardDrives",
+  "https://www.memoryexpress.com/Category/Keyboards",
+];
+massMemoryExpressScrape(MEMORY_EXPRESS_SEARCH_URLS[1]);
