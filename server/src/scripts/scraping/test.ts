@@ -2,6 +2,7 @@ import { uniqloScrape, massUniqloScrape } from "./uniqlo";
 import { americanEagleScrape, massAmericanEagleScrape } from "./americanEagle";
 import { memoryExpressScrape, massMemoryExpressScrape } from "./memoryExpress";
 import { walmartScrape } from "./walmart";
+import { massTheSourceScrape } from "./thesource";
 import { amazonScrape } from "./amazon";
 
 // const UNIQLO_URLS = ["https://www.uniqlo.com/ca/en/products/E433399-000?colorCode=COL00"];
@@ -43,8 +44,14 @@ import { amazonScrape } from "./amazon";
 // ];
 // massAmericanEagleScrape(AEO_SEARCH_URLS[1]);
 
-const MEMORY_EXPRESS_SEARCH_URLS = [
-  "https://www.memoryexpress.com/Category/HardDrives",
-  "https://www.memoryexpress.com/Category/Keyboards",
+// const MEMORY_EXPRESS_SEARCH_URLS = [
+//   "https://www.memoryexpress.com/Category/HardDrives",
+//   "https://www.memoryexpress.com/Category/Keyboards",
+// ];
+// massMemoryExpressScrape(MEMORY_EXPRESS_SEARCH_URLS[1]);
+
+const SOURCE_SEARCH_URLS = [
+  "https://www.thesource.ca/en-ca/audio-headphones/headphones/all-headphones/c/scc-6-1-9?categoryCode=scc-6-1-9&view=grid&page=0&sort=relevance",
+  "https://www.thesource.ca/en-ca/tvs-home-theatre/televisions/all-tvs/c/scc-7-1-6?categoryCode=scc-7-1-6&view=grid&page=0&sort=relevance",
 ];
-massMemoryExpressScrape(MEMORY_EXPRESS_SEARCH_URLS[1]);
+massTheSourceScrape(SOURCE_SEARCH_URLS[1]);
