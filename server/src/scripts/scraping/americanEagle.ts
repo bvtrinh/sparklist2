@@ -7,6 +7,14 @@ const SALE_PRICE_CLASS = ".product-sale-price";
 const LIST_PRICE_CLASS = ".product-list-price";
 const IMAGE_CLASS = "picture > img";
 
+const GRID_ITEM_CLASS = "div.product-tile.qa-product-tile";
+const GRID_ITEM_TITLE_CLASS = ".tile-name > h3";
+const GRID_ITEM_LIST_PRICE_CLASS = ".product-list-price";
+const GRID_ITEM_SALE_PRICE_CLASS = ".product-sale-price";
+const GRID_ITEM_URL_CLASS = ".product-tile.qa-product-tile > a";
+const GRID_ITEM_IMAGE_URL_CLASS = ".tile-images.product-tile-image-container img";
+const AD_ALERT_CLASS = 'button[data-tl="btn-accept"]';
+
 /**
   Given a link to an image page, return information about the item
   @return returns an itemInfo object
@@ -29,8 +37,6 @@ export const americanEagleScrape = async (url: string) => {
     const imageURL = await (await driver.findElement(By.css(IMAGE_CLASS))).getAttribute("src");
 
     const info: itemInfo = { title, price, imageURL, itemURL: url };
-    console.log(info);
-
     return info;
   } catch (err) {
     console.error(err);
@@ -39,15 +45,6 @@ export const americanEagleScrape = async (url: string) => {
     await driver.quit();
   }
 };
-
-const GRID_ITEM_CLASS = "div.product-tile.qa-product-tile";
-const GRID_ITEM_TITLE_CLASS = ".tile-name > h3";
-const GRID_ITEM_LIST_PRICE_CLASS = ".product-list-price";
-const GRID_ITEM_SALE_PRICE_CLASS = ".product-sale-price";
-const GRID_ITEM_URL_CLASS = ".product-tile.qa-product-tile > a";
-const GRID_ITEM_IMAGE_URL_CLASS = ".tile-images.product-tile-image-container img";
-
-const AD_ALERT_CLASS = 'button[data-tl="btn-accept"]';
 
 /**
   Get the grid of items, go through each grid item and scrape itemInfo
@@ -90,7 +87,6 @@ export const massAmericanEagleScrape = async (url: string) => {
       items.push({ title, price, itemURL, imageURL });
     }
 
-    console.log(items);
     return items;
   } catch (err) {
     console.error(err);

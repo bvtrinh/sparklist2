@@ -37,7 +37,6 @@ export const massTheSourceScrape = async (url: string) => {
       items.push({ title, price, itemURL, imageURL });
     }
 
-    console.log(items);
     return items;
   } catch (err) {
     console.error(err);

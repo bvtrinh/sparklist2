@@ -7,6 +7,13 @@ const LIST_PRICE_CLASS = "span#priceblock_ourprice";
 const SALE_PRICE_CLASS = "span#priceblock_dealprice";
 const IMAGE_CLASS = "#imgTagWrapperId > img";
 
+const GRID_ITEM_CLASS = 'div[data-component-type="s-search-result"]';
+const GRID_ITEM_TITLE_CLASS = "h2.a-size-mini span";
+const GRID_ITEM_PRICE_WHOLE_CLASS = ".a-price-whole";
+const GRID_ITEM_PRICE_FRACTION_CLASS = ".a-price-fraction";
+const GRID_ITEM_URL_CLASS = "h2.a-size-mini > a";
+const GRID_ITEM_IMAGE_URL_CLASS = 'img[data-image-latency="s-product-image"]';
+
 /**
   Given a link to an image page, return information about the item
   @return returns an itemInfo object
@@ -32,7 +39,6 @@ export const amazonScrape = async (url: string) => {
     const imageURL = await (await driver.findElement(By.css(IMAGE_CLASS))).getAttribute("src");
 
     const info: itemInfo = { title, price, imageURL, itemURL: url };
-    console.log(info);
     return info;
   } catch (err) {
     console.error(err);
@@ -41,13 +47,6 @@ export const amazonScrape = async (url: string) => {
     await driver.quit();
   }
 };
-
-const GRID_ITEM_CLASS = 'div[data-component-type="s-search-result"]';
-const GRID_ITEM_TITLE_CLASS = "h2.a-size-mini span";
-const GRID_ITEM_PRICE_WHOLE_CLASS = ".a-price-whole";
-const GRID_ITEM_PRICE_FRACTION_CLASS = ".a-price-fraction";
-const GRID_ITEM_URL_CLASS = "h2.a-size-mini > a";
-const GRID_ITEM_IMAGE_URL_CLASS = 'img[data-image-latency="s-product-image"]';
 
 /**
   Get the grid of items, go through each grid item and scrape itemInfo
@@ -90,7 +89,6 @@ export const massAmazonScrape = async (url: string) => {
       items.push({ title, price, itemURL, imageURL });
     }
 
-    console.log(items);
     return items;
   } catch (err) {
     console.error(err);

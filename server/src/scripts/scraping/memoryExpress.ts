@@ -6,6 +6,12 @@ const TITLE_CLASS = "header h1";
 const PRICE_CLASS = ".GrandTotal.c-capr-pricing__grand-total > div";
 const IMAGE_CLASS = ".c-capr-images__focus > img";
 
+const GRID_ITEM_CLASS = ".c-shca-icon-item";
+const GRID_ITEM_TITLE_CLASS = ".c-shca-icon-item__body-name > a";
+const GRID_ITEM_PRICE_CLASS = ".c-shca-icon-item__summary-list > span";
+const GRID_ITEM_URL_CLASS = ".c-shca-icon-item__body-image > a";
+const GRID_ITEM_IMAGE_URL_CLASS = ".c-shca-icon-item__body-image a > img";
+
 /**
   Given a link to an image page, return information about the item
   @return returns an itemInfo object
@@ -28,7 +34,6 @@ export const memoryExpressScrape = async (url: string) => {
     const imageURL = await (await driver.findElement(By.css(IMAGE_CLASS))).getAttribute("src");
 
     const info: itemInfo = { title, price, imageURL, itemURL: url };
-    console.log(info);
     return info;
   } catch (err) {
     console.error(err);
@@ -37,12 +42,6 @@ export const memoryExpressScrape = async (url: string) => {
     await driver.quit();
   }
 };
-
-const GRID_ITEM_CLASS = ".c-shca-icon-item";
-const GRID_ITEM_TITLE_CLASS = ".c-shca-icon-item__body-name > a";
-const GRID_ITEM_PRICE_CLASS = ".c-shca-icon-item__summary-list > span";
-const GRID_ITEM_URL_CLASS = ".c-shca-icon-item__body-image > a";
-const GRID_ITEM_IMAGE_URL_CLASS = ".c-shca-icon-item__body-image a > img";
 
 /**
   Get the grid of items, go through each grid item and scrape itemInfo
@@ -78,7 +77,6 @@ export const massMemoryExpressScrape = async (url: string) => {
       items.push({ title, price, itemURL, imageURL });
     }
 
-    console.log(items);
     return items;
   } catch (err) {
     console.log(err);
