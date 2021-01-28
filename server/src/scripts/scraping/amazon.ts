@@ -88,7 +88,6 @@ export const massAmazonScrape = async (urls: string[]) => {
         items.push({ title, price, itemURL, imageURL });
       }
     }
-    console.log(items);
 
     return items;
   } catch (err) {
