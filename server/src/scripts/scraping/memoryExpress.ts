@@ -6,6 +6,12 @@ const TITLE_CLASS = "header h1";
 const PRICE_CLASS = ".GrandTotal.c-capr-pricing__grand-total > div";
 const IMAGE_CLASS = ".c-capr-images__focus > img";
 
+/**
+  Given a link to an image page, return information about the item
+  @return returns an itemInfo object
+  @params
+    url: link to a listing of an memory express item
+*/
 export const memoryExpressScrape = async (url: string) => {
   try {
     await driver.get(url);
@@ -25,7 +31,7 @@ export const memoryExpressScrape = async (url: string) => {
     console.log(info);
     return info;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   } finally {
     await driver.quit();
@@ -42,7 +48,7 @@ const GRID_ITEM_IMAGE_URL_CLASS = ".c-shca-icon-item__body-image a > img";
   Get the grid of items, go through each grid item and scrape itemInfo
   @return returns an array of itemInfo objects
   @params
-    url: link to a listing of memory express items (ex. viewing all mens long sleeve shirts)
+    url: link to a listing of memory express items (ex. viewing memory hard drives)
 */
 export const massMemoryExpressScrape = async (url: string) => {
   try {

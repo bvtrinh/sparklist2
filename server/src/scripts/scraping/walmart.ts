@@ -6,6 +6,12 @@ const TITLE_CLASS = 'h1[data-automation="product-title"]';
 const PRICE_CLASS = 'span[data-automation="buybox-price"]';
 const IMAGE_CLASS = "#main-image";
 
+/**
+  Given a link to an image page, return information about the item
+  @return returns an itemInfo object
+  @params
+    url: link to a listing of an walmart item
+*/
 export const walmartScrape = async (url: string) => {
   try {
     await driver.get(url);
@@ -21,7 +27,7 @@ export const walmartScrape = async (url: string) => {
     console.log(info);
     return info;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   } finally {
     await driver.quit();

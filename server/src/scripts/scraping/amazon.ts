@@ -7,6 +7,12 @@ const LIST_PRICE_CLASS = "span#priceblock_ourprice";
 const SALE_PRICE_CLASS = "span#priceblock_dealprice";
 const IMAGE_CLASS = "#imgTagWrapperId > img";
 
+/**
+  Given a link to an image page, return information about the item
+  @return returns an itemInfo object
+  @params
+    url: link to a listing of an amazon item
+*/
 export const amazonScrape = async (url: string) => {
   try {
     await driver.get(url);
@@ -29,7 +35,7 @@ export const amazonScrape = async (url: string) => {
     console.log(info);
     return info;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   } finally {
     await driver.quit();
@@ -49,7 +55,6 @@ const GRID_ITEM_IMAGE_URL_CLASS = 'img[data-image-latency="s-product-image"]';
   @params
     url: link to a listing of amazon items (ex. viewing search results)
 */
-
 export const massAmazonScrape = async (url: string) => {
   try {
     await driver.get(url);

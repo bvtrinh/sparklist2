@@ -6,10 +6,10 @@ const PRICE_CLASS = ".fr-price-currency > span";
 const IMAGE_CLASS = ".fr-product-image > img";
 
 /**
-  Given a URL scrape the itemInfo from the page
+  Given a link to an image page, return information about the item
   @return returns an itemInfo object
   @params
-    url: link to a item page
+    url: link to a listing of an uniqlo item
 */
 export const uniqloScrape = async (url: string) => {
   try {
@@ -23,7 +23,7 @@ export const uniqloScrape = async (url: string) => {
     console.log(info);
     return info;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   } finally {
     await driver.quit();
@@ -62,7 +62,7 @@ export const massUniqloScrape = async (url: string) => {
     console.log(items);
     return items;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   } finally {
     await driver.quit();

@@ -12,7 +12,7 @@ const GRID_ITEM_IMAGE_URL_CLASS = ".product-image img";
   Get the grid of items, go through each grid item and scrape itemInfo
   @return returns an array of itemInfo objects
   @params
-    url: link to a listing of the source items (ex. viewing all mens long sleeve shirts)
+    url: link to a listing of the source items (ex. viewing all headphones)
 */
 export const massTheSourceScrape = async (url: string) => {
   try {
@@ -40,7 +40,7 @@ export const massTheSourceScrape = async (url: string) => {
     console.log(items);
     return items;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   } finally {
     await driver.quit();

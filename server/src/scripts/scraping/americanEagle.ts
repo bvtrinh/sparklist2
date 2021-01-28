@@ -7,6 +7,12 @@ const SALE_PRICE_CLASS = ".product-sale-price";
 const LIST_PRICE_CLASS = ".product-list-price";
 const IMAGE_CLASS = "picture > img";
 
+/**
+  Given a link to an image page, return information about the item
+  @return returns an itemInfo object
+  @params
+    url: link to a listing of an american eagle item
+*/
 export const americanEagleScrape = async (url: string) => {
   try {
     await driver.get(url);
@@ -27,7 +33,7 @@ export const americanEagleScrape = async (url: string) => {
 
     return info;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   } finally {
     await driver.quit();
@@ -47,7 +53,7 @@ const AD_ALERT_CLASS = 'button[data-tl="btn-accept"]';
   Get the grid of items, go through each grid item and scrape itemInfo
   @return returns an array of itemInfo objects
   @params
-    url: link to a search result page
+    url: link to a search result page (ex. viewing all jeans)
 */
 export const massAmericanEagleScrape = async (url: string) => {
   try {
@@ -87,7 +93,7 @@ export const massAmericanEagleScrape = async (url: string) => {
     console.log(items);
     return items;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   } finally {
     await driver.quit();
