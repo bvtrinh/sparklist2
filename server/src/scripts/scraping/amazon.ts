@@ -1,6 +1,6 @@
 import { By } from "selenium-webdriver";
 import { driver, itemInfo } from "./index";
-import { FLOAT_REGEX } from "../../config/constants";
+import { FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
 const TITLE_CLASS = "#productTitle";
 const LIST_PRICE_CLASS = "span#priceblock_ourprice";
@@ -24,7 +24,7 @@ export const amazonScrape = async (url: string) => {
   try {
     await driver.get(url);
     // TODO: add a wait for the title to appear?
-    const title = await await (await driver.findElement(By.css(TITLE_CLASS))).getText();
+    const title = await (await driver.findElement(By.css(TITLE_CLASS))).getText();
 
     let price = 0;
     const checkSalePrice = await driver.findElements(By.css(SALE_PRICE_CLASS));
@@ -58,9 +58,7 @@ export const massAmazonScrape = async (url: string) => {
   try {
     await driver.get(url);
     await (await driver).sleep(2000);
-    await driver.executeScript(
-      'window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });'
-    );
+    await driver.executeScript(SCROLL_SCRIPT);
     const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
 
     let items: itemInfo[] = [];

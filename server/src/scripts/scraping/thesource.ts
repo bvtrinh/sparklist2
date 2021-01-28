@@ -1,6 +1,6 @@
 import { By } from "selenium-webdriver";
 import { driver, itemInfo } from "./index";
-import { FLOAT_REGEX } from "../../config/constants";
+import { FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
 const GRID_ITEM_CLASS = ".productListItem";
 const GRID_ITEM_TITLE_CLASS = ".head.productMainLink.desktop-only";
@@ -17,9 +17,7 @@ const GRID_ITEM_IMAGE_URL_CLASS = ".product-image img";
 export const massTheSourceScrape = async (url: string) => {
   try {
     await driver.get(url);
-    await driver.executeScript(
-      'window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });'
-    );
+    await driver.executeScript(SCROLL_SCRIPT);
     await (await driver).sleep(5000);
     const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
 

@@ -1,6 +1,6 @@
-import { By, until } from "selenium-webdriver";
+import { By } from "selenium-webdriver";
 import { driver, itemInfo } from "./index";
-import { LINE_BREAK_REGEX, FLOAT_REGEX } from "../../config/constants";
+import { LINE_BREAK_REGEX, FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
 const TITLE_CLASS = "header h1";
 const PRICE_CLASS = ".GrandTotal.c-capr-pricing__grand-total > div";
@@ -52,9 +52,7 @@ export const memoryExpressScrape = async (url: string) => {
 export const massMemoryExpressScrape = async (url: string) => {
   try {
     await driver.get(url);
-    await driver.executeScript(
-      'window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });'
-    );
+    await driver.executeScript(SCROLL_SCRIPT);
     const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
 
     let items: itemInfo[] = [];

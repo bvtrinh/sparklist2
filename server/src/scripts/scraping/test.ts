@@ -56,5 +56,8 @@ import { amazonScrape, massAmazonScrape } from "./amazon";
 // ];
 // massTheSourceScrape(SOURCE_SEARCH_URLS[1]);
 
-const AMAZON_SEARCH_URLS = ["https://www.amazon.ca/s?k=mouse&ref=nb_sb_noss_2", ""];
-massAmazonScrape(AMAZON_SEARCH_URLS[0]);
+const AMAZON_SEARCH_URLS = [
+  "https://www.amazon.ca/s?k=mouse&ref=nb_sb_noss_2",
+  "https://www.amazon.ca/s?k=portable+ch&ref=nb_sb_noss_2",
+];
+massAmazonScrape(AMAZON_SEARCH_URLS[1]);
