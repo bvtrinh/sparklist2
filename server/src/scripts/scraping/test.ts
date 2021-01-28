@@ -3,7 +3,7 @@ import { americanEagleScrape, massAmericanEagleScrape } from "./americanEagle";
 import { memoryExpressScrape, massMemoryExpressScrape } from "./memoryExpress";
 import { walmartScrape } from "./walmart";
 import { massTheSourceScrape } from "./thesource";
-import { amazonScrape } from "./amazon";
+import { amazonScrape, massAmazonScrape } from "./amazon";
 
 // const UNIQLO_URLS = ["https://www.uniqlo.com/ca/en/products/E433399-000?colorCode=COL00"];
 // uniqloScrape(UNIQLO_URLS[0]);
@@ -38,11 +38,11 @@ import { amazonScrape } from "./amazon";
 // const UNIQLO_SEARCH_URLS = ["https://www.uniqlo.com/ca/en/men/tops/sweaters-and-cardigans"];
 // massUniqloScrape(UNIQLO_SEARCH_URLS[0]);
 
-const AEO_SEARCH_URLS = [
-  "https://www.ae.com/ca/en/c/men/tops/shirts-flannels/cat40005?pagetype=plp",
-  "https://www.ae.com/ca/en/c/men/jeans/slim-fit-jeans/cat5180058?pagetype=plp",
-];
-massAmericanEagleScrape(AEO_SEARCH_URLS[1]);
+// const AEO_SEARCH_URLS = [
+//   "https://www.ae.com/ca/en/c/men/tops/shirts-flannels/cat40005?pagetype=plp",
+//   "https://www.ae.com/ca/en/c/men/jeans/slim-fit-jeans/cat5180058?pagetype=plp",
+// ];
+// massAmericanEagleScrape(AEO_SEARCH_URLS[1]);
 
 // const MEMORY_EXPRESS_SEARCH_URLS = [
 //   "https://www.memoryexpress.com/Category/HardDrives",
@@ -55,3 +55,6 @@ massAmericanEagleScrape(AEO_SEARCH_URLS[1]);
 //   "https://www.thesource.ca/en-ca/tvs-home-theatre/televisions/all-tvs/c/scc-7-1-6?categoryCode=scc-7-1-6&view=grid&page=0&sort=relevance",
 // ];
 // massTheSourceScrape(SOURCE_SEARCH_URLS[1]);
+
+const AMAZON_SEARCH_URLS = ["https://www.amazon.ca/s?k=mouse&ref=nb_sb_noss_2", ""];
+massAmazonScrape(AMAZON_SEARCH_URLS[0]);
