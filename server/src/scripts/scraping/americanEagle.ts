@@ -13,7 +13,7 @@ const GRID_ITEM_LIST_PRICE_CLASS = ".product-list-price";
 const GRID_ITEM_SALE_PRICE_CLASS = ".product-sale-price";
 const GRID_ITEM_URL_CLASS = ".product-tile.qa-product-tile > a";
 const GRID_ITEM_IMAGE_URL_CLASS = ".tile-images.product-tile-image-container img";
-const AD_ALERT_CLASS = 'button[data-tl="btn-accept"]';
+const AD_ALERT_CLASS = 'div[data-id="modalModalAdPreferences"] button';
 
 /**
   Given a link to an image page, return information about the item
@@ -50,38 +50,44 @@ export const americanEagleScrape = async (url: string) => {
   Get the grid of items, go through each grid item and scrape itemInfo
   @return returns an array of itemInfo objects
   @params
-    url: link to a search result page (ex. viewing all jeans)
+    url: an array of links to a search result page (ex. viewing all jeans)
 */
-export const massAmericanEagleScrape = async (url: string) => {
+export const massAmericanEagleScrape = async (urls: string[]) => {
   try {
-    await driver.get(url);
-    await (await driver).sleep(2000);
-    await (await (await driver).findElement(By.css(AD_ALERT_CLASS))).click();
-    await driver.executeScript(SCROLL_SCRIPT);
-
-    const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
-    console.log(itemGrid.length);
-
     let items: itemInfo[] = [];
-    let title, price, itemURL, imageURL;
-    let checkSalePrice;
-    for (const item of itemGrid) {
-      title = await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText();
-
-      price = +(await (
-        await (await (await driver).findElement(By.css(GRID_ITEM_LIST_PRICE_CLASS))).getText()
-      ).replace(FLOAT_REGEX, ""));
-      checkSalePrice = await driver.findElements(By.css(GRID_ITEM_SALE_PRICE_CLASS));
-      if ((await checkSalePrice.length) > 0) {
-        price = +(await (await checkSalePrice[0].getText()).replace(FLOAT_REGEX, ""));
+    for (const url of urls) {
+      await driver.get(url);
+      await driver.sleep(3000);
+      let adPrompt = await driver.findElements(By.css(AD_ALERT_CLASS));
+      if (adPrompt.length > 0) {
+        await adPrompt[0].click();
       }
+      // await driver.sleep(3000000);
 
-      itemURL = await (await item.findElement(By.css(GRID_ITEM_URL_CLASS))).getAttribute("href");
+      await driver.executeScript(SCROLL_SCRIPT);
 
-      imageURL = await (await item.findElement(By.css(GRID_ITEM_IMAGE_URL_CLASS))).getAttribute(
-        "src"
-      );
-      items.push({ title, price, itemURL, imageURL });
+      const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
+
+      let title, price, itemURL, imageURL;
+      let checkSalePrice;
+      for (const item of itemGrid) {
+        title = await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText();
+
+        price = +(await (
+          await (await (await driver).findElement(By.css(GRID_ITEM_LIST_PRICE_CLASS))).getText()
+        ).replace(FLOAT_REGEX, ""));
+        checkSalePrice = await driver.findElements(By.css(GRID_ITEM_SALE_PRICE_CLASS));
+        if ((await checkSalePrice.length) > 0) {
+          price = +(await (await checkSalePrice[0].getText()).replace(FLOAT_REGEX, ""));
+        }
+
+        itemURL = await (await item.findElement(By.css(GRID_ITEM_URL_CLASS))).getAttribute("href");
+
+        imageURL = await (await item.findElement(By.css(GRID_ITEM_IMAGE_URL_CLASS))).getAttribute(
+          "src"
+        );
+        items.push({ title, price, itemURL, imageURL });
+      }
     }
 
     return items;

@@ -39,25 +39,28 @@ export const uniqloScrape = async (url: string) => {
   Get the grid of items, go through each grid item and scrape itemInfo
   @return returns an array of itemInfo objects
   @params
-    url: link to a listing of uniqlo items (ex. viewing all mens long sleeve shirts)
+    url: an array of links to a listing of uniqlo items (ex. viewing all mens long sleeve shirts)
 */
-export const massUniqloScrape = async (url: string) => {
+export const massUniqloScrape = async (urls: string[]) => {
   try {
-    await driver.get(url);
-    const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
-
     let items: itemInfo[] = [];
-    let title, price, itemURL, imageURL;
-    for (const item of itemGrid) {
-      title = await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText();
-      price = +(await (await item.findElement(By.css(GRID_ITEM_PRICE_CLASS))).getText());
-      itemURL = await (await item.findElement(By.css(GRID_ITEM_URL_CLASS))).getAttribute("href");
-      imageURL = await (await item.findElement(By.css(GRID_ITEM_IMAGE_URL_CLASS))).getAttribute(
-        "src"
-      );
-      items.push({ title, price, itemURL, imageURL });
+    for (const url of urls) {
+      await driver.get(url);
+      const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
+
+      let title, price, itemURL, imageURL;
+      for (const item of itemGrid) {
+        title = await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText();
+        price = +(await (await item.findElement(By.css(GRID_ITEM_PRICE_CLASS))).getText());
+        itemURL = await (await item.findElement(By.css(GRID_ITEM_URL_CLASS))).getAttribute("href");
+        imageURL = await (await item.findElement(By.css(GRID_ITEM_IMAGE_URL_CLASS))).getAttribute(
+          "src"
+        );
+        items.push({ title, price, itemURL, imageURL });
+      }
     }
 
+    console.log(items);
     return items;
   } catch (err) {
     console.error(err);

@@ -52,40 +52,43 @@ export const amazonScrape = async (url: string) => {
   Get the grid of items, go through each grid item and scrape itemInfo
   @return returns an array of itemInfo objects
   @params
-    url: link to a listing of amazon items (ex. viewing search results)
+    url: an array of links to a listing of amazon items (ex. viewing search results)
 */
-export const massAmazonScrape = async (url: string) => {
+export const massAmazonScrape = async (urls: string[]) => {
   try {
-    await driver.get(url);
-    await (await driver).sleep(2000);
-    await driver.executeScript(SCROLL_SCRIPT);
-    const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
-
     let items: itemInfo[] = [];
-    let title, priceWhole, priceFraction, price, itemURL, imageURL;
-    let checkPriceWhole;
+    for (const url of urls) {
+      await driver.get(url);
+      await (await driver).sleep(2000);
+      await driver.executeScript(SCROLL_SCRIPT);
+      const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
 
-    for (const item of itemGrid) {
-      title = await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText();
+      let title, priceWhole, priceFraction, price, itemURL, imageURL;
+      let checkPriceWhole;
 
-      checkPriceWhole = await item.findElements(By.css(GRID_ITEM_PRICE_WHOLE_CLASS));
+      for (const item of itemGrid) {
+        title = await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText();
 
-      if ((await checkPriceWhole.length) <= 0) continue;
+        checkPriceWhole = await item.findElements(By.css(GRID_ITEM_PRICE_WHOLE_CLASS));
 
-      priceWhole = await checkPriceWhole[0].getText();
-      priceFraction = await (
-        await item.findElement(By.css(GRID_ITEM_PRICE_FRACTION_CLASS))
-      ).getText();
-      price = +`${priceWhole}.${priceFraction}`;
+        if ((await checkPriceWhole.length) <= 0) continue;
 
-      itemURL = await (await item.findElement(By.css(GRID_ITEM_URL_CLASS))).getAttribute("href");
+        priceWhole = await checkPriceWhole[0].getText();
+        priceFraction = await (
+          await item.findElement(By.css(GRID_ITEM_PRICE_FRACTION_CLASS))
+        ).getText();
+        price = +`${priceWhole}.${priceFraction}`;
 
-      imageURL = await (await item.findElement(By.css(GRID_ITEM_IMAGE_URL_CLASS))).getAttribute(
-        "src"
-      );
+        itemURL = await (await item.findElement(By.css(GRID_ITEM_URL_CLASS))).getAttribute("href");
 
-      items.push({ title, price, itemURL, imageURL });
+        imageURL = await (await item.findElement(By.css(GRID_ITEM_IMAGE_URL_CLASS))).getAttribute(
+          "src"
+        );
+
+        items.push({ title, price, itemURL, imageURL });
+      }
     }
+    console.log(items);
 
     return items;
   } catch (err) {

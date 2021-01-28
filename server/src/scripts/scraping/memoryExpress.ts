@@ -49,30 +49,32 @@ export const memoryExpressScrape = async (url: string) => {
   @params
     url: link to a listing of memory express items (ex. viewing memory hard drives)
 */
-export const massMemoryExpressScrape = async (url: string) => {
+export const massMemoryExpressScrape = async (urls: string[]) => {
   try {
-    await driver.get(url);
-    await driver.executeScript(SCROLL_SCRIPT);
-    const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
-
     let items: itemInfo[] = [];
-    let title, price, itemURL, imageURL;
-    for (const item of itemGrid) {
-      title = await (
-        await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText()
-      ).replace(LINE_BREAK_REGEX, "");
+    for (const url of urls) {
+      await driver.get(url);
+      await driver.executeScript(SCROLL_SCRIPT);
+      const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
 
-      price = +(await (
-        await (await item.findElement(By.css(GRID_ITEM_PRICE_CLASS))).getText()
-      ).replace(FLOAT_REGEX, ""));
+      let title, price, itemURL, imageURL;
+      for (const item of itemGrid) {
+        title = await (
+          await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText()
+        ).replace(LINE_BREAK_REGEX, "");
 
-      itemURL = await (await item.findElement(By.css(GRID_ITEM_URL_CLASS))).getAttribute("href");
+        price = +(await (
+          await (await item.findElement(By.css(GRID_ITEM_PRICE_CLASS))).getText()
+        ).replace(FLOAT_REGEX, ""));
 
-      imageURL = await (await item.findElement(By.css(GRID_ITEM_IMAGE_URL_CLASS))).getAttribute(
-        "src"
-      );
+        itemURL = await (await item.findElement(By.css(GRID_ITEM_URL_CLASS))).getAttribute("href");
 
-      items.push({ title, price, itemURL, imageURL });
+        imageURL = await (await item.findElement(By.css(GRID_ITEM_IMAGE_URL_CLASS))).getAttribute(
+          "src"
+        );
+
+        items.push({ title, price, itemURL, imageURL });
+      }
     }
 
     return items;
