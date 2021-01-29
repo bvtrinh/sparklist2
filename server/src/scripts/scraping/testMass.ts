@@ -28,11 +28,12 @@ const AMAZON_SEARCH_URLS = [
 
 export const testMass = async (): Promise<itemInfo[]> => {
   try {
-    // const items = massUniqloScrape(UNIQLO_SEARCH_URLS);
-    // const items = massAmericanEagleScrape(AEO_SEARCH_URLS);
-    // const items = massMemoryExpressScrape(MEMORY_EXPRESS_SEARCH_URLS);
-    // const items = massTheSourceScrape(SOURCE_SEARCH_URLS);
+    // const items = await massUniqloScrape(UNIQLO_SEARCH_URLS);
+    // const items = await massAmericanEagleScrape(AEO_SEARCH_URLS);
+    // const items = await massMemoryExpressScrape(MEMORY_EXPRESS_SEARCH_URLS);
+    // const items = await massTheSourceScrape(SOURCE_SEARCH_URLS);
     const items = await massAmazonScrape(AMAZON_SEARCH_URLS);
+    console.log(items);
     return items;
   } catch (err) {
     console.error(err);

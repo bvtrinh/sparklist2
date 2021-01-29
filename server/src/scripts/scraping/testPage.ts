@@ -19,11 +19,15 @@ const WALAMRT_URLS = [
 ];
 const AMAZON_URLS = [
   "https://www.amazon.ca/Magnetic-Machine-Sunny-Health-Fitness/dp/B017HSNIEW/ref=gbps_img_s-6_c86a_f43c3ed9?smid=A3DWYIK6Y9EEQB&pf_rd_p=956ef016-d330-404d-888d-d50717e0c86a&pf_rd_s=slot-6&pf_rd_t=701&pf_rd_i=gb_main&pf_rd_m=A3DWYIK6Y9EEQB&pf_rd_r=6DSTGBJX1Z5N1ERE98QD",
-  "https://www.amazon.ca/gp/product/B07R7DH6VF?pf_rd_r=15JD86ZAJS3HXT0KTK6X&pf_rd_p=05326fd5-c43e-4948-99b1-a65b129fdd73",
+  "https://www.amazon.ca/Stick-All-New-Remote-streaming-player/dp/B079QH9GG7/ref=zg_bs_electronics_home_1?_encoding=UTF8&psc=1&refRID=W1S4SN2X5A0JNZE98G02",
 ];
 
-// uniqloScrape(UNIQLO_URLS[0]);
-// americanEagleScrape(AEO_URLS[1]);
-// memoryExpressScrape(MEM_EXPRESS_URLS[1]);
-// walmartScrape(WALAMRT_URLS[1]);
-amazonScrape(AMAZON_URLS[1]);
+const testPages = async () => {
+  const item = await uniqloScrape(UNIQLO_URLS[0]);
+  // const item = await americanEagleScrape(AEO_URLS[1]);
+  // const item = await memoryExpressScrape(MEM_EXPRESS_URLS[1]);
+  // const item = await walmartScrape(WALAMRT_URLS[1]);
+  // const item = await amazonScrape(AMAZON_URLS[0]);
+  // console.log(item);
+};
+testPages();
