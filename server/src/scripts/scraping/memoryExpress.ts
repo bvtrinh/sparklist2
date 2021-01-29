@@ -78,7 +78,7 @@ export const massMemoryExpressScrape = async (urls: string[]): Promise<itemInfo[
 
     return items;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   } finally {
     await driver.quit();

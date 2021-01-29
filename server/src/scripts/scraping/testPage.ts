@@ -28,6 +28,5 @@ const testPages = async () => {
   // const item = await memoryExpressScrape(MEM_EXPRESS_URLS[1]);
   // const item = await walmartScrape(WALAMRT_URLS[1]);
   // const item = await amazonScrape(AMAZON_URLS[0]);
-  // console.log(item);
 };
 testPages();

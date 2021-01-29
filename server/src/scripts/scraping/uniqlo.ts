@@ -59,7 +59,6 @@ export const massUniqloScrape = async (urls: string[]): Promise<itemInfo[]> => {
       }
     }
 
-    console.log(items);
     return items;
   } catch (err) {
     console.error(err);

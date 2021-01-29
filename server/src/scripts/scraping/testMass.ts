@@ -33,7 +33,6 @@ export const testMass = async (): Promise<itemInfo[]> => {
     // const items = await massMemoryExpressScrape(MEMORY_EXPRESS_SEARCH_URLS);
     // const items = await massTheSourceScrape(SOURCE_SEARCH_URLS);
     const items = await massAmazonScrape(AMAZON_SEARCH_URLS);
-    console.log(items);
     return items;
   } catch (err) {
     console.error(err);
