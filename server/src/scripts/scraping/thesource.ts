@@ -14,16 +14,16 @@ const GRID_ITEM_IMAGE_URL_CLASS = ".product-image img";
   @params
     url: an array of links to a listing of the source items (ex. viewing all headphones)
 */
-export const massTheSourceScrape = async (urls: string[]) => {
+export const massTheSourceScrape = async (urls: string[]): Promise<itemInfo[]> => {
   try {
-    let items: itemInfo[] = [];
+    const items: itemInfo[] = [];
     for (const url of urls) {
       await driver.get(url);
       await driver.executeScript(SCROLL_SCRIPT);
       await (await driver).sleep(5000);
       const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
 
-      let title, price, itemURL, imageURL;
+      let title: string, price: number, itemURL: string, imageURL: string;
       for (const item of itemGrid) {
         title = await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText();
         price = +(await (

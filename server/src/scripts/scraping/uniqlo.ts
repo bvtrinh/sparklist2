@@ -17,10 +17,9 @@ const GRID_ITEM_IMAGE_URL_CLASS = "div.fr-product-image > img";
   @params
     url: link to a listing of an uniqlo item
 */
-export const uniqloScrape = async (url: string) => {
+export const uniqloScrape = async (url: string): Promise<itemInfo> => {
   try {
     await driver.get(url);
-    // TODO: add a wait for the title to appear?
     const title = await (await driver.findElement(By.className(TITLE_CLASS))).getText();
     const price = +(await (await driver.findElement(By.css(PRICE_CLASS))).getText());
     const imageURL = await (await driver.findElement(By.css(IMAGE_CLASS))).getAttribute("src");
@@ -41,14 +40,14 @@ export const uniqloScrape = async (url: string) => {
   @params
     url: an array of links to a listing of uniqlo items (ex. viewing all mens long sleeve shirts)
 */
-export const massUniqloScrape = async (urls: string[]) => {
+export const massUniqloScrape = async (urls: string[]): Promise<itemInfo[]> => {
   try {
-    let items: itemInfo[] = [];
+    const items: itemInfo[] = [];
     for (const url of urls) {
       await driver.get(url);
       const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
 
-      let title, price, itemURL, imageURL;
+      let title: string, price: number, itemURL: string, imageURL: string;
       for (const item of itemGrid) {
         title = await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText();
         price = +(await (await item.findElement(By.css(GRID_ITEM_PRICE_CLASS))).getText());

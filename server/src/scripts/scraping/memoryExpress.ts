@@ -18,10 +18,9 @@ const GRID_ITEM_IMAGE_URL_CLASS = ".c-shca-icon-item__body-image a > img";
   @params
     url: link to a listing of an memory express item
 */
-export const memoryExpressScrape = async (url: string) => {
+export const memoryExpressScrape = async (url: string): Promise<itemInfo> => {
   try {
     await driver.get(url);
-    // TODO: add a wait for the title to appear?
     const title = await (await (await driver.findElement(By.css(TITLE_CLASS))).getText()).replace(
       LINE_BREAK_REGEX,
       " "
@@ -49,15 +48,15 @@ export const memoryExpressScrape = async (url: string) => {
   @params
     url: link to a listing of memory express items (ex. viewing memory hard drives)
 */
-export const massMemoryExpressScrape = async (urls: string[]) => {
+export const massMemoryExpressScrape = async (urls: string[]): Promise<itemInfo[]> => {
   try {
-    let items: itemInfo[] = [];
+    const items: itemInfo[] = [];
     for (const url of urls) {
       await driver.get(url);
       await driver.executeScript(SCROLL_SCRIPT);
       const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
 
-      let title, price, itemURL, imageURL;
+      let title: string, price: number, itemURL: string, imageURL: string;
       for (const item of itemGrid) {
         title = await (
           await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText()

@@ -1,4 +1,4 @@
-import { By } from "selenium-webdriver";
+import { By, WebElement } from "selenium-webdriver";
 import { driver, itemInfo } from "./index";
 import { FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
@@ -20,10 +20,9 @@ const GRID_ITEM_IMAGE_URL_CLASS = 'img[data-image-latency="s-product-image"]';
   @params
     url: link to a listing of an amazon item
 */
-export const amazonScrape = async (url: string) => {
+export const amazonScrape = async (url: string): Promise<itemInfo> => {
   try {
     await driver.get(url);
-    // TODO: add a wait for the title to appear?
     const title = await (await driver.findElement(By.css(TITLE_CLASS))).getText();
 
     let price = 0;
@@ -31,9 +30,9 @@ export const amazonScrape = async (url: string) => {
     if ((await checkSalePrice.length) > 0) {
       price = +(await (await checkSalePrice[0].getText()).replace(FLOAT_REGEX, ""));
     } else {
-      price = +(await (
+      price = +(
         await (await (await driver).findElement(By.css(LIST_PRICE_CLASS))).getText()
-      ).replace(FLOAT_REGEX, ""));
+      ).replace(FLOAT_REGEX, "");
     }
 
     const imageURL = await (await driver.findElement(By.css(IMAGE_CLASS))).getAttribute("src");
@@ -54,17 +53,22 @@ export const amazonScrape = async (url: string) => {
   @params
     url: an array of links to a listing of amazon items (ex. viewing search results)
 */
-export const massAmazonScrape = async (urls: string[]) => {
+export const massAmazonScrape = async (urls: string[]): Promise<itemInfo[]> => {
   try {
-    let items: itemInfo[] = [];
+    const items: itemInfo[] = [];
     for (const url of urls) {
       await driver.get(url);
       await (await driver).sleep(2000);
       await driver.executeScript(SCROLL_SCRIPT);
       const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
 
-      let title, priceWhole, priceFraction, price, itemURL, imageURL;
-      let checkPriceWhole;
+      let title: string,
+        priceWhole: string,
+        priceFraction: string,
+        price: number,
+        itemURL: string,
+        imageURL: string;
+      let checkPriceWhole: WebElement[];
 
       for (const item of itemGrid) {
         title = await (await item.findElement(By.css(GRID_ITEM_TITLE_CLASS))).getText();

@@ -12,10 +12,9 @@ const IMAGE_CLASS = "#main-image";
   @params
     url: link to a listing of an walmart item
 */
-export const walmartScrape = async (url: string) => {
+export const walmartScrape = async (url: string): Promise<itemInfo> => {
   try {
     await driver.get(url);
-    // TODO: add a wait for the title to appear?
     const title = await await (await driver.findElement(By.css(TITLE_CLASS))).getText();
     const price = +(await (await (await driver.findElement(By.css(PRICE_CLASS))).getText()).replace(
       FLOAT_REGEX,

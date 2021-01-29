@@ -3,6 +3,7 @@ import { massAmericanEagleScrape } from "./americanEagle";
 import { massMemoryExpressScrape } from "./memoryExpress";
 import { massTheSourceScrape } from "./thesource";
 import { massAmazonScrape } from "./amazon";
+import { itemInfo } from ".";
 
 const UNIQLO_SEARCH_URLS = [
   "https://www.uniqlo.com/ca/en/men/tops/sweaters-and-cardigans",
@@ -25,14 +26,14 @@ const AMAZON_SEARCH_URLS = [
   "https://www.amazon.ca/s?k=portable+charger&crid=20KATNGMDM3KC&sprefix=portable+ch%2Caps%2C465&ref=nb_sb_ss_ts-a-p_1_11",
 ];
 
-export const testMass = async () => {
+export const testMass = async (): Promise<itemInfo[]> => {
   try {
-    // massUniqloScrape(UNIQLO_SEARCH_URLS);
-    // massAmericanEagleScrape(AEO_SEARCH_URLS);
-    // massMemoryExpressScrape(MEMORY_EXPRESS_SEARCH_URLS);
-    // massTheSourceScrape(SOURCE_SEARCH_URLS);
-    massAmazonScrape(AMAZON_SEARCH_URLS);
-    return;
+    // const items = massUniqloScrape(UNIQLO_SEARCH_URLS);
+    // const items = massAmericanEagleScrape(AEO_SEARCH_URLS);
+    // const items = massMemoryExpressScrape(MEMORY_EXPRESS_SEARCH_URLS);
+    // const items = massTheSourceScrape(SOURCE_SEARCH_URLS);
+    const items = await massAmazonScrape(AMAZON_SEARCH_URLS);
+    return items;
   } catch (err) {
     console.error(err);
     return err;
