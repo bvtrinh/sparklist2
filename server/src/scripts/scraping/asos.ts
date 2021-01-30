@@ -5,14 +5,11 @@ const ASOS_URL = "https://www.asos.com/us/search/?q=";
 const TITLE = "h1";
 const PRICE = "//span[@data-id='current-price']";
 const IMAGE_TAG = "gallery-image";
-const SRC = "src";
 const SEARCH_RESULTS = "//article[@data-auto-id='productTile']";
 const SEARCH_TITLE = ".//div[@data-auto-id='productTileDescription']";
 const SEARCH_PRICE = ".//span[@data-auto-id='productTilePrice']";
 const SEARCH_SALE_PRICE = ".//span[@data-auto-id='productTileSaleAmount']";
 const SEARCH_IMAGE = ".//img[@data-auto-id='productTileImage']";
-const ANCHOR_TAG = "a";
-const HREF_TAG = "href";
 
 // ASOS scraping item given url
 export const asosScrape = (url: string) => {
@@ -24,7 +21,7 @@ export const asosScrape = (url: string) => {
       const priceText = await driver.findElement(By.xpath(PRICE)).getText();
       const price = +priceText.substring(2);
 
-      const imageURL = await driver.findElement(By.className(IMAGE_TAG)).getAttribute(SRC);
+      const imageURL = await driver.findElement(By.className(IMAGE_TAG)).getAttribute("src");
 
       const info: itemInfo = { title, price, itemURL: url, imageURL };
       return info;
@@ -57,7 +54,7 @@ export const massAsosScrape = async (input: string) => {
           }
           const price = +priceText.substring(2);
 
-          const URL = await item.findElement(By.css(ANCHOR_TAG)).getAttribute(HREF_TAG);
+          const URL = await item.findElement(By.css("a")).getAttribute("href");
 
           const imageURL = await item.findElement(By.xpath(SEARCH_IMAGE)).getAttribute("src");
 

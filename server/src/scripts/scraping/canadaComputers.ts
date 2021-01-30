@@ -10,11 +10,7 @@ const PRODUCT_LIST_IDENTIFIER = "product-list";
 const RESULTS_LIST_IDENTIFIER = "toggleBox";
 const RESULTS_TITLE_IDENTIFIER = "productTemplate_title";
 const RESULTS_PRICE_INDENTIFIER = "pq-hdr-product_price";
-const IMAGE_TAG = "img";
 const IMAGE_SELECTOR = "slick-image";
-const IMAGE_ATTRIBUTE = "src";
-const ANCHOR_TAG = "a";
-const HREF_TAG = "href";
 
 // Nestbuy scraping item given url
 export const canadaComputersScrape = (url: string) => {
@@ -26,7 +22,7 @@ export const canadaComputersScrape = (url: string) => {
       const price = +priceText.substring(1);
 
       const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
-      const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
+      const imageURL = await imageElement.getAttribute("src");
 
       const info: itemInfo = { title, price, itemURL: url, imageURL };
       return info;
@@ -62,10 +58,10 @@ export const massCanadaComputersScrape = async (input: string) => {
               .getText();
             const price = +priceText.split(" ")[0].substring(1).replace(",", "");
 
-            const URL = await (await item.findElement(By.css(ANCHOR_TAG))).getAttribute(HREF_TAG);
+            const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
 
-            const imageElement = await item.findElement(By.css(IMAGE_TAG));
-            const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
+            const imageElement = await item.findElement(By.css("img"));
+            const imageURL = await imageElement.getAttribute("src");
 
             const info: itemInfo = { title, price, itemURL: URL, imageURL };
             return info;

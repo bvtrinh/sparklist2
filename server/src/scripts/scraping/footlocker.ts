@@ -8,10 +8,6 @@ const PRICE_FINAL = "ProductPrice-final";
 const SEARCH_RESULTS = "SearchResults";
 const SEARCH_LIST = "ProductCard";
 const IMAGE_SELECTOR = "//span[@class='Image Image--product Image--square']/img";
-const IMAGE_TAG = "img";
-const IMAGE_ATTRIBUTE = "src";
-const ANCHOR_TAG = "a";
-const HREF_TAG = "href";
 
 // Footlocker scraping item given url
 export const footlockerScrape = (url: string) => {
@@ -24,7 +20,7 @@ export const footlockerScrape = (url: string) => {
       const price = +priceText.substring(1);
 
       const imageElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
-      const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
+      const imageURL = await imageElement.getAttribute("src");
 
       const info: itemInfo = { title, price, itemURL: url, imageURL };
       return info;
@@ -58,10 +54,10 @@ export const massFootlockerScrape = async (input: string) => {
             priceText = await item.findElement(By.className(PRICE)).getText();
           }
 
-          const URL = await item.findElement(By.css(ANCHOR_TAG)).getAttribute(HREF_TAG);
+          const URL = await item.findElement(By.css("a")).getAttribute("href");
 
-          const imageElement = item.findElement(By.css(IMAGE_TAG));
-          const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
+          const imageElement = item.findElement(By.css("img"));
+          const imageURL = await imageElement.getAttribute("src");
 
           const price = +priceText.substring(1);
 

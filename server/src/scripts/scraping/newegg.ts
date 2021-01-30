@@ -8,10 +8,6 @@ const SEARCH_RESULTS = "item-cell";
 const RESULT_TITLE = "item-title";
 const RESULT_PRICE = "price-current";
 const IMAGE_SELECTOR = "product-view-img-original";
-const IMAGE_TAG = "img";
-const IMAGE_ATTRIBUTE = "src";
-const ANCHOR_TAG = "a";
-const HREF_TAG = "href";
 
 // Newegg scraping item given url
 export const neweggScrape = (url: string) => {
@@ -24,7 +20,7 @@ export const neweggScrape = (url: string) => {
       const price = +priceText.substring(1);
 
       const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
-      const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
+      const imageURL = await imageElement.getAttribute("src");
 
       const info: itemInfo = { title, price, itemURL: url, imageURL };
       return info;
@@ -49,10 +45,10 @@ export const massNeweggScrape = async (input: string) => {
           const priceText = await item.findElement(By.className(RESULT_PRICE)).getText();
           const price = +priceText.split(" ")[0].substring(1);
 
-          const URL = await (await item.findElement(By.css(ANCHOR_TAG))).getAttribute(HREF_TAG);
+          const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
 
-          const imageElement = await item.findElement(By.css(IMAGE_TAG));
-          const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
+          const imageElement = await item.findElement(By.css("img"));
+          const imageURL = await imageElement.getAttribute("src");
 
           const info: itemInfo = { title, price, itemURL: URL, imageURL };
           return info;

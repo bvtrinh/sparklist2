@@ -8,9 +8,6 @@ const PRODUCT_LIST_IDENTIFIER = "x-productListItem";
 const PRODUCT_LIST_TITLE_IDENT = ".//div[@data-automation='productItemName']";
 const IMAGE_SELECTOR = "//img[@class='productImage_1NbKv']";
 const SEARCH_IMAGE_SELECTOR = ".//img[@class='productItemImage_1en8J']";
-const IMAGE_ATTRIBUTE = "src";
-const ANCHOR_TAG = "a";
-const HREF_TAG = "href";
 
 // Bestbuy scraping item given url
 export const bestBuyScrape = (url: string) => {
@@ -23,7 +20,7 @@ export const bestBuyScrape = (url: string) => {
       const price = +priceText.substring(1);
 
       const imageElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
-      const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
+      const imageURL = await imageElement.getAttribute("src");
 
       const info: itemInfo = { title, price, itemURL: url, imageURL };
       return info;
@@ -57,10 +54,10 @@ export const massBestBuyScrape = async (input: string) => {
             const priceText = await item.findElement(By.className(PRICE_IDENTIFIER)).getText();
             const price = +priceText.substring(1);
 
-            const URL = await (await item.findElement(By.css(ANCHOR_TAG))).getAttribute(HREF_TAG);
+            const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
 
             const imageElement = await item.findElement(By.xpath(SEARCH_IMAGE_SELECTOR));
-            const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
+            const imageURL = await imageElement.getAttribute("src");
 
             const info: itemInfo = { title, price, itemURL: URL, imageURL };
             return info;
