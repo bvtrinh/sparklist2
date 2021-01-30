@@ -1,4 +1,4 @@
-import { By, ThenableWebDriver, until, WebElement } from "selenium-webdriver";
+import { By, ThenableWebDriver } from "selenium-webdriver";
 
 const ASOS_URL = "https://www.asos.com/us/search/?q=";
 const TITLE = "h1";
@@ -29,12 +29,12 @@ export const scrapeAsosUrl = (driver: ThenableWebDriver, URL: string) => {
   try {
     // navigate to bestbuy item page
     return driver.get(URL).then(async () => {
-      const title: string = await driver.findElement(By.css(TITLE)).getText();
+      const title = await driver.findElement(By.css(TITLE)).getText();
 
-      const priceText: string = await driver.findElement(By.xpath(PRICE)).getText();
-      const price: number = +priceText.substring(2);
+      const priceText = await driver.findElement(By.xpath(PRICE)).getText();
+      const price = +priceText.substring(2);
 
-      const imageURL: string = await driver.findElement(By.className(IMAGE_TAG)).getAttribute(SRC);
+      const imageURL = await driver.findElement(By.className(IMAGE_TAG)).getAttribute(SRC);
 
       return { title, price, imageURL, URL };
     });
@@ -50,35 +50,31 @@ export const scrapeAsosSearch = async (driver: ThenableWebDriver, input: string)
   try {
     // navigate to ASOS
     return await driver.get(ASOS_URL + searchQuery).then(async () => {
-      return await driver
-        .findElements(By.xpath(SEARCH_RESULTS))
-        .then(async (items: WebElement[]) => {
-          // scrape all search results for title and price
-          let results = items.map(async (item: WebElement) => {
-            // scroll page to load images
-            scrollPage(driver);
+      return await driver.findElements(By.xpath(SEARCH_RESULTS)).then(async (items) => {
+        // scrape all search results for title and price
+        let results = items.map(async (item) => {
+          // scroll page to load images
+          scrollPage(driver);
 
-            const title: string = await item.findElement(By.xpath(SEARCH_TITLE)).getText();
+          const title = await item.findElement(By.xpath(SEARCH_TITLE)).getText();
 
-            let priceText: string;
-            try {
-              priceText = await item.findElement(By.xpath(SEARCH_SALE_PRICE)).getText();
-            } catch {
-              priceText = await item.findElement(By.xpath(SEARCH_PRICE)).getText();
-            }
-            const price: number = +priceText.substring(2);
+          let priceText: string;
+          try {
+            priceText = await item.findElement(By.xpath(SEARCH_SALE_PRICE)).getText();
+          } catch {
+            priceText = await item.findElement(By.xpath(SEARCH_PRICE)).getText();
+          }
+          const price = +priceText.substring(2);
 
-            const URL: string = await item.findElement(By.css(ANCHOR_TAG)).getAttribute(HREF_TAG);
+          const URL = await item.findElement(By.css(ANCHOR_TAG)).getAttribute(HREF_TAG);
 
-            const imageURL: string = await item
-              .findElement(By.xpath(SEARCH_IMAGE))
-              .getAttribute("src");
+          const imageURL = await item.findElement(By.xpath(SEARCH_IMAGE)).getAttribute("src");
 
-            return { title, price, URL, imageURL };
-          });
-
-          return Promise.all(results);
+          return { title, price, URL, imageURL };
         });
+
+        return Promise.all(results);
+      });
     });
   } catch (err) {
     console.error(err);

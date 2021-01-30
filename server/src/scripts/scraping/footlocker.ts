@@ -1,4 +1,4 @@
-import { By, ThenableWebDriver, until, WebElement } from "selenium-webdriver";
+import { By, ThenableWebDriver, until } from "selenium-webdriver";
 
 const FOOTLOCKER_URL = "https://www.footlocker.ca/en/search?query=";
 const TITLE = "ProductName-primary";
@@ -28,13 +28,13 @@ export const scrapeFootlockerUrl = (driver: ThenableWebDriver, URL: string) => {
   try {
     // navigate to bestbuy item page
     return driver.get(URL).then(async () => {
-      const title: string = await driver.findElement(By.className(TITLE)).getText();
+      const title = await driver.findElement(By.className(TITLE)).getText();
 
-      const priceText: string = await driver.findElement(By.className(PRICE)).getText();
-      const price: number = +priceText.substring(1);
+      const priceText = await driver.findElement(By.className(PRICE)).getText();
+      const price = +priceText.substring(1);
 
-      const imageElement: WebElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
-      const imageURL: string = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
+      const imageElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
+      const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
       return { title, price, URL, imageURL };
     });
@@ -54,32 +54,30 @@ export const scrapeFootlockerSearch = async (driver: ThenableWebDriver, input: s
       await driver.wait(until.elementLocated(By.className(SEARCH_RESULTS)), 10000);
       await scrollPage(driver);
 
-      return await driver
-        .findElements(By.className(SEARCH_LIST))
-        .then(async (items: WebElement[]) => {
-          // scrape all search results for title and price
-          let results = items.map(async (item: WebElement) => {
-            const title: string = await item.findElement(By.className(TITLE)).getText();
+      return await driver.findElements(By.className(SEARCH_LIST)).then(async (items) => {
+        // scrape all search results for title and price
+        let results = items.map(async (item) => {
+          const title = await item.findElement(By.className(TITLE)).getText();
 
-            let priceText: string;
-            // look for sale price, otherwise get regular price
-            try {
-              priceText = await item.findElement(By.className(PRICE_FINAL)).getText();
-            } catch (err) {
-              priceText = await item.findElement(By.className(PRICE)).getText();
-            }
+          let priceText: string;
+          // look for sale price, otherwise get regular price
+          try {
+            priceText = await item.findElement(By.className(PRICE_FINAL)).getText();
+          } catch (err) {
+            priceText = await item.findElement(By.className(PRICE)).getText();
+          }
 
-            const URL: string = await item.findElement(By.css(ANCHOR_TAG)).getAttribute(HREF_TAG);
+          const URL = await item.findElement(By.css(ANCHOR_TAG)).getAttribute(HREF_TAG);
 
-            const imageElement = item.findElement(By.css(IMAGE_TAG));
-            const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
+          const imageElement = item.findElement(By.css(IMAGE_TAG));
+          const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
-            const price: number = +priceText.substring(1);
-            return { title, price, URL, imageURL };
-          });
-
-          return Promise.all(results);
+          const price = +priceText.substring(1);
+          return { title, price, URL, imageURL };
         });
+
+        return Promise.all(results);
+      });
     });
   } catch (err) {
     console.error(err);

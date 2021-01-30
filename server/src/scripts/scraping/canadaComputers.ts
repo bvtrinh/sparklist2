@@ -1,4 +1,4 @@
-import { By, Key, ThenableWebDriver, until, WebElement } from "selenium-webdriver";
+import { By, Key, ThenableWebDriver, until } from "selenium-webdriver";
 
 const CANADA_COMPUTERS_URL =
   "https://www.canadacomputers.com/search/results_details.php?language=en&keywords=";
@@ -20,9 +20,9 @@ export const scrapeCanadaComputersUrl = (driver: ThenableWebDriver, URL: string)
   try {
     // navigate to Newegg item page
     return driver.get(URL).then(async () => {
-      const title: string = await driver.findElement(By.className(TITLE_IDENTIFIER)).getText();
-      const priceText: string = await driver.findElement(By.className(PRICE_IDENTIFIER)).getText();
-      const price: number = +priceText.substring(1);
+      const title = await driver.findElement(By.className(TITLE_IDENTIFIER)).getText();
+      const priceText = await driver.findElement(By.className(PRICE_IDENTIFIER)).getText();
+      const price = +priceText.substring(1);
 
       const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
       const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
@@ -50,21 +50,17 @@ export const scrapeCanadaComputersSearch = async (driver: ThenableWebDriver, inp
 
       return await driver
         .findElements(By.className(RESULTS_LIST_IDENTIFIER))
-        .then(async (items: WebElement[]) => {
+        .then(async (items) => {
           // scrape all search results for title and price
-          let results = items.map(async (item: WebElement) => {
-            const title: string = await item
-              .findElement(By.className(RESULTS_TITLE_IDENTIFIER))
-              .getText();
+          let results = items.map(async (item) => {
+            const title = await item.findElement(By.className(RESULTS_TITLE_IDENTIFIER)).getText();
 
-            const priceText: string = await item
+            const priceText = await item
               .findElement(By.className(RESULTS_PRICE_INDENTIFIER))
               .getText();
-            const price: number = +priceText.split(" ")[0].substring(1).replace(",", "");
+            const price = +priceText.split(" ")[0].substring(1).replace(",", "");
 
-            const URL: string = await (await item.findElement(By.css(ANCHOR_TAG))).getAttribute(
-              HREF_TAG
-            );
+            const URL = await (await item.findElement(By.css(ANCHOR_TAG))).getAttribute(HREF_TAG);
 
             const imageElement = await item.findElement(By.css(IMAGE_TAG));
             const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);

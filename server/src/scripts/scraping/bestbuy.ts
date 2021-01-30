@@ -1,4 +1,4 @@
-import { By, ThenableWebDriver, until, WebElement } from "selenium-webdriver";
+import { By, ThenableWebDriver, until } from "selenium-webdriver";
 
 const BESTBUY_URL = "https://www.bestbuy.ca/en-ca/search?search=";
 const TITLE_IDENTIFIER = "h1";
@@ -27,13 +27,13 @@ export const scrapeBestBuyURL = (driver: ThenableWebDriver, URL: string) => {
   try {
     // navigate to bestbuy item page
     return driver.get(URL).then(async () => {
-      const title: string = await driver.findElement(By.css(TITLE_IDENTIFIER)).getText();
+      const title = await driver.findElement(By.css(TITLE_IDENTIFIER)).getText();
 
-      const priceText: string = await driver.findElement(By.className(PRICE_IDENTIFIER)).getText();
-      const price: number = +priceText.substring(1);
+      const priceText = await driver.findElement(By.className(PRICE_IDENTIFIER)).getText();
+      const price = +priceText.substring(1);
 
-      const imageElement: WebElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
-      const imageURL: string = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
+      const imageElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
+      const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
       return { title, price, URL: URL, imageURL };
     });
@@ -55,24 +55,18 @@ export const scrapeBestBuySearch = async (driver: ThenableWebDriver, input: stri
 
       return await driver
         .findElements(By.className(PRODUCT_LIST_IDENTIFIER))
-        .then(async (items: WebElement[]) => {
+        .then(async (items) => {
           // scroll page to load all items
           await scrollPage(driver);
 
           // scrape all search results for title and price
-          let results = items.map(async (item: WebElement) => {
-            const title: string = await item
-              .findElement(By.xpath(PRODUCT_LIST_TITLE_IDENT))
-              .getText();
+          let results = items.map(async (item) => {
+            const title = await item.findElement(By.xpath(PRODUCT_LIST_TITLE_IDENT)).getText();
 
-            const priceText: string = await item
-              .findElement(By.className(PRICE_IDENTIFIER))
-              .getText();
-            const price: number = +priceText.substring(1);
+            const priceText = await item.findElement(By.className(PRICE_IDENTIFIER)).getText();
+            const price = +priceText.substring(1);
 
-            const URL: string = await (await item.findElement(By.css(ANCHOR_TAG))).getAttribute(
-              HREF_TAG
-            );
+            const URL = await (await item.findElement(By.css(ANCHOR_TAG))).getAttribute(HREF_TAG);
 
             const imageElement = await item.findElement(By.xpath(SEARCH_IMAGE_SELECTOR));
             const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
