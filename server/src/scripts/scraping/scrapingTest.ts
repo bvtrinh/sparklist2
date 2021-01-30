@@ -5,7 +5,6 @@ import { scrapeBestBuyURL, scrapeBestBuySearch } from "./bestbuy";
 import { scrapeCanadaComputersUrl, scrapeCanadaComputersSearch } from "./canadaComputers";
 import { scrapeFootlockerUrl, scrapeFootlockerSearch } from "./footlocker";
 import { scrapeNeweggSearch, scrapeNeweggUrl } from "./newegg";
-import { scrapeHMSearch, scrapeHMUrl } from "./hm";
 import { scrapeAsosSearch, scrapeAsosUrl } from "./asos";
 
 // Set up the browser capabilities.
@@ -38,17 +37,14 @@ export const runScrapingTests = async () => {
   // );
   // const result = await scrapeCanadaComputersSearch(driver, "amd cpu");
 
-  // const result = await scrapeHMUrl(driver, "https://www2.hm.com/en_ca/productpage.0685813042.html");
-  //   const result = await scrapeHMSearch(driver, "mens hoodie");
-
   // const result = await scrapeAsosUrl(
   //   driver,
   //   "https://www.asos.com/us/nike/nike-revival-hoodie-in-pale-purple/prd/21642747?colourwayid=60183785&SearchQuery=nike%20hoodie"
   // );
-  // const result = await scrapeAsosSearch(driver, "nike hoodie");
+  const result = await scrapeAsosSearch(driver, "nike hoodie");
 
-  // console.log(result);
+  console.log(result);
   driver.quit();
 };
 
-// runScrapingTests();
+runScrapingTests();
