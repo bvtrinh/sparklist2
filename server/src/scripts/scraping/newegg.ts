@@ -14,12 +14,12 @@ export const neweggScrape = (url: string) => {
   try {
     // navigate to Newegg item page
     return driver.get(url).then(async () => {
-      const title = await driver.findElement(By.css(TITLE)).getText();
+      const title = await (await (await driver).findElement(By.css(TITLE))).getText();
 
-      const priceText = await driver.findElement(By.className(PRICE)).getText();
+      const priceText = await (await (await driver).findElement(By.className(PRICE))).getText();
       const price = +priceText.substring(1);
 
-      const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
+      const imageElement = await (await driver).findElement(By.className(IMAGE_SELECTOR));
       const imageURL = await imageElement.getAttribute("src");
 
       const info: itemInfo = { title, price, itemURL: url, imageURL };
@@ -37,12 +37,12 @@ export const massNeweggScrape = async (input: string) => {
   try {
     // navigate to Newegg
     return await driver.get(NEWEGG_URL + searchQuery).then(async () => {
-      return await driver.findElements(By.className(SEARCH_RESULTS)).then(async (items) => {
+      return await (await driver).findElements(By.className(SEARCH_RESULTS)).then(async (items) => {
         // scrape all search results for title and price
         let results = items.map(async (item) => {
-          const title = await item.findElement(By.className(RESULT_TITLE)).getText();
+          const title = await (await item.findElement(By.className(RESULT_TITLE))).getText();
 
-          const priceText = await item.findElement(By.className(RESULT_PRICE)).getText();
+          const priceText = await (await item.findElement(By.className(RESULT_PRICE))).getText();
           const price = +priceText.split(" ")[0].substring(1);
 
           const URL = await (await item.findElement(By.css("a"))).getAttribute("href");

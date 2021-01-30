@@ -14,12 +14,14 @@ export const bestBuyScrape = (url: string) => {
   try {
     // navigate to bestbuy item page
     return driver.get(url).then(async () => {
-      const title = await driver.findElement(By.css(TITLE_IDENTIFIER)).getText();
+      const title = await (await (await driver).findElement(By.css(TITLE_IDENTIFIER))).getText();
 
-      const priceText = await driver.findElement(By.className(PRICE_IDENTIFIER)).getText();
+      const priceText = await (
+        await (await driver).findElement(By.className(PRICE_IDENTIFIER))
+      ).getText();
       const price = +priceText.substring(1);
 
-      const imageElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
+      const imageElement = await (await driver).findElement(By.xpath(IMAGE_SELECTOR));
       const imageURL = await imageElement.getAttribute("src");
 
       const info: itemInfo = { title, price, itemURL: url, imageURL };
@@ -41,7 +43,7 @@ export const massBestBuyScrape = async (input: string) => {
       // wait for page to load
       await driver.wait(until.elementLocated(By.className(PRODUCT_LIST_IDENTIFIER)), 15000);
 
-      return await driver
+      return await (await driver)
         .findElements(By.className(PRODUCT_LIST_IDENTIFIER))
         .then(async (items) => {
           // scroll page to load all items
@@ -49,9 +51,13 @@ export const massBestBuyScrape = async (input: string) => {
 
           // scrape all search results for title and price
           let results = items.map(async (item) => {
-            const title = await item.findElement(By.xpath(PRODUCT_LIST_TITLE_IDENT)).getText();
+            const title = await (
+              await item.findElement(By.xpath(PRODUCT_LIST_TITLE_IDENT))
+            ).getText();
 
-            const priceText = await item.findElement(By.className(PRICE_IDENTIFIER)).getText();
+            const priceText = await (
+              await item.findElement(By.className(PRICE_IDENTIFIER))
+            ).getText();
             const price = +priceText.substring(1);
 
             const URL = await (await item.findElement(By.css("a"))).getAttribute("href");

@@ -17,11 +17,15 @@ export const canadaComputersScrape = (url: string) => {
   try {
     // navigate to Newegg item page
     return driver.get(url).then(async () => {
-      const title = await driver.findElement(By.className(TITLE_IDENTIFIER)).getText();
-      const priceText = await driver.findElement(By.className(PRICE_IDENTIFIER)).getText();
+      const title = await (
+        await (await driver).findElement(By.className(TITLE_IDENTIFIER))
+      ).getText();
+      const priceText = await (
+        await (await driver).findElement(By.className(PRICE_IDENTIFIER))
+      ).getText();
       const price = +priceText.substring(1);
 
-      const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
+      const imageElement = await (await driver).findElement(By.className(IMAGE_SELECTOR));
       const imageURL = await imageElement.getAttribute("src");
 
       const info: itemInfo = { title, price, itemURL: url, imageURL };
@@ -37,25 +41,22 @@ export const massCanadaComputersScrape = async (input: string) => {
   const searchQuery = input.replace(" ", "+");
 
   try {
-    // navigate to Newegg
+    // navigate to Newegg)
     return await driver.get(CANADA_COMPUTERS_URL + searchQuery).then(async () => {
-      // search for user inputted keyword
-      await driver.findElement(By.id(SEARCH_IDENTIFIER)).sendKeys(input);
-      await driver.findElement(By.id(SEARCH_IDENTIFIER)).sendKeys(Key.ENTER);
-
       // wait for page to load
       await driver.wait(until.elementLocated(By.id(PRODUCT_LIST_IDENTIFIER)), 5000);
-
-      return await driver
+      return await (await driver)
         .findElements(By.className(RESULTS_LIST_IDENTIFIER))
         .then(async (items) => {
           // scrape all search results for title and price
           let results = items.map(async (item) => {
-            const title = await item.findElement(By.className(RESULTS_TITLE_IDENTIFIER)).getText();
+            const title = await (
+              await item.findElement(By.className(RESULTS_TITLE_IDENTIFIER))
+            ).getText();
 
-            const priceText = await item
-              .findElement(By.className(RESULTS_PRICE_INDENTIFIER))
-              .getText();
+            const priceText = await (
+              await item.findElement(By.className(RESULTS_PRICE_INDENTIFIER))
+            ).getText();
             const price = +priceText.split(" ")[0].substring(1).replace(",", "");
 
             const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
