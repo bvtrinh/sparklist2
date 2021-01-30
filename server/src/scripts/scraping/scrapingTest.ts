@@ -2,7 +2,7 @@ import { Builder, Capabilities } from "selenium-webdriver";
 import "chromedriver";
 
 import { scrapeBestBuyURL, scrapeBestBuySearch } from "./bestbuy";
-import { scrapeCanadaComputersUrl, scrapeCanadaComputersSearch } from "./canada_computers";
+import { scrapeCanadaComputersUrl, scrapeCanadaComputersSearch } from "./canadaComputers";
 import { scrapeFootlockerUrl, scrapeFootlockerSearch } from "./footlocker";
 import { scrapeNeweggSearch, scrapeNeweggUrl } from "./newegg";
 import { scrapeHMSearch, scrapeHMUrl } from "./hm";
