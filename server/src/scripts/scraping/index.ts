@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import { Browser, Builder } from "selenium-webdriver";
+import { Browser, Builder, ThenableWebDriver } from "selenium-webdriver";
 import { Options, ServiceBuilder } from "selenium-webdriver/chrome";
 // eslint-disable-next-line
 require("dotenv").config({ path: resolve(__dirname, "../../../.env.development") });
@@ -20,4 +20,15 @@ export type itemInfo = {
   price: number;
   itemURL: string;
   imageURL?: string;
+};
+
+export const scrollPage = async (driver: ThenableWebDriver, scrolls: number) => {
+  for (let i = 0; i < scrolls; i++) {
+    await driver.executeScript(`window.scrollBy({
+      top: 2500,
+      left: 0,
+      behavior: "smooth",
+    })`);
+    await driver.sleep(1000);
+  }
 };

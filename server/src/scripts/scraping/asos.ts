@@ -1,4 +1,5 @@
 import { By, ThenableWebDriver } from "selenium-webdriver";
+import { scrollPage } from "./index";
 
 const ASOS_URL = "https://www.asos.com/us/search/?q=";
 const TITLE = "h1";
@@ -12,17 +13,6 @@ const SEARCH_SALE_PRICE = ".//span[@data-auto-id='productTileSaleAmount']";
 const SEARCH_IMAGE = ".//img[@data-auto-id='productTileImage']";
 const ANCHOR_TAG = "a";
 const HREF_TAG = "href";
-
-const scrollPage = async (driver: ThenableWebDriver) => {
-  for (let i = 0; i < 3; i++) {
-    await driver.executeScript(`window.scrollBy({
-        top: 2500,
-        left: 0,
-        behavior: "smooth",
-      })`);
-    await driver.sleep(1000);
-  }
-};
 
 // ASOS scraping item given url
 export const scrapeAsosUrl = (driver: ThenableWebDriver, URL: string) => {
@@ -54,7 +44,7 @@ export const scrapeAsosSearch = async (driver: ThenableWebDriver, input: string)
         // scrape all search results for title and price
         let results = items.map(async (item) => {
           // scroll page to load images
-          scrollPage(driver);
+          scrollPage(driver, 3);
 
           const title = await item.findElement(By.xpath(SEARCH_TITLE)).getText();
 

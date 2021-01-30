@@ -1,4 +1,5 @@
 import { By, ThenableWebDriver, until } from "selenium-webdriver";
+import { scrollPage } from "./index";
 
 const BESTBUY_URL = "https://www.bestbuy.ca/en-ca/search?search=";
 const TITLE_IDENTIFIER = "h1";
@@ -10,17 +11,6 @@ const SEARCH_IMAGE_SELECTOR = ".//img[@class='productItemImage_1en8J']";
 const IMAGE_ATTRIBUTE = "src";
 const ANCHOR_TAG = "a";
 const HREF_TAG = "href";
-
-const scrollPage = async (driver: ThenableWebDriver) => {
-  for (let i = 0; i < 3; i++) {
-    await driver.executeScript(`window.scrollBy({
-      top: 2500,
-      left: 0,
-      behavior: "smooth",
-    })`);
-    await driver.sleep(1000);
-  }
-};
 
 // Bestbuy scraping item given url
 export const scrapeBestBuyURL = (driver: ThenableWebDriver, URL: string) => {
@@ -57,7 +47,7 @@ export const scrapeBestBuySearch = async (driver: ThenableWebDriver, input: stri
         .findElements(By.className(PRODUCT_LIST_IDENTIFIER))
         .then(async (items) => {
           // scroll page to load all items
-          await scrollPage(driver);
+          await scrollPage(driver, 3);
 
           // scrape all search results for title and price
           let results = items.map(async (item) => {

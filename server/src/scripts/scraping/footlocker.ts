@@ -1,4 +1,5 @@
 import { By, ThenableWebDriver, until } from "selenium-webdriver";
+import { scrollPage } from "./index";
 
 const FOOTLOCKER_URL = "https://www.footlocker.ca/en/search?query=";
 const TITLE = "ProductName-primary";
@@ -11,17 +12,6 @@ const IMAGE_TAG = "img";
 const IMAGE_ATTRIBUTE = "src";
 const ANCHOR_TAG = "a";
 const HREF_TAG = "href";
-
-const scrollPage = async (driver: ThenableWebDriver) => {
-  for (let i = 0; i < 2; i++) {
-    await driver.executeScript(`window.scrollBy({
-      top: 2500,
-      left: 0,
-      behavior: "smooth",
-    })`);
-    await driver.sleep(1000);
-  }
-};
 
 // Footlocker scraping item given url
 export const scrapeFootlockerUrl = (driver: ThenableWebDriver, URL: string) => {
@@ -52,7 +42,7 @@ export const scrapeFootlockerSearch = async (driver: ThenableWebDriver, input: s
     return await driver.get(FOOTLOCKER_URL + searchQuery).then(async () => {
       // wait for page to load
       await driver.wait(until.elementLocated(By.className(SEARCH_RESULTS)), 10000);
-      await scrollPage(driver);
+      await scrollPage(driver, 2);
 
       return await driver.findElements(By.className(SEARCH_LIST)).then(async (items) => {
         // scrape all search results for title and price
