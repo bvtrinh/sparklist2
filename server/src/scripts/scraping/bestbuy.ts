@@ -1,5 +1,5 @@
-import { By, ThenableWebDriver, until } from "selenium-webdriver";
-import { scrollPage, itemInfo } from "./index";
+import { By, until } from "selenium-webdriver";
+import { driver, itemInfo, scrollPage } from "./index";
 
 const BESTBUY_URL = "https://www.bestbuy.ca/en-ca/search?search=";
 const TITLE_IDENTIFIER = "h1";
@@ -13,7 +13,7 @@ const ANCHOR_TAG = "a";
 const HREF_TAG = "href";
 
 // Bestbuy scraping item given url
-export const scrapeBestBuyURL = (driver: ThenableWebDriver, URL: string) => {
+export const bestBuyScrape = (URL: string) => {
   try {
     // navigate to bestbuy item page
     return driver.get(URL).then(async () => {
@@ -34,7 +34,7 @@ export const scrapeBestBuyURL = (driver: ThenableWebDriver, URL: string) => {
 };
 
 // Bestbuy scraping items given search input
-export const scrapeBestBuySearch = async (driver: ThenableWebDriver, input: string) => {
+export const massBestBuyScrape = async (input: string) => {
   try {
     // create search string
     const searchString = input.replace(" ", "+");

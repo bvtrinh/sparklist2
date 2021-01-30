@@ -1,5 +1,5 @@
-import { By, Key, ThenableWebDriver, until } from "selenium-webdriver";
-import { itemInfo } from "./index";
+import { By, Key, until } from "selenium-webdriver";
+import { driver, itemInfo } from "./index";
 
 const CANADA_COMPUTERS_URL =
   "https://www.canadacomputers.com/search/results_details.php?language=en&keywords=";
@@ -17,7 +17,7 @@ const ANCHOR_TAG = "a";
 const HREF_TAG = "href";
 
 // Nestbuy scraping item given url
-export const scrapeCanadaComputersUrl = (driver: ThenableWebDriver, URL: string) => {
+export const canadaComputersScrape = (URL: string) => {
   try {
     // navigate to Newegg item page
     return driver.get(URL).then(async () => {
@@ -36,7 +36,7 @@ export const scrapeCanadaComputersUrl = (driver: ThenableWebDriver, URL: string)
   }
 };
 
-export const scrapeCanadaComputersSearch = async (driver: ThenableWebDriver, input: string) => {
+export const massCanadaComputersScrape = async (input: string) => {
   //create search query string
   const searchQuery = input.replace(" ", "+");
 

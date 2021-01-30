@@ -1,5 +1,5 @@
-import { By, ThenableWebDriver, until } from "selenium-webdriver";
-import { scrollPage, itemInfo } from "./index";
+import { By, until } from "selenium-webdriver";
+import { driver, itemInfo, scrollPage } from "./index";
 
 const FOOTLOCKER_URL = "https://www.footlocker.ca/en/search?query=";
 const TITLE = "ProductName-primary";
@@ -14,7 +14,7 @@ const ANCHOR_TAG = "a";
 const HREF_TAG = "href";
 
 // Footlocker scraping item given url
-export const scrapeFootlockerUrl = (driver: ThenableWebDriver, URL: string) => {
+export const footlockerScrape = (URL: string) => {
   try {
     // navigate to bestbuy item page
     return driver.get(URL).then(async () => {
@@ -34,7 +34,7 @@ export const scrapeFootlockerUrl = (driver: ThenableWebDriver, URL: string) => {
   }
 };
 
-export const scrapeFootlockerSearch = async (driver: ThenableWebDriver, input: string) => {
+export const massFootlockerScrape = async (input: string) => {
   //create search query string
   const searchQuery = input.replace(" ", "%20");
 

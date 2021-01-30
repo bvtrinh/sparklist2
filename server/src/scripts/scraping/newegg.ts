@@ -1,5 +1,5 @@
-import { By, ThenableWebDriver } from "selenium-webdriver";
-import { itemInfo } from "./index";
+import { By } from "selenium-webdriver";
+import { driver, itemInfo } from "./index";
 
 const NEWEGG_URL = "https://www.newegg.ca/p/pl?d=";
 const TITLE = "h1";
@@ -14,7 +14,7 @@ const ANCHOR_TAG = "a";
 const HREF_TAG = "href";
 
 // Newegg scraping item given url
-export const scrapeNeweggUrl = (driver: ThenableWebDriver, URL: string) => {
+export const neweggScrape = (URL: string) => {
   try {
     // navigate to Newegg item page
     return driver.get(URL).then(async () => {
@@ -34,7 +34,7 @@ export const scrapeNeweggUrl = (driver: ThenableWebDriver, URL: string) => {
   }
 };
 
-export const scrapeNeweggSearch = async (driver: ThenableWebDriver, input: string) => {
+export const massNeweggScrape = async (input: string) => {
   //create search query string
   const searchQuery = input.replace(" ", "+");
 

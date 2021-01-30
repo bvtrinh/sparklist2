@@ -1,5 +1,5 @@
-import { By, ThenableWebDriver } from "selenium-webdriver";
-import { scrollPage, itemInfo } from "./index";
+import { By } from "selenium-webdriver";
+import { driver, itemInfo, scrollPage } from "./index";
 
 const ASOS_URL = "https://www.asos.com/us/search/?q=";
 const TITLE = "h1";
@@ -15,7 +15,7 @@ const ANCHOR_TAG = "a";
 const HREF_TAG = "href";
 
 // ASOS scraping item given url
-export const scrapeAsosUrl = (driver: ThenableWebDriver, URL: string) => {
+export const asosScrape = (URL: string) => {
   try {
     // navigate to bestbuy item page
     return driver.get(URL).then(async () => {
@@ -34,7 +34,7 @@ export const scrapeAsosUrl = (driver: ThenableWebDriver, URL: string) => {
   }
 };
 
-export const scrapeAsosSearch = async (driver: ThenableWebDriver, input: string) => {
+export const massAsosScrape = async (input: string) => {
   // create search query string
   const searchQuery = input.replace(" ", "+");
 
