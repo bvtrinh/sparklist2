@@ -1,5 +1,5 @@
 import { By, ThenableWebDriver, until } from "selenium-webdriver";
-import { scrollPage } from "./index";
+import { scrollPage, itemInfo } from "./index";
 
 const FOOTLOCKER_URL = "https://www.footlocker.ca/en/search?query=";
 const TITLE = "ProductName-primary";
@@ -26,7 +26,8 @@ export const scrapeFootlockerUrl = (driver: ThenableWebDriver, URL: string) => {
       const imageElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
       const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
-      return { title, price, URL, imageURL };
+      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      return info;
     });
   } catch (err) {
     console.error(err);
@@ -63,7 +64,9 @@ export const scrapeFootlockerSearch = async (driver: ThenableWebDriver, input: s
           const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
           const price = +priceText.substring(1);
-          return { title, price, URL, imageURL };
+
+          const info: itemInfo = { title, price, itemURL: URL, imageURL };
+          return info;
         });
 
         return Promise.all(results);

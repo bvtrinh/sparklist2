@@ -1,4 +1,5 @@
 import { By, Key, ThenableWebDriver, until } from "selenium-webdriver";
+import { itemInfo } from "./index";
 
 const CANADA_COMPUTERS_URL =
   "https://www.canadacomputers.com/search/results_details.php?language=en&keywords=";
@@ -27,7 +28,8 @@ export const scrapeCanadaComputersUrl = (driver: ThenableWebDriver, URL: string)
       const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
       const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
-      return { title, price, URL, imageURL };
+      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      return info;
     });
   } catch (err) {
     console.error(err);
@@ -65,7 +67,8 @@ export const scrapeCanadaComputersSearch = async (driver: ThenableWebDriver, inp
             const imageElement = await item.findElement(By.css(IMAGE_TAG));
             const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
-            return { title, price, URL, imageURL };
+            const info: itemInfo = { title, price, itemURL: URL, imageURL };
+            return info;
           });
 
           return Promise.all(results);

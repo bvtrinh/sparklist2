@@ -1,5 +1,5 @@
 import { By, ThenableWebDriver, until } from "selenium-webdriver";
-import { scrollPage } from "./index";
+import { scrollPage, itemInfo } from "./index";
 
 const BESTBUY_URL = "https://www.bestbuy.ca/en-ca/search?search=";
 const TITLE_IDENTIFIER = "h1";
@@ -25,7 +25,8 @@ export const scrapeBestBuyURL = (driver: ThenableWebDriver, URL: string) => {
       const imageElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
       const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
-      return { title, price, URL: URL, imageURL };
+      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      return info;
     });
   } catch (err) {
     console.error(err);
@@ -61,7 +62,8 @@ export const scrapeBestBuySearch = async (driver: ThenableWebDriver, input: stri
             const imageElement = await item.findElement(By.xpath(SEARCH_IMAGE_SELECTOR));
             const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
-            return { title, price, URL, imageURL };
+            const info: itemInfo = { title, price, itemURL: URL, imageURL };
+            return info;
           });
 
           return Promise.all(results);

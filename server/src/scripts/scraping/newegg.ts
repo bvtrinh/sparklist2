@@ -1,4 +1,5 @@
 import { By, ThenableWebDriver } from "selenium-webdriver";
+import { itemInfo } from "./index";
 
 const NEWEGG_URL = "https://www.newegg.ca/p/pl?d=";
 const TITLE = "h1";
@@ -25,7 +26,8 @@ export const scrapeNeweggUrl = (driver: ThenableWebDriver, URL: string) => {
       const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
       const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
-      return { title, price, URL, imageURL };
+      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      return info;
     });
   } catch (err) {
     console.error(err);
@@ -52,7 +54,8 @@ export const scrapeNeweggSearch = async (driver: ThenableWebDriver, input: strin
           const imageElement = await item.findElement(By.css(IMAGE_TAG));
           const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
-          return { title, price, URL, imageURL };
+          const info: itemInfo = { title, price, itemURL: URL, imageURL };
+          return info;
         });
 
         return Promise.all(results);

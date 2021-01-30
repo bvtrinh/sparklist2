@@ -1,5 +1,5 @@
 import { By, ThenableWebDriver } from "selenium-webdriver";
-import { scrollPage } from "./index";
+import { scrollPage, itemInfo } from "./index";
 
 const ASOS_URL = "https://www.asos.com/us/search/?q=";
 const TITLE = "h1";
@@ -26,7 +26,8 @@ export const scrapeAsosUrl = (driver: ThenableWebDriver, URL: string) => {
 
       const imageURL = await driver.findElement(By.className(IMAGE_TAG)).getAttribute(SRC);
 
-      return { title, price, imageURL, URL };
+      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      return info;
     });
   } catch (err) {
     console.error(err);
@@ -60,7 +61,8 @@ export const scrapeAsosSearch = async (driver: ThenableWebDriver, input: string)
 
           const imageURL = await item.findElement(By.xpath(SEARCH_IMAGE)).getAttribute("src");
 
-          return { title, price, URL, imageURL };
+          const info: itemInfo = { title, price, itemURL: URL, imageURL };
+          return info;
         });
 
         return Promise.all(results);
