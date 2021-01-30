@@ -14,10 +14,10 @@ const ANCHOR_TAG = "a";
 const HREF_TAG = "href";
 
 // Newegg scraping item given url
-export const neweggScrape = (URL: string) => {
+export const neweggScrape = (url: string) => {
   try {
     // navigate to Newegg item page
-    return driver.get(URL).then(async () => {
+    return driver.get(url).then(async () => {
       const title = await driver.findElement(By.css(TITLE)).getText();
 
       const priceText = await driver.findElement(By.className(PRICE)).getText();
@@ -26,7 +26,7 @@ export const neweggScrape = (URL: string) => {
       const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
       const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
-      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      const info: itemInfo = { title, price, itemURL: url, imageURL };
       return info;
     });
   } catch (err) {

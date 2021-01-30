@@ -14,10 +14,10 @@ const ANCHOR_TAG = "a";
 const HREF_TAG = "href";
 
 // Footlocker scraping item given url
-export const footlockerScrape = (URL: string) => {
+export const footlockerScrape = (url: string) => {
   try {
     // navigate to bestbuy item page
-    return driver.get(URL).then(async () => {
+    return driver.get(url).then(async () => {
       const title = await driver.findElement(By.className(TITLE)).getText();
 
       const priceText = await driver.findElement(By.className(PRICE)).getText();
@@ -26,7 +26,7 @@ export const footlockerScrape = (URL: string) => {
       const imageElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
       const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
-      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      const info: itemInfo = { title, price, itemURL: url, imageURL };
       return info;
     });
   } catch (err) {

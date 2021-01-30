@@ -17,10 +17,10 @@ const ANCHOR_TAG = "a";
 const HREF_TAG = "href";
 
 // Nestbuy scraping item given url
-export const canadaComputersScrape = (URL: string) => {
+export const canadaComputersScrape = (url: string) => {
   try {
     // navigate to Newegg item page
-    return driver.get(URL).then(async () => {
+    return driver.get(url).then(async () => {
       const title = await driver.findElement(By.className(TITLE_IDENTIFIER)).getText();
       const priceText = await driver.findElement(By.className(PRICE_IDENTIFIER)).getText();
       const price = +priceText.substring(1);
@@ -28,7 +28,7 @@ export const canadaComputersScrape = (URL: string) => {
       const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
       const imageURL = await imageElement.getAttribute(IMAGE_ATTRIBUTE);
 
-      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      const info: itemInfo = { title, price, itemURL: url, imageURL };
       return info;
     });
   } catch (err) {

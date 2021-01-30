@@ -15,10 +15,10 @@ const ANCHOR_TAG = "a";
 const HREF_TAG = "href";
 
 // ASOS scraping item given url
-export const asosScrape = (URL: string) => {
+export const asosScrape = (url: string) => {
   try {
     // navigate to bestbuy item page
-    return driver.get(URL).then(async () => {
+    return driver.get(url).then(async () => {
       const title = await driver.findElement(By.css(TITLE)).getText();
 
       const priceText = await driver.findElement(By.xpath(PRICE)).getText();
@@ -26,7 +26,7 @@ export const asosScrape = (URL: string) => {
 
       const imageURL = await driver.findElement(By.className(IMAGE_TAG)).getAttribute(SRC);
 
-      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      const info: itemInfo = { title, price, itemURL: url, imageURL };
       return info;
     });
   } catch (err) {
