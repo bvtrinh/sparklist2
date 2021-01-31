@@ -1,5 +1,5 @@
 import { By } from "selenium-webdriver";
-import { driver, itemInfo } from "./index";
+import { makeDriver, itemInfo } from "./index";
 
 const TITLE_CLASS = "title _10Fytm7dEFItAR1Wf2pL85";
 const PRICE_CLASS = ".fr-price-currency > span";
@@ -18,6 +18,8 @@ const GRID_ITEM_IMAGE_URL_CLASS = "div.fr-product-image > img";
     url: link to a listing of an uniqlo item
 */
 export const uniqloScrape = async (url: string): Promise<itemInfo> => {
+  const driver = makeDriver();
+
   try {
     await driver.get(url);
     const title = await (await driver.findElement(By.className(TITLE_CLASS))).getText();
@@ -41,6 +43,8 @@ export const uniqloScrape = async (url: string): Promise<itemInfo> => {
     url: an array of links to a listing of uniqlo items (ex. viewing all mens long sleeve shirts)
 */
 export const massUniqloScrape = async (urls: string[]): Promise<itemInfo[]> => {
+  const driver = makeDriver();
+
   try {
     const items: itemInfo[] = [];
     for (const url of urls) {

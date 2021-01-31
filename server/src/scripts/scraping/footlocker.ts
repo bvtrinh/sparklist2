@@ -1,5 +1,5 @@
 import { By, until } from "selenium-webdriver";
-import { driver, itemInfo, scrollPage } from "./index";
+import { makeDriver, itemInfo, scrollPage } from "./index";
 
 const FOOTLOCKER_URL = "https://www.footlocker.ca/en/search?query=";
 const TITLE = "ProductName-primary";
@@ -15,7 +15,9 @@ const IMAGE_SELECTOR = "//span[@class='Image Image--product Image--square']/img"
   @params
     url: link to a listing of an Footlocker item
 */
-export const footlockerScrape = (url: string) => {
+export const footlockerScrape = async (url: string) => {
+  const driver = makeDriver();
+
   try {
     // navigate to bestbuy item page
     return driver.get(url).then(async () => {
@@ -32,6 +34,9 @@ export const footlockerScrape = (url: string) => {
     });
   } catch (err) {
     console.error(err);
+    return err;
+  } finally {
+    await driver.quit();
   }
 };
 
@@ -42,6 +47,8 @@ export const footlockerScrape = (url: string) => {
     input: a search query for items on Footlocker
 */
 export const massFootlockerScrape = async (input: string) => {
+  const driver = makeDriver();
+
   //create search query string
   const searchQuery = input.replace(" ", "%20");
 
@@ -81,5 +88,8 @@ export const massFootlockerScrape = async (input: string) => {
     });
   } catch (err) {
     console.error(err);
+    return err;
+  } finally {
+    await driver.quit();
   }
 };

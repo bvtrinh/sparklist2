@@ -1,5 +1,5 @@
 import { By } from "selenium-webdriver";
-import { driver, itemInfo } from "./index";
+import { makeDriver, itemInfo } from "./index";
 import { FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
 const GRID_ITEM_CLASS = ".productListItem";
@@ -15,6 +15,8 @@ const GRID_ITEM_IMAGE_URL_CLASS = ".product-image img";
     url: an array of links to a listing of the source items (ex. viewing all headphones)
 */
 export const massTheSourceScrape = async (urls: string[]): Promise<itemInfo[]> => {
+  const driver = makeDriver();
+
   try {
     const items: itemInfo[] = [];
     for (const url of urls) {

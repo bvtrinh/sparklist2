@@ -1,5 +1,5 @@
 import { By, until } from "selenium-webdriver";
-import { driver, itemInfo, scrollPage } from "./index";
+import { makeDriver, itemInfo, scrollPage } from "./index";
 
 const BESTBUY_URL = "https://www.bestbuy.ca/en-ca/search?search=";
 const TITLE_IDENTIFIER = "h1";
@@ -15,7 +15,9 @@ const SEARCH_IMAGE_SELECTOR = ".//img[@class='productItemImage_1en8J']";
   @params
     url: link to a listing of an Bestbuy item
 */
-export const bestBuyScrape = (url: string) => {
+export const bestBuyScrape = async (url: string) => {
+  const driver = makeDriver();
+
   try {
     // navigate to bestbuy item page
     return driver.get(url).then(async () => {
@@ -34,6 +36,9 @@ export const bestBuyScrape = (url: string) => {
     });
   } catch (err) {
     console.error(err);
+    return err;
+  } finally {
+    await driver.quit();
   }
 };
 
@@ -44,6 +49,8 @@ export const bestBuyScrape = (url: string) => {
     input: a search query for items on BestBuy
 */
 export const massBestBuyScrape = async (input: string) => {
+  const driver = makeDriver();
+
   try {
     // create search string
     const searchString = input.replace(" ", "+");
@@ -84,5 +91,8 @@ export const massBestBuyScrape = async (input: string) => {
     });
   } catch (err) {
     console.error(err);
+    return err;
+  } finally {
+    await driver.quit();
   }
 };

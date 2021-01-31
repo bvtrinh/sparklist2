@@ -1,5 +1,5 @@
 import { By, WebElement } from "selenium-webdriver";
-import { driver, itemInfo } from "./index";
+import { makeDriver, itemInfo } from "./index";
 import { FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
 const TITLE_CLASS = "#productTitle";
@@ -21,6 +21,7 @@ const GRID_ITEM_IMAGE_URL_CLASS = 'img[data-image-latency="s-product-image"]';
     url: link to a listing of an amazon item
 */
 export const amazonScrape = async (url: string): Promise<itemInfo> => {
+  const driver = makeDriver();
   try {
     await driver.get(url);
     const title = await (await driver.findElement(By.css(TITLE_CLASS))).getText();
@@ -54,6 +55,7 @@ export const amazonScrape = async (url: string): Promise<itemInfo> => {
     url: an array of links to a listing of amazon items (ex. viewing search results)
 */
 export const massAmazonScrape = async (urls: string[]): Promise<itemInfo[]> => {
+  const driver = makeDriver();
   try {
     const items: itemInfo[] = [];
     for (const url of urls) {

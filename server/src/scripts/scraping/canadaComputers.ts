@@ -1,11 +1,10 @@
 import { By, Key, until } from "selenium-webdriver";
-import { driver, itemInfo } from "./index";
+import { makeDriver, itemInfo } from "./index";
 
 const CANADA_COMPUTERS_URL =
   "https://www.canadacomputers.com/search/results_details.php?language=en&keywords=";
 const TITLE_IDENTIFIER = "h3 mb-0";
 const PRICE_IDENTIFIER = "h2-big";
-const SEARCH_IDENTIFIER = "cc_quick_search";
 const PRODUCT_LIST_IDENTIFIER = "product-list";
 const RESULTS_LIST_IDENTIFIER = "toggleBox";
 const RESULTS_TITLE_IDENTIFIER = "productTemplate_title";
@@ -18,7 +17,9 @@ const IMAGE_SELECTOR = "slick-image";
   @params
     url: link to a listing of an Canada Computers item
 */
-export const canadaComputersScrape = (url: string) => {
+export const canadaComputersScrape = async (url: string) => {
+  const driver = makeDriver();
+
   try {
     // navigate to Newegg item page
     return driver.get(url).then(async () => {
@@ -38,6 +39,9 @@ export const canadaComputersScrape = (url: string) => {
     });
   } catch (err) {
     console.error(err);
+    return err;
+  } finally {
+    await driver.quit();
   }
 };
 
@@ -48,6 +52,8 @@ export const canadaComputersScrape = (url: string) => {
     input: a search query for items on Canada Computers
 */
 export const massCanadaComputersScrape = async (input: string) => {
+  const driver = makeDriver();
+
   //create search query string
   const searchQuery = input.replace(" ", "+");
 
@@ -84,5 +90,8 @@ export const massCanadaComputersScrape = async (input: string) => {
     });
   } catch (err) {
     console.error(err);
+    return err;
+  } finally {
+    await driver.quit();
   }
 };

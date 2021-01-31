@@ -1,19 +1,14 @@
-import { resolve } from "path";
-import { Browser, Builder, ThenableWebDriver } from "selenium-webdriver";
-import { Options, ServiceBuilder } from "selenium-webdriver/chrome";
-// eslint-disable-next-line
-require("dotenv").config({ path: resolve(__dirname, "../../../.env.development") });
-const CHROME_DRIVER_PATH = process.env.CHROME_DRIVER_PATH as string;
-const CHROME_BINARY_PATH = process.env.CHROME_BINARY_PATH as string;
+import { Builder, Capabilities, ThenableWebDriver } from "selenium-webdriver";
 
-const options = new Options().setChromeBinaryPath(CHROME_BINARY_PATH);
-const serviceBuilder = new ServiceBuilder(CHROME_DRIVER_PATH);
+// Set up the browser capabilities.
+var browserCapabilities = Capabilities.chrome();
+browserCapabilities.set("goog:chromeOptions", {
+  args: ["--window-size=1900,1200"],
+});
 
-export const driver = new Builder()
-  .forBrowser(Browser.CHROME)
-  .setChromeOptions(options)
-  .setChromeService(serviceBuilder)
-  .build();
+export const makeDriver = () => {
+  return new Builder().forBrowser("chrome").withCapabilities(browserCapabilities).build();
+};
 
 export type itemInfo = {
   title: string;

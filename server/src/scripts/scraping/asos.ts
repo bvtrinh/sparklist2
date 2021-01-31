@@ -1,5 +1,5 @@
 import { By } from "selenium-webdriver";
-import { driver, itemInfo, scrollPage } from "./index";
+import { makeDriver, itemInfo, scrollPage } from "./index";
 
 const ASOS_URL = "https://www.asos.com/us/search/?q=";
 const TITLE = "h1";
@@ -17,7 +17,9 @@ const SEARCH_IMAGE = ".//img[@data-auto-id='productTileImage']";
   @params
     url: link to a listing of an Asos item
 */
-export const asosScrape = (url: string) => {
+export const asosScrape = async (url: string) => {
+  const driver = makeDriver();
+
   try {
     // navigate to bestbuy item page
     return driver.get(url).then(async () => {
@@ -35,6 +37,9 @@ export const asosScrape = (url: string) => {
     });
   } catch (err) {
     console.error(err);
+    return err;
+  } finally {
+    await driver.quit();
   }
 };
 
@@ -45,6 +50,8 @@ export const asosScrape = (url: string) => {
     input: a search query for items on Asos
 */
 export const massAsosScrape = async (input: string) => {
+  const driver = makeDriver();
+
   // create search query string
   const searchQuery = input.replace(" ", "+");
 
@@ -82,5 +89,8 @@ export const massAsosScrape = async (input: string) => {
     });
   } catch (err) {
     console.error(err);
+    return err;
+  } finally {
+    await driver.quit();
   }
 };

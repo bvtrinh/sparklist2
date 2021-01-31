@@ -1,5 +1,5 @@
 import { By } from "selenium-webdriver";
-import { driver, itemInfo } from "./index";
+import { makeDriver, itemInfo } from "./index";
 
 const NEWEGG_URL = "https://www.newegg.ca/p/pl?d=";
 const TITLE = "h1";
@@ -15,7 +15,9 @@ const IMAGE_SELECTOR = "product-view-img-original";
   @params
     url: link to a listing of an Newegg item
 */
-export const neweggScrape = (url: string) => {
+export const neweggScrape = async (url: string) => {
+  const driver = makeDriver();
+
   try {
     // navigate to Newegg item page
     return driver.get(url).then(async () => {
@@ -32,6 +34,9 @@ export const neweggScrape = (url: string) => {
     });
   } catch (err) {
     console.error(err);
+    return err;
+  } finally {
+    await driver.quit();
   }
 };
 
@@ -42,6 +47,8 @@ export const neweggScrape = (url: string) => {
     input: a search query for items on Newegg
 */
 export const massNeweggScrape = async (input: string) => {
+  const driver = makeDriver();
+
   //create search query string
   const searchQuery = input.replace(" ", "+");
 
@@ -70,5 +77,8 @@ export const massNeweggScrape = async (input: string) => {
     });
   } catch (err) {
     console.error(err);
+    return err;
+  } finally {
+    await driver.quit();
   }
 };
