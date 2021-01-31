@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 let database: mongoose.Connection;
 
-export const connect = (): void => {
+export const connect = (log = true): void => {
   const uri = process.env.MONGO_URI as string;
   if (database) {
     return;
@@ -15,7 +15,7 @@ export const connect = (): void => {
   });
   database = mongoose.connection;
   database.once("open", async () => {
-    console.log("Connected to database");
+    if (log) console.log("Connected to database");
   });
   database.on("error", () => {
     console.log("Error connecting to database");
