@@ -1,9 +1,11 @@
-import { driver } from "./index";
-import { bestBuyScrape, massBestBuyScrape } from "./bestbuy";
-import { canadaComputersScrape, massCanadaComputersScrape } from "./canadaComputers";
-import { footlockerScrape, massFootlockerScrape } from "./footlocker";
-import { neweggScrape, massNeweggScrape } from "./newegg";
-import { asosScrape, massAsosScrape } from "./asos";
+import { bestBuyScrape, massBestBuyScrape } from "../../scripts/scraping/bestbuy";
+import {
+  canadaComputersScrape,
+  massCanadaComputersScrape,
+} from "../../scripts/scraping/canadaComputers";
+import { footlockerScrape, massFootlockerScrape } from "../../scripts/scraping/footlocker";
+import { neweggScrape, massNeweggScrape } from "../../scripts/scraping/newegg";
+import { asosScrape, massAsosScrape } from "../../scripts/scraping/asos";
 
 export const runScrapingTests = async () => {
   // const result = await bestBuyScrape("https://www.bestbuy.ca/en-ca/product/14777258");
@@ -30,7 +32,6 @@ export const runScrapingTests = async () => {
   const result = await massAsosScrape("nike hoodie");
 
   console.log(result);
-  (await driver).quit();
 };
 
 runScrapingTests();
