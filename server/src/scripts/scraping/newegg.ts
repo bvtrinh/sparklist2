@@ -9,7 +9,12 @@ const RESULT_TITLE = "item-title";
 const RESULT_PRICE = "price-current";
 const IMAGE_SELECTOR = "product-view-img-original";
 
-// Newegg scraping item given url
+/**
+  Given a link to an image page, return information about the item
+  @return returns an itemInfo object
+  @params
+    url: link to a listing of an Newegg item
+*/
 export const neweggScrape = (url: string) => {
   try {
     // navigate to Newegg item page
@@ -30,6 +35,12 @@ export const neweggScrape = (url: string) => {
   }
 };
 
+/**
+  Get the search result of items, go through each item and scrape itemInfo
+  @return returns an array of itemInfo objects
+  @params
+    input: a search query for items on Newegg
+*/
 export const massNeweggScrape = async (input: string) => {
   //create search query string
   const searchQuery = input.replace(" ", "+");

@@ -9,7 +9,12 @@ const SEARCH_RESULTS = "SearchResults";
 const SEARCH_LIST = "ProductCard";
 const IMAGE_SELECTOR = "//span[@class='Image Image--product Image--square']/img";
 
-// Footlocker scraping item given url
+/**
+  Given a link to an image page, return information about the item
+  @return returns an itemInfo object
+  @params
+    url: link to a listing of an Footlocker item
+*/
 export const footlockerScrape = (url: string) => {
   try {
     // navigate to bestbuy item page
@@ -30,6 +35,12 @@ export const footlockerScrape = (url: string) => {
   }
 };
 
+/**
+  Get the search result of items, go through each item and scrape itemInfo
+  @return returns an array of itemInfo objects
+  @params
+    input: a search query for items on Footlocker
+*/
 export const massFootlockerScrape = async (input: string) => {
   //create search query string
   const searchQuery = input.replace(" ", "%20");

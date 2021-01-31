@@ -11,7 +11,12 @@ const SEARCH_PRICE = ".//span[@data-auto-id='productTilePrice']";
 const SEARCH_SALE_PRICE = ".//span[@data-auto-id='productTileSaleAmount']";
 const SEARCH_IMAGE = ".//img[@data-auto-id='productTileImage']";
 
-// ASOS scraping item given url
+/**
+  Given a link to an image page, return information about the item
+  @return returns an itemInfo object
+  @params
+    url: link to a listing of an Asos item
+*/
 export const asosScrape = (url: string) => {
   try {
     // navigate to bestbuy item page
@@ -33,6 +38,12 @@ export const asosScrape = (url: string) => {
   }
 };
 
+/**
+  Get the search result of items, go through each item and scrape itemInfo
+  @return returns an array of itemInfo objects
+  @params
+    input: a search query for items on Asos
+*/
 export const massAsosScrape = async (input: string) => {
   // create search query string
   const searchQuery = input.replace(" ", "+");

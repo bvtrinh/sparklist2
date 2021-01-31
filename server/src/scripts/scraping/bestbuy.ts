@@ -9,7 +9,12 @@ const PRODUCT_LIST_TITLE_IDENT = ".//div[@data-automation='productItemName']";
 const IMAGE_SELECTOR = "//img[@class='productImage_1NbKv']";
 const SEARCH_IMAGE_SELECTOR = ".//img[@class='productItemImage_1en8J']";
 
-// Bestbuy scraping item given url
+/**
+  Given a link to an image page, return information about the item
+  @return returns an itemInfo object
+  @params
+    url: link to a listing of an Bestbuy item
+*/
 export const bestBuyScrape = (url: string) => {
   try {
     // navigate to bestbuy item page
@@ -32,7 +37,12 @@ export const bestBuyScrape = (url: string) => {
   }
 };
 
-// Bestbuy scraping items given search input
+/**
+  Get the search result of items, go through each item and scrape itemInfo
+  @return returns an array of itemInfo objects
+  @params
+    input: a search query for items on BestBuy
+*/
 export const massBestBuyScrape = async (input: string) => {
   try {
     // create search string

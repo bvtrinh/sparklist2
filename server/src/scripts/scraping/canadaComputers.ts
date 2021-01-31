@@ -12,7 +12,12 @@ const RESULTS_TITLE_IDENTIFIER = "productTemplate_title";
 const RESULTS_PRICE_INDENTIFIER = "pq-hdr-product_price";
 const IMAGE_SELECTOR = "slick-image";
 
-// Nestbuy scraping item given url
+/**
+  Given a link to an image page, return information about the item
+  @return returns an itemInfo object
+  @params
+    url: link to a listing of an Canada Computers item
+*/
 export const canadaComputersScrape = (url: string) => {
   try {
     // navigate to Newegg item page
@@ -36,6 +41,12 @@ export const canadaComputersScrape = (url: string) => {
   }
 };
 
+/**
+  Get the search result of items, go through each item and scrape itemInfo
+  @return returns an array of itemInfo objects
+  @params
+    input: a search query for items on Canada Computers
+*/
 export const massCanadaComputersScrape = async (input: string) => {
   //create search query string
   const searchQuery = input.replace(" ", "+");
