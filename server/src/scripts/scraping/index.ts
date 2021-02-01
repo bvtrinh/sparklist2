@@ -1,3 +1,4 @@
+import "chromedriver";
 import { Builder, Capabilities, ThenableWebDriver } from "selenium-webdriver";
 
 // Set up the browser capabilities.
