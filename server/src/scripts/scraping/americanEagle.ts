@@ -26,6 +26,7 @@ export const americanEagleScrape = async (url: string): Promise<itemInfo> => {
 
   try {
     await driver.get(url);
+    await driver.sleep(3000);
     const title = await (await driver.findElement(By.className(TITLE_CLASS))).getText();
     let price = +(await (
       await (await (await driver).findElement(By.css(LIST_PRICE_CLASS))).getText()
