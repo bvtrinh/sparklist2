@@ -1,5 +1,5 @@
 import { By, WebElement } from "selenium-webdriver";
-import { driver, itemInfo } from "./index";
+import { makeDriver, itemInfo } from "./index";
 import { FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
 const TITLE_CLASS = "product-name cms-ae-product-name";
@@ -22,6 +22,8 @@ const AD_ALERT_CLASS = 'div[data-id="modalModalAdPreferences"] button';
     url: link to a listing of an american eagle item
 */
 export const americanEagleScrape = async (url: string): Promise<itemInfo> => {
+  const driver = makeDriver();
+
   try {
     await driver.get(url);
     const title = await (await driver.findElement(By.className(TITLE_CLASS))).getText();
@@ -52,6 +54,8 @@ export const americanEagleScrape = async (url: string): Promise<itemInfo> => {
     url: an array of links to a search result page (ex. viewing all jeans)
 */
 export const massAmericanEagleScrape = async (urls: string[]): Promise<itemInfo[]> => {
+  const driver = makeDriver();
+
   try {
     const items: itemInfo[] = [];
     for (const url of urls) {

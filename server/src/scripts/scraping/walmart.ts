@@ -1,5 +1,5 @@
 import { By } from "selenium-webdriver";
-import { driver, itemInfo } from "./index";
+import { makeDriver, itemInfo } from "./index";
 import { FLOAT_REGEX } from "../../config/constants";
 
 const TITLE_CLASS = 'h1[data-automation="product-title"]';
@@ -13,6 +13,8 @@ const IMAGE_CLASS = "#main-image";
     url: link to a listing of an walmart item
 */
 export const walmartScrape = async (url: string): Promise<itemInfo> => {
+  const driver = makeDriver();
+
   try {
     await driver.get(url);
     const title = await await (await driver.findElement(By.css(TITLE_CLASS))).getText();

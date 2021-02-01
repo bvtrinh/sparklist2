@@ -1,5 +1,5 @@
 import { By } from "selenium-webdriver";
-import { driver, itemInfo } from "./index";
+import { makeDriver, itemInfo } from "./index";
 import { LINE_BREAK_REGEX, FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
 const TITLE_CLASS = "header h1";
@@ -19,6 +19,8 @@ const GRID_ITEM_IMAGE_URL_CLASS = ".c-shca-icon-item__body-image a > img";
     url: link to a listing of an memory express item
 */
 export const memoryExpressScrape = async (url: string): Promise<itemInfo> => {
+  const driver = makeDriver();
+
   try {
     await driver.get(url);
     const title = await (await (await driver.findElement(By.css(TITLE_CLASS))).getText()).replace(
@@ -49,6 +51,8 @@ export const memoryExpressScrape = async (url: string): Promise<itemInfo> => {
     url: link to a listing of memory express items (ex. viewing memory hard drives)
 */
 export const massMemoryExpressScrape = async (urls: string[]): Promise<itemInfo[]> => {
+  const driver = makeDriver();
+
   try {
     const items: itemInfo[] = [];
     for (const url of urls) {

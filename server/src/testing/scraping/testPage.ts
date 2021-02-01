@@ -1,8 +1,8 @@
-import { uniqloScrape } from "./uniqlo";
-import { americanEagleScrape } from "./americanEagle";
-import { memoryExpressScrape } from "./memoryExpress";
-import { walmartScrape } from "./walmart";
-import { amazonScrape } from "./amazon";
+import { uniqloScrape } from "../../scripts/scraping/uniqlo";
+import { americanEagleScrape } from "../../scripts/scraping/americanEagle";
+import { memoryExpressScrape } from "../../scripts/scraping/memoryExpress";
+import { walmartScrape } from "../../scripts/scraping/walmart";
+import { amazonScrape } from "../../scripts/scraping/amazon";
 
 const UNIQLO_URLS = ["https://www.uniqlo.com/ca/en/products/E433399-000?colorCode=COL00"];
 const AEO_URLS = [
