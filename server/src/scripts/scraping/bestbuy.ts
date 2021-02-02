@@ -20,20 +20,19 @@ export const bestBuyScrape = async (url: string) => {
 
   try {
     // navigate to bestbuy item page
-    return driver.get(url).then(async () => {
-      const title = await (await (await driver).findElement(By.css(TITLE_IDENTIFIER))).getText();
+    await driver.get(url);
+    const title = await (await (await driver).findElement(By.css(TITLE_IDENTIFIER))).getText();
 
-      const priceText = await (
-        await (await driver).findElement(By.className(PRICE_IDENTIFIER))
-      ).getText();
-      const price = +priceText.substring(1);
+    const priceText = await (
+      await (await driver).findElement(By.className(PRICE_IDENTIFIER))
+    ).getText();
+    const price = +priceText.substring(1);
 
-      const imageElement = await (await driver).findElement(By.xpath(IMAGE_SELECTOR));
-      const imageURL = await imageElement.getAttribute("src");
+    const imageElement = await (await driver).findElement(By.xpath(IMAGE_SELECTOR));
+    const imageURL = await imageElement.getAttribute("src");
 
-      const info: itemInfo = { title, price, itemURL: url, imageURL };
-      return info;
-    });
+    const info: itemInfo = { title, price, itemURL: url, imageURL };
+    return info;
   } catch (err) {
     console.error(err);
     return err;
@@ -56,39 +55,33 @@ export const massBestBuyScrape = async (input: string) => {
     const searchString = input.replace(" ", "+");
 
     // navigate to bestbuy
-    return await driver.get(BESTBUY_URL + searchString).then(async () => {
-      // wait for page to load
-      await driver.wait(until.elementLocated(By.className(PRODUCT_LIST_IDENTIFIER)), 15000);
+    await driver.get(BESTBUY_URL + searchString);
+    // wait for page to load
+    await driver.wait(until.elementLocated(By.className(PRODUCT_LIST_IDENTIFIER)), 15000);
 
-      return await (await driver)
-        .findElements(By.className(PRODUCT_LIST_IDENTIFIER))
-        .then(async (items) => {
-          // scroll page to load all items
-          await scrollPage(driver, 3);
+    // scroll page to load all items
+    await scrollPage(driver, 3);
 
-          // scrape all search results for title and price
-          let results = items.map(async (item) => {
-            const title = await (
-              await item.findElement(By.xpath(PRODUCT_LIST_TITLE_IDENT))
-            ).getText();
+    const searchResults = await (await driver).findElements(By.className(PRODUCT_LIST_IDENTIFIER));
 
-            const priceText = await (
-              await item.findElement(By.className(PRICE_IDENTIFIER))
-            ).getText();
-            const price = +priceText.substring(1);
+    // scrape all search results for title and price
+    const items: itemInfo[] = [];
 
-            const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
+    for (const item of searchResults) {
+      const title = await (await item.findElement(By.xpath(PRODUCT_LIST_TITLE_IDENT))).getText();
 
-            const imageElement = await item.findElement(By.xpath(SEARCH_IMAGE_SELECTOR));
-            const imageURL = await imageElement.getAttribute("src");
+      const priceText = await (await item.findElement(By.className(PRICE_IDENTIFIER))).getText();
+      const price = +priceText.substring(1);
 
-            const info: itemInfo = { title, price, itemURL: URL, imageURL };
-            return info;
-          });
+      const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
 
-          return Promise.all(results);
-        });
-    });
+      const imageElement = await item.findElement(By.xpath(SEARCH_IMAGE_SELECTOR));
+      const imageURL = await imageElement.getAttribute("src");
+
+      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      items.push(info);
+    }
+    return items;
   } catch (err) {
     console.error(err);
     return err;
