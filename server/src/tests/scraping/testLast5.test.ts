@@ -6,6 +6,8 @@ import { amazonScrape } from "../../scripts/scraping/amazon";
 import { SupportedSite, TEST_URLS, TEST_VALS } from "./testConstants";
 import { itemInfo } from "../../scripts/scraping";
 
+jest.setTimeout(10000);
+
 const testScrape = async (site: SupportedSite) => {
   let item: itemInfo;
   switch (site) {
