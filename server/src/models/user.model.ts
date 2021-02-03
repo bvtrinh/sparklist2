@@ -4,8 +4,8 @@ export interface IUser extends Document {
   email: string;
   firstName: string;
   lastName: string;
-  createDate: Date;
-  modifyDate: Date;
+  createDate?: Date;
+  modifyDate?: Date;
 }
 
 const UserSchema: Schema = new Schema({

@@ -4,7 +4,12 @@ import { Builder, Capabilities, ThenableWebDriver } from "selenium-webdriver";
 // Set up the browser capabilities.
 const browserCapabilities = Capabilities.chrome();
 browserCapabilities.set("goog:chromeOptions", {
-  args: ["--window-size=1900,1200"],
+  args: [
+    "--window-size=1900,1200",
+    "--headless",
+    "--disable-gpu",
+    "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
+  ],
 });
 
 export const makeDriver = (): ThenableWebDriver => {
