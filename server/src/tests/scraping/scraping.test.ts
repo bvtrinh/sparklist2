@@ -1,12 +1,17 @@
-import { uniqloScrape } from "../../scripts/scraping/uniqlo";
-import { americanEagleScrape } from "../../scripts/scraping/americanEagle";
-import { memoryExpressScrape } from "../../scripts/scraping/memoryExpress";
-import { walmartScrape } from "../../scripts/scraping/walmart";
 import { amazonScrape } from "../../scripts/scraping/amazon";
+import { americanEagleScrape } from "../../scripts/scraping/americanEagle";
+import { asosScrape } from "../../scripts/scraping/asos";
+import { bestBuyScrape } from "../../scripts/scraping/bestbuy";
+import { canadaComputersScrape } from "../../scripts/scraping/canadaComputers";
+import { footlockerScrape } from "../../scripts/scraping/footlocker";
+import { memoryExpressScrape } from "../../scripts/scraping/memoryExpress";
+import { neweggScrape } from "../../scripts/scraping/newegg";
+import { uniqloScrape } from "../../scripts/scraping/uniqlo";
+import { walmartScrape } from "../../scripts/scraping/walmart";
 import { SupportedSite, TEST_URLS, TEST_VALS } from "./testConstants";
 import { itemInfo } from "../../scripts/scraping";
 
-jest.setTimeout(10000);
+jest.setTimeout(15000);
 
 const testScrape = async (site: SupportedSite) => {
   let item: itemInfo;
@@ -17,8 +22,23 @@ const testScrape = async (site: SupportedSite) => {
     case SupportedSite.AEO:
       item = await americanEagleScrape(TEST_URLS[site][0]);
       break;
+    case SupportedSite.ASOS:
+      item = await asosScrape(TEST_URLS[site][0]);
+      break;
+    case SupportedSite.BESTBUY:
+      item = await bestBuyScrape(TEST_URLS[site][0]);
+      break;
+    case SupportedSite.CANADA_COMPUTERS:
+      item = await canadaComputersScrape(TEST_URLS[site][0]);
+      break;
+    case SupportedSite.FOOTLOCKER:
+      item = await footlockerScrape(TEST_URLS[site][0]);
+      break;
     case SupportedSite.MEMORY_EXPRESS:
       item = await memoryExpressScrape(TEST_URLS[site][0]);
+      break;
+    case SupportedSite.NEWEGG:
+      item = await neweggScrape(TEST_URLS[site][0]);
       break;
     case SupportedSite.WALMART:
       item = await walmartScrape(TEST_URLS[site][0]);
@@ -41,8 +61,23 @@ describe("testing last 5 scraping websites", () => {
   test("american eagle item scraping", async () => {
     await testScrape(SupportedSite.AEO);
   });
+  test("asos item scraping", async () => {
+    await testScrape(SupportedSite.ASOS);
+  });
+  test("bestbuy item scraping", async () => {
+    await testScrape(SupportedSite.BESTBUY);
+  });
+  test("canada computers item scraping", async () => {
+    await testScrape(SupportedSite.CANADA_COMPUTERS);
+  });
+  test("footlocker item scraping", async () => {
+    await testScrape(SupportedSite.FOOTLOCKER);
+  });
   test("memory express item scraping", async () => {
     await testScrape(SupportedSite.MEMORY_EXPRESS);
+  });
+  test("newegg item scraping", async () => {
+    await testScrape(SupportedSite.NEWEGG);
   });
   test("walmart item scraping", async () => {
     await testScrape(SupportedSite.WALMART);
