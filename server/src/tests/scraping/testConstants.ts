@@ -14,7 +14,6 @@ type SupportedSiteMap<T> = {
 
 type TestableValues = {
   title: string;
-  price: number;
 };
 
 export const TEST_URLS: SupportedSiteMap<string[]> = {
@@ -45,53 +44,43 @@ export const TEST_VALS: SupportedSiteMap<TestableValues[]> = {
     {
       title:
         "Sunny Health & Fitness Rowing Machine with Magnetic Resistance, LCD Monitor, 8-level Resistance, 1117 mm Step Length, 113 KG Max. Weight - SF-RW5515, Ergometer, Training Computer",
-      price: 375.31,
     },
     {
       title:
         "Fire TV Stick 4K streaming device with Alexa built in, Ultra HD, Dolby Vision, includes the Alexa Voice Remote",
-      price: 69.99,
     },
   ],
   AEO: [
     {
       title: "AE Super Soft Hooded Sweater",
-      price: 44.97,
     },
     {
       title: "AE AirFlex+ Slim Jean",
-      price: 44.97,
     },
   ],
   MEMORY_EXPRESS: [
     {
       title: "860 EVO 2.5in SSD, SATA III, 1TB",
-      price: 149.99,
     },
     {
       title:
         "Lenovo ThinkPad E15 Gen 2 w/ Ryzen™ 5 4500U, 8GB, 256GB NVMe SSD, 15.6in Full HD WVA, Windows 10 Pro",
-      price: 949.99,
     },
   ],
   WALMART: [
     {
       title: "Blue Microphones Yeti USB Microphone, Blackout Edition",
-      price: 179.98,
     },
     {
       title: "Keurig® K-Mini® Single Serve Coffee Maker",
-      price: 58,
     },
   ],
   UNIQLO: [
     {
       title: "DRY-EX CREW NECK SHORT SLEEVE T-SHIRT",
-      price: 24.9,
     },
     {
       title: "POCKETABLE UV PROTECTION PARKA",
-      price: 49.9,
     },
   ],
 };

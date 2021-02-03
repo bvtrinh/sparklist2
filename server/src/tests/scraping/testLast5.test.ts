@@ -11,31 +11,23 @@ const testScrape = async (site: SupportedSite) => {
   switch (site) {
     case SupportedSite.AMAZON:
       item = await amazonScrape(TEST_URLS[site][0]);
-      expect(item.title).toBe(TEST_VALS[site][0].title);
-      expect(item.price).toEqual(TEST_VALS[site][0].price);
       break;
     case SupportedSite.AEO:
       item = await americanEagleScrape(TEST_URLS[site][0]);
-      expect(item.title).toBe(TEST_VALS[site][0].title);
-      expect(item.price).toEqual(TEST_VALS[site][0].price);
       break;
     case SupportedSite.MEMORY_EXPRESS:
       item = await memoryExpressScrape(TEST_URLS[site][0]);
-      expect(item.title).toBe(TEST_VALS[site][0].title);
-      expect(item.price).toEqual(TEST_VALS[site][0].price);
       break;
     case SupportedSite.WALMART:
       item = await walmartScrape(TEST_URLS[site][0]);
-      expect(item.title).toBe(TEST_VALS[site][0].title);
-      expect(item.price).toEqual(TEST_VALS[site][0].price);
       break;
     case SupportedSite.UNIQLO:
       item = await uniqloScrape(TEST_URLS[site][0]);
-      expect(item.title).toBe(TEST_VALS[site][0].title);
-      expect(item.price).toEqual(TEST_VALS[site][0].price);
       break;
   }
 
+  expect(item.title).toBe(TEST_VALS[site][0].title);
+  expect(item.price).toBeTruthy();
   expect(item.itemURL).toBeTruthy();
   expect(item.imageURL).toBeTruthy();
 };
