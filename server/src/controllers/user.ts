@@ -4,7 +4,7 @@ export const userInfo: RequestHandler = async (req, res) => {
   return res.status(200).json(req.session.passport);
 };
 
-export const googleCallback: RequestHandler = async (req, res) => {
+export const oAuthCallback: RequestHandler = async (req, res) => {
   // TODO: Change this redirect before production
   return res.status(201).redirect("http://localhost:3000/profile");
 };
