@@ -21,6 +21,7 @@
     "@types/node": "^14.14.22",
     "@types/passport": "^1.0.5",
     "@types/passport-google-oauth": "^1.0.41",
+    "@types/passport-twitter": "^1.0.36",
     "@types/selenium-webdriver": "^4.0.11",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
@@ -48,6 +49,7 @@
     "mongoose": "^5.11.14",
     "passport": "^0.4.1",
     "passport-google-oauth": "^2.0.0",
+    "passport-twitter": "^1.0.4",
     "selenium-webdriver": "^4.0.0-alpha.8"
   },
   "jest": {
