@@ -1,6 +1,5 @@
 import { OAuth2Strategy as GoogleStrategy, VerifyFunction, Profile } from "passport-google-oauth";
 import { Strategy as TwitterStrategy } from "passport-twitter";
-import Key from "../../google_auth_key.json";
 import { User } from "../models/user.model";
 
 const googleVerifyCallback = async (
@@ -27,14 +26,15 @@ const googleVerifyCallback = async (
     return done(null, existingUser);
   } catch (err) {
     console.error(err);
+    // TODO: Display error on client
     return done("Unable to authenticate with Google");
   }
 };
 
 export const passportGoogle = new GoogleStrategy(
   {
-    clientID: Key.web.client_id,
-    clientSecret: Key.web.client_secret,
+    clientID: process.env.GOOGLE_CLIENT_ID as string,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     callbackURL: `${process.env.API_URL}/api/u/google/callback`,
   },
   googleVerifyCallback
@@ -65,6 +65,7 @@ const twitterVerifyCallback = async (
     return done(null, existingUser);
   } catch (err) {
     console.error(err);
+    // TODO: Display error on client
     return done("Unable to authenticate with Twitter");
   }
 };
