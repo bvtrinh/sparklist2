@@ -1,6 +1,6 @@
 import React from "react";
 
-export const GoogleButton = () => {
+export const GoogleButton: React.FC = () => {
   return (
     <div>
       <a href="http://localhost:5000/api/u/google">

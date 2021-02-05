@@ -1,6 +1,6 @@
 import React from "react";
 
-export const TwitterButton = () => {
+export const TwitterButton: React.FC = () => {
   return (
     <div>
       <a href="http://localhost:5000/api/u/twitter">

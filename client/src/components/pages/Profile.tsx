@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { userInfo, logout } from "../../api/auth";
 import { checkAuth, getItem } from "../../helpers/authSession";
 
-export const Profile = () => {
+export const Profile: React.FC = () => {
   const [email, setEmail] = useState<string>(getItem("email"));
   const [firstName, setFirstName] = useState<string>(getItem("firstName"));
   const [lastName, setLastName] = useState<string>(getItem("lastName"));
@@ -27,8 +27,7 @@ export const Profile = () => {
   }, [history]);
 
   const logoutHandler = async () => {
-    const res = await logout();
-    console.log(res.data.message);
+    await logout();
     history.push("/");
   };
 

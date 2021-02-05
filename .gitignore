@@ -103,6 +103,3 @@ dist
 
 # TernJS port file
 .tern-port
-
-# Auth keys
-google_auth_key.json
