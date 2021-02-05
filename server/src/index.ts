@@ -1,5 +1,4 @@
 import { join, resolve } from "path";
-
 if (process.env.NODE_ENV === "development") {
   // eslint-disable-next-line
   require("dotenv").config({ path: resolve(__dirname, "../.env.development") });
@@ -7,12 +6,14 @@ if (process.env.NODE_ENV === "development") {
 
 import express, { json, urlencoded } from "express";
 import cors from "cors";
-import session from "express-session";
 import connectMongo from "connect-mongo";
 import { connect } from "./models/connect";
 import Routes from "./routes";
 import passport from "passport";
 import Mongoose from "mongoose";
+import { SESSION_NAME } from "./config/constants";
+
+import session from "express-session";
 const MongoStore = connectMongo(session);
 declare module "express-session" {
   export interface SessionData {
@@ -34,7 +35,7 @@ app.use(urlencoded({ extended: true }));
 app.use(cors());
 app.use(
   session({
-    name: "SESSION_ID",
+    name: SESSION_NAME,
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: Mongoose.connection }),
@@ -53,7 +54,7 @@ passport.serializeUser((user, done) => {
   done(undefined, user);
 });
 // eslint-disable-next-line
-passport.deserializeUser(async (obj: any, done) => {
+passport.deserializeUser((obj: any, done) => {
   done(null, obj);
 });
 
