@@ -1,6 +1,35 @@
-import { OAuth2Strategy as GoogleStrategy } from "passport-google-oauth";
+import { OAuth2Strategy as GoogleStrategy, VerifyFunction, Profile } from "passport-google-oauth";
+import { Strategy as TwitterStrategy } from "passport-twitter";
 import Key from "../../google_auth_key.json";
 import { User } from "../models/user.model";
+
+const googleVerifyCallback = async (
+  accessToken: string,
+  refreshToken: string,
+  profile: Profile,
+  done: VerifyFunction
+) => {
+  const email = profile.emails?.[0].value;
+  try {
+    const existingUser = await User.findOne({ email });
+    // User doesn't exist; create an account
+    if (!existingUser) {
+      const newUser = new User({
+        email: email,
+        firstName: profile.name?.givenName,
+        lastName: profile.name?.familyName,
+      });
+
+      await newUser.save();
+      return done(null, newUser);
+    }
+
+    return done(null, existingUser);
+  } catch (err) {
+    console.error(err);
+    return done("Unable to authenticate with Google");
+  }
+};
 
 export const passportGoogle = new GoogleStrategy(
   {
@@ -8,26 +37,44 @@ export const passportGoogle = new GoogleStrategy(
     clientSecret: Key.web.client_secret,
     callbackURL: `${process.env.API_URL}/api/u/google/callback`,
   },
-  async (accessToken, refreshToken, profile, done) => {
-    const email = profile.emails?.[0].value;
-    try {
-      const existingUser = await User.findOne({ email });
-      // User doesn't exist; create an account
-      if (!existingUser) {
-        const newUser = new User({
-          email: email,
-          firstName: profile.name?.givenName,
-          lastName: profile.name?.familyName,
-        });
+  googleVerifyCallback
+);
 
-        await newUser.save();
-        return done(null, newUser);
-      }
+const twitterVerifyCallback = async (
+  accessToken: string,
+  refreshToken: string,
+  profile: Profile,
+  done: VerifyFunction
+) => {
+  const email = profile.emails?.[0].value;
+  try {
+    const existingUser = await User.findOne({ email });
+    // User doesn't exist; create an account
+    if (!existingUser) {
+      const [firstName, lastName] = profile.displayName.split(" ");
+      const newUser = new User({
+        email,
+        firstName,
+        lastName,
+      });
 
-      return done(null, existingUser);
-    } catch (err) {
-      console.error(err);
-      return done("Unable to authenticate with Google");
+      await newUser.save();
+      return done(null, newUser);
     }
+
+    return done(null, existingUser);
+  } catch (err) {
+    console.error(err);
+    return done("Unable to authenticate with Twitter");
   }
+};
+
+export const passportTwitter = new TwitterStrategy(
+  {
+    consumerKey: process.env.TWITTER_API_KEY as string,
+    consumerSecret: process.env.TWITTER_API_SECRET as string,
+    includeEmail: true,
+    callbackURL: `${process.env.API_URL}/api/u/twitter/callback`,
+  },
+  twitterVerifyCallback
 );
