@@ -118,3 +118,17 @@ export const updateItem: RequestHandler = async (req, res) => {
     return res.status(500).json({ payload: err, message: err.message, error: true });
   }
 };
+
+export const deleteItem: RequestHandler = async (req, res) => {
+  const id = req.params.id;
+
+  console.log("delete: " + id);
+
+  try {
+    await Item.deleteOne({ _id: id });
+    return res.status(200).json({ message: "Deleted the Item.", error: false });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ payload: err, message: err.message, error: true });
+  }
+};
