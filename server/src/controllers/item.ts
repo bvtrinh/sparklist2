@@ -88,3 +88,33 @@ export const getOneItem: RequestHandler = async (req, res) => {
     });
   }
 };
+
+export const updateItem: RequestHandler = async (req, res) => {
+  // Extract information from URL
+  const id = req.params.id;
+  const updatedItem: IItem = req.body;
+
+  // Find the Item in DB
+  try {
+    const item = await Item.findById(id);
+    if (!item) {
+      // ID does not exist
+      throw new Error("ID does not exist");
+    }
+
+    // update modifyDate
+    updatedItem.modifyDate = new Date();
+
+    // Update on DB
+    await Item.updateOne({ _id: id }, updatedItem);
+
+    return res.status(200).json({
+      payload: updatedItem,
+      message: "Updated the Item.",
+      error: false,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ payload: err, message: err.message, error: true });
+  }
+};
