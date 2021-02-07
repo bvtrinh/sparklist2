@@ -37,7 +37,7 @@ export const createItem: RequestHandler = async (req, res) => {
   // Write to DB
   try {
     await newItem.save();
-    return res.status(200).json({ message: "Created the Item.", error: false });
+    return res.status(200).json({ payload: newItem, message: "Created the Item.", error: false });
   } catch (err) {
     console.log(err);
 
@@ -121,8 +121,6 @@ export const updateItem: RequestHandler = async (req, res) => {
 
 export const deleteItem: RequestHandler = async (req, res) => {
   const id = req.params.id;
-
-  console.log("delete: " + id);
 
   try {
     await Item.deleteOne({ _id: id });
