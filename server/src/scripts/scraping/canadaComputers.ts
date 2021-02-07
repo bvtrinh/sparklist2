@@ -21,7 +21,7 @@ export const canadaComputersScrape = async (url: string) => {
   const driver = makeDriver();
 
   try {
-    // navigate to Newegg item page
+    // navigate to Canada Computers item page
     await driver.get(url);
     const title = await (await driver.findElement(By.className(TITLE_IDENTIFIER))).getText();
     const priceText = await (await driver.findElement(By.className(PRICE_IDENTIFIER))).getText();
