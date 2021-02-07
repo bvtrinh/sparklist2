@@ -89,6 +89,30 @@ export const getOneItem: RequestHandler = async (req, res) => {
   }
 };
 
+export const getItemsPaginated: RequestHandler = async (req, res) => {
+  const limit: number = +req.params.limit;
+  const page: number = +req.params.page;
+
+  try {
+    const items = await Item.find()
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .exec();
+    return res.status(200).json({
+      payload: items,
+      message: `Success retrieving ${limit} Items`,
+      error: false,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      payload: err,
+      message: `Error retrieving ${limit} Items`,
+      error: true,
+    });
+  }
+};
+
 export const updateItem: RequestHandler = async (req, res) => {
   // Extract information from URL
   const id = req.params.id;
