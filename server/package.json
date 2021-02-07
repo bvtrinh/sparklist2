@@ -23,6 +23,7 @@
     "@types/passport-google-oauth": "^1.0.41",
     "@types/passport-twitter": "^1.0.36",
     "@types/selenium-webdriver": "^4.0.11",
+    "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "babel-eslint": "^10.1.0",
