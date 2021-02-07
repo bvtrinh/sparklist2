@@ -21,12 +21,12 @@ export const neweggScrape = async (url: string) => {
   try {
     // navigate to Newegg item page
     await driver.get(url);
-    const title = await (await (await driver).findElement(By.css(TITLE))).getText();
+    const title = await (await driver.findElement(By.css(TITLE))).getText();
 
-    const priceText = await (await (await driver).findElement(By.className(PRICE))).getText();
+    const priceText = await (await driver.findElement(By.className(PRICE))).getText();
     const price = +priceText.substring(1);
 
-    const imageElement = await (await driver).findElement(By.className(IMAGE_SELECTOR));
+    const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
     const imageURL = await imageElement.getAttribute("src");
 
     const info: itemInfo = { title, price, itemURL: url, imageURL };
@@ -54,7 +54,7 @@ export const massNeweggScrape = async (input: string) => {
   try {
     // navigate to Newegg
     await driver.get(NEWEGG_URL + searchQuery);
-    const searchResults = await (await driver).findElements(By.className(SEARCH_RESULTS));
+    const searchResults = await driver.findElements(By.className(SEARCH_RESULTS));
 
     const items: itemInfo[] = [];
     // scrape all search results for title and price

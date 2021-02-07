@@ -23,14 +23,12 @@ export const asosScrape = async (url: string) => {
   try {
     // navigate to bestbuy item page
     await driver.get(url);
-    const title = await (await (await driver).findElement(By.css(TITLE))).getText();
+    const title = await (await driver.findElement(By.css(TITLE))).getText();
 
-    const priceText = await (await (await driver).findElement(By.xpath(PRICE))).getText();
+    const priceText = await (await driver.findElement(By.xpath(PRICE))).getText();
     const price = +priceText.substring(2);
 
-    const imageURL = await (await (await driver).findElement(By.className(IMAGE_TAG))).getAttribute(
-      "src"
-    );
+    const imageURL = await (await driver.findElement(By.className(IMAGE_TAG))).getAttribute("src");
 
     const info: itemInfo = { title, price, itemURL: url, imageURL };
     return info;
@@ -56,8 +54,8 @@ export const massAsosScrape = async (input: string) => {
 
   try {
     // navigate to ASOS
-    await (await driver).get(ASOS_URL + searchQuery);
-    const searchResults = await (await driver).findElements(By.xpath(SEARCH_RESULTS));
+    await driver.get(ASOS_URL + searchQuery);
+    const searchResults = await driver.findElements(By.xpath(SEARCH_RESULTS));
     // scrape all search results for title and price
     const items: itemInfo[] = [];
     // scroll page to load images

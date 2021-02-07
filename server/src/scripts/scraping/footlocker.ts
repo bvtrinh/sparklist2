@@ -21,12 +21,12 @@ export const footlockerScrape = async (url: string) => {
   try {
     // navigate to bestbuy item page
     await driver.get(url);
-    const title = await (await (await driver).findElement(By.className(TITLE))).getText();
+    const title = await (await driver.findElement(By.className(TITLE))).getText();
 
-    const priceText = await (await (await driver).findElement(By.className(PRICE))).getText();
+    const priceText = await (await driver.findElement(By.className(PRICE))).getText();
     const price = +priceText.substring(1);
 
-    const imageElement = await (await driver).findElement(By.xpath(IMAGE_SELECTOR));
+    const imageElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
     const imageURL = await imageElement.getAttribute("src");
 
     const info: itemInfo = { title, price, itemURL: url, imageURL };
@@ -58,7 +58,7 @@ export const massFootlockerScrape = async (input: string) => {
     await driver.wait(until.elementLocated(By.className(SEARCH_RESULTS)), 10000);
     await scrollPage(driver, 2);
 
-    const searchResults = await (await driver).findElements(By.className(SEARCH_LIST));
+    const searchResults = await driver.findElements(By.className(SEARCH_LIST));
     const items: itemInfo[] = [];
     // scrape all search results for title and price
     for (const item of searchResults) {

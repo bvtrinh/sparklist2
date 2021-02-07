@@ -21,14 +21,12 @@ export const bestBuyScrape = async (url: string) => {
   try {
     // navigate to bestbuy item page
     await driver.get(url);
-    const title = await (await (await driver).findElement(By.css(TITLE_IDENTIFIER))).getText();
+    const title = await (await driver.findElement(By.css(TITLE_IDENTIFIER))).getText();
 
-    const priceText = await (
-      await (await driver).findElement(By.className(PRICE_IDENTIFIER))
-    ).getText();
+    const priceText = await (await driver.findElement(By.className(PRICE_IDENTIFIER))).getText();
     const price = +priceText.substring(1);
 
-    const imageElement = await (await driver).findElement(By.xpath(IMAGE_SELECTOR));
+    const imageElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
     const imageURL = await imageElement.getAttribute("src");
 
     const info: itemInfo = { title, price, itemURL: url, imageURL };
@@ -62,7 +60,7 @@ export const massBestBuyScrape = async (input: string) => {
     // scroll page to load all items
     await scrollPage(driver, 3);
 
-    const searchResults = await (await driver).findElements(By.className(PRODUCT_LIST_IDENTIFIER));
+    const searchResults = await driver.findElements(By.className(PRODUCT_LIST_IDENTIFIER));
 
     // scrape all search results for title and price
     const items: itemInfo[] = [];

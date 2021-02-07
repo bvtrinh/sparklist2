@@ -23,15 +23,11 @@ export const canadaComputersScrape = async (url: string) => {
   try {
     // navigate to Newegg item page
     await driver.get(url);
-    const title = await (
-      await (await driver).findElement(By.className(TITLE_IDENTIFIER))
-    ).getText();
-    const priceText = await (
-      await (await driver).findElement(By.className(PRICE_IDENTIFIER))
-    ).getText();
+    const title = await (await driver.findElement(By.className(TITLE_IDENTIFIER))).getText();
+    const priceText = await (await driver.findElement(By.className(PRICE_IDENTIFIER))).getText();
     const price = +priceText.substring(1);
 
-    const imageElement = await (await driver).findElement(By.className(IMAGE_SELECTOR));
+    const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
     const imageURL = await imageElement.getAttribute("src");
 
     const info: itemInfo = { title, price, itemURL: url, imageURL };
@@ -61,7 +57,7 @@ export const massCanadaComputersScrape = async (input: string) => {
     await driver.get(CANADA_COMPUTERS_URL + searchQuery);
     // wait for page to load
     await driver.wait(until.elementLocated(By.id(PRODUCT_LIST_IDENTIFIER)), 5000);
-    const searchResults = await (await driver).findElements(By.className(RESULTS_LIST_IDENTIFIER));
+    const searchResults = await driver.findElements(By.className(RESULTS_LIST_IDENTIFIER));
 
     // scrape all search results for title and price
     const items: itemInfo[] = [];
