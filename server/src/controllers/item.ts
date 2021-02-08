@@ -28,10 +28,6 @@ export const createItem: RequestHandler = async (req, res) => {
         date: new Date(),
       },
     ],
-    createData: new Date(),
-    modifyDate: new Date(),
-    valid: true,
-    count: 1,
   });
 
   // Write to DB
