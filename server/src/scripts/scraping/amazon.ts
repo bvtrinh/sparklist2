@@ -60,7 +60,7 @@ export const massAmazonScrape = async (urls: string[]): Promise<itemInfo[]> => {
     const items: itemInfo[] = [];
     for (const url of urls) {
       await driver.get(url);
-      await (await driver).sleep(2000);
+      await driver.sleep(2000);
       await driver.executeScript(SCROLL_SCRIPT);
       const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
 

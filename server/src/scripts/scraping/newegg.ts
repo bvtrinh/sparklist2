@@ -15,23 +15,22 @@ const IMAGE_SELECTOR = "product-view-img-original";
   @params
     url: link to a listing of an Newegg item
 */
-export const neweggScrape = async (url: string) => {
+export const neweggScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
 
   try {
     // navigate to Newegg item page
-    return driver.get(url).then(async () => {
-      const title = await (await (await driver).findElement(By.css(TITLE))).getText();
+    await driver.get(url);
+    const title = await (await driver.findElement(By.css(TITLE))).getText();
 
-      const priceText = await (await (await driver).findElement(By.className(PRICE))).getText();
-      const price = +priceText.substring(1);
+    const priceText = await (await driver.findElement(By.className(PRICE))).getText();
+    const price = +priceText.substring(1);
 
-      const imageElement = await (await driver).findElement(By.className(IMAGE_SELECTOR));
-      const imageURL = await imageElement.getAttribute("src");
+    const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
+    const imageURL = await imageElement.getAttribute("src");
 
-      const info: itemInfo = { title, price, itemURL: url, imageURL };
-      return info;
-    });
+    const info: itemInfo = { title, price, itemURL: url, imageURL };
+    return info;
   } catch (err) {
     console.error(err);
     return err;
@@ -46,7 +45,7 @@ export const neweggScrape = async (url: string) => {
   @params
     input: a search query for items on Newegg
 */
-export const massNeweggScrape = async (input: string) => {
+export const massNeweggScrape = async (input: string): Promise<itemInfo[]> => {
   const driver = makeDriver();
 
   //create search query string
@@ -54,27 +53,27 @@ export const massNeweggScrape = async (input: string) => {
 
   try {
     // navigate to Newegg
-    return await driver.get(NEWEGG_URL + searchQuery).then(async () => {
-      return await (await driver).findElements(By.className(SEARCH_RESULTS)).then(async (items) => {
-        // scrape all search results for title and price
-        let results = items.map(async (item) => {
-          const title = await (await item.findElement(By.className(RESULT_TITLE))).getText();
+    await driver.get(NEWEGG_URL + searchQuery);
+    const searchResults = await driver.findElements(By.className(SEARCH_RESULTS));
 
-          const priceText = await (await item.findElement(By.className(RESULT_PRICE))).getText();
-          const price = +priceText.split(" ")[0].substring(1);
+    const items: itemInfo[] = [];
+    // scrape all search results for title and price
+    for (const item of searchResults) {
+      const title = await (await item.findElement(By.className(RESULT_TITLE))).getText();
 
-          const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
+      const priceText = await (await item.findElement(By.className(RESULT_PRICE))).getText();
+      const price = +priceText.split(" ")[0].substring(1);
 
-          const imageElement = await item.findElement(By.css("img"));
-          const imageURL = await imageElement.getAttribute("src");
+      const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
 
-          const info: itemInfo = { title, price, itemURL: URL, imageURL };
-          return info;
-        });
+      const imageElement = await item.findElement(By.css("img"));
+      const imageURL = await imageElement.getAttribute("src");
 
-        return Promise.all(results);
-      });
-    });
+      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      items.push(info);
+    }
+
+    return items;
   } catch (err) {
     console.error(err);
     return err;

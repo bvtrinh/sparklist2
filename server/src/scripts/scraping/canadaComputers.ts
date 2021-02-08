@@ -1,4 +1,4 @@
-import { By, Key, until } from "selenium-webdriver";
+import { By, until } from "selenium-webdriver";
 import { makeDriver, itemInfo } from "./index";
 
 const CANADA_COMPUTERS_URL =
@@ -17,26 +17,21 @@ const IMAGE_SELECTOR = "slick-image";
   @params
     url: link to a listing of an Canada Computers item
 */
-export const canadaComputersScrape = async (url: string) => {
+export const canadaComputersScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
 
   try {
-    // navigate to Newegg item page
-    return driver.get(url).then(async () => {
-      const title = await (
-        await (await driver).findElement(By.className(TITLE_IDENTIFIER))
-      ).getText();
-      const priceText = await (
-        await (await driver).findElement(By.className(PRICE_IDENTIFIER))
-      ).getText();
-      const price = +priceText.substring(1);
+    // navigate to Canada Computers item page
+    await driver.get(url);
+    const title = await (await driver.findElement(By.className(TITLE_IDENTIFIER))).getText();
+    const priceText = await (await driver.findElement(By.className(PRICE_IDENTIFIER))).getText();
+    const price = +priceText.substring(1);
 
-      const imageElement = await (await driver).findElement(By.className(IMAGE_SELECTOR));
-      const imageURL = await imageElement.getAttribute("src");
+    const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
+    const imageURL = await imageElement.getAttribute("src");
 
-      const info: itemInfo = { title, price, itemURL: url, imageURL };
-      return info;
-    });
+    const info: itemInfo = { title, price, itemURL: url, imageURL };
+    return info;
   } catch (err) {
     console.error(err);
     return err;
@@ -51,43 +46,41 @@ export const canadaComputersScrape = async (url: string) => {
   @params
     input: a search query for items on Canada Computers
 */
-export const massCanadaComputersScrape = async (input: string) => {
+export const massCanadaComputersScrape = async (input: string): Promise<itemInfo[]> => {
   const driver = makeDriver();
 
   //create search query string
   const searchQuery = input.replace(" ", "+");
 
   try {
-    // navigate to Newegg)
-    return await driver.get(CANADA_COMPUTERS_URL + searchQuery).then(async () => {
-      // wait for page to load
-      await driver.wait(until.elementLocated(By.id(PRODUCT_LIST_IDENTIFIER)), 5000);
-      return await (await driver)
-        .findElements(By.className(RESULTS_LIST_IDENTIFIER))
-        .then(async (items) => {
-          // scrape all search results for title and price
-          let results = items.map(async (item) => {
-            const title = await (
-              await item.findElement(By.className(RESULTS_TITLE_IDENTIFIER))
-            ).getText();
+    // navigate to Canada Computers
+    await driver.get(CANADA_COMPUTERS_URL + searchQuery);
+    // wait for page to load
+    await driver.wait(until.elementLocated(By.id(PRODUCT_LIST_IDENTIFIER)), 5000);
+    const searchResults = await driver.findElements(By.className(RESULTS_LIST_IDENTIFIER));
 
-            const priceText = await (
-              await item.findElement(By.className(RESULTS_PRICE_INDENTIFIER))
-            ).getText();
-            const price = +priceText.split(" ")[0].substring(1).replace(",", "");
+    // scrape all search results for title and price
+    const items: itemInfo[] = [];
+    for (const item of searchResults) {
+      const title = await (
+        await item.findElement(By.className(RESULTS_TITLE_IDENTIFIER))
+      ).getText();
 
-            const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
+      const priceText = await (
+        await item.findElement(By.className(RESULTS_PRICE_INDENTIFIER))
+      ).getText();
+      const price = +priceText.split(" ")[0].substring(1).replace(",", "");
 
-            const imageElement = await item.findElement(By.css("img"));
-            const imageURL = await imageElement.getAttribute("src");
+      const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
 
-            const info: itemInfo = { title, price, itemURL: URL, imageURL };
-            return info;
-          });
+      const imageElement = await item.findElement(By.css("img"));
+      const imageURL = await imageElement.getAttribute("src");
 
-          return Promise.all(results);
-        });
-    });
+      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      items.push(info);
+    }
+
+    return items;
   } catch (err) {
     console.error(err);
     return err;

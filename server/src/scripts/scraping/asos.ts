@@ -17,24 +17,21 @@ const SEARCH_IMAGE = ".//img[@data-auto-id='productTileImage']";
   @params
     url: link to a listing of an Asos item
 */
-export const asosScrape = async (url: string) => {
+export const asosScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
 
   try {
     // navigate to bestbuy item page
-    return driver.get(url).then(async () => {
-      const title = await (await (await driver).findElement(By.css(TITLE))).getText();
+    await driver.get(url);
+    const title = await (await driver.findElement(By.css(TITLE))).getText();
 
-      const priceText = await (await (await driver).findElement(By.xpath(PRICE))).getText();
-      const price = +priceText.substring(2);
+    const priceText = await (await driver.findElement(By.xpath(PRICE))).getText();
+    const price = +priceText.substring(2);
 
-      const imageURL = await (
-        await (await driver).findElement(By.className(IMAGE_TAG))
-      ).getAttribute("src");
+    const imageURL = await (await driver.findElement(By.className(IMAGE_TAG))).getAttribute("src");
 
-      const info: itemInfo = { title, price, itemURL: url, imageURL };
-      return info;
-    });
+    const info: itemInfo = { title, price, itemURL: url, imageURL };
+    return info;
   } catch (err) {
     console.error(err);
     return err;
@@ -49,7 +46,7 @@ export const asosScrape = async (url: string) => {
   @params
     input: a search query for items on Asos
 */
-export const massAsosScrape = async (input: string) => {
+export const massAsosScrape = async (input: string): Promise<itemInfo[]> => {
   const driver = makeDriver();
 
   // create search query string
@@ -57,36 +54,32 @@ export const massAsosScrape = async (input: string) => {
 
   try {
     // navigate to ASOS
-    return await (await driver).get(ASOS_URL + searchQuery).then(async () => {
-      return await (await driver).findElements(By.xpath(SEARCH_RESULTS)).then(async (items) => {
-        // scrape all search results for title and price
-        let results = items.map(async (item) => {
-          // scroll page to load images
-          await scrollPage(driver, 3);
+    await driver.get(ASOS_URL + searchQuery);
+    const searchResults = await driver.findElements(By.xpath(SEARCH_RESULTS));
+    // scrape all search results for title and price
+    const items: itemInfo[] = [];
+    // scroll page to load images
+    await scrollPage(driver, 4);
+    for (const item of searchResults) {
+      const title = await (await item.findElement(By.xpath(SEARCH_TITLE))).getText();
 
-          const title = await (await item.findElement(By.xpath(SEARCH_TITLE))).getText();
+      let priceText: string;
+      try {
+        priceText = await (await item.findElement(By.xpath(SEARCH_SALE_PRICE))).getText();
+      } catch {
+        priceText = await (await item.findElement(By.xpath(SEARCH_PRICE))).getText();
+      }
+      const price = +priceText.substring(2);
 
-          let priceText: string;
-          try {
-            priceText = await (await item.findElement(By.xpath(SEARCH_SALE_PRICE))).getText();
-          } catch {
-            priceText = await (await item.findElement(By.xpath(SEARCH_PRICE))).getText();
-          }
-          const price = +priceText.substring(2);
+      const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
 
-          const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
+      const imageURL = await (await item.findElement(By.xpath(SEARCH_IMAGE))).getAttribute("src");
 
-          const imageURL = await (await item.findElement(By.xpath(SEARCH_IMAGE))).getAttribute(
-            "src"
-          );
+      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      items.push(info);
+    }
 
-          const info: itemInfo = { title, price, itemURL: URL, imageURL };
-          return info;
-        });
-
-        return Promise.all(results);
-      });
-    });
+    return items;
   } catch (err) {
     console.error(err);
     return err;

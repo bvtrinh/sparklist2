@@ -22,7 +22,7 @@ export const massTheSourceScrape = async (urls: string[]): Promise<itemInfo[]> =
     for (const url of urls) {
       await driver.get(url);
       await driver.executeScript(SCROLL_SCRIPT);
-      await (await driver).sleep(5000);
+      await driver.sleep(5000);
       const itemGrid = await driver.findElements(By.css(GRID_ITEM_CLASS));
 
       let title: string, price: number, itemURL: string, imageURL: string;

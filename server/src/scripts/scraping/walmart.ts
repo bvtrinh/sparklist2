@@ -17,7 +17,7 @@ export const walmartScrape = async (url: string): Promise<itemInfo> => {
 
   try {
     await driver.get(url);
-    const title = await await (await driver.findElement(By.css(TITLE_CLASS))).getText();
+    const title = await (await driver.findElement(By.css(TITLE_CLASS))).getText();
     const price = +(await (await (await driver.findElement(By.css(PRICE_CLASS))).getText()).replace(
       FLOAT_REGEX,
       ""
