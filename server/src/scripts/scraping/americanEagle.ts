@@ -28,9 +28,9 @@ export const americanEagleScrape = async (url: string): Promise<itemInfo> => {
     await driver.get(url);
     await driver.sleep(3000);
     const title = await (await driver.findElement(By.className(TITLE_CLASS))).getText();
-    let price = +(await (
+    let price = +(
       await (await (await driver).findElement(By.css(LIST_PRICE_CLASS))).getText()
-    ).replace(FLOAT_REGEX, ""));
+    ).replace(FLOAT_REGEX, "");
 
     const checkSalePrice = await driver.findElements(By.css(SALE_PRICE_CLASS));
     if ((await checkSalePrice.length) > 0) {
