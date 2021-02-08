@@ -1,4 +1,4 @@
-import { By, Key, until } from "selenium-webdriver";
+import { By, until } from "selenium-webdriver";
 import { makeDriver, itemInfo } from "./index";
 
 const CANADA_COMPUTERS_URL =
@@ -17,7 +17,7 @@ const IMAGE_SELECTOR = "slick-image";
   @params
     url: link to a listing of an Canada Computers item
 */
-export const canadaComputersScrape = async (url: string) => {
+export const canadaComputersScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
 
   try {
@@ -46,7 +46,7 @@ export const canadaComputersScrape = async (url: string) => {
   @params
     input: a search query for items on Canada Computers
 */
-export const massCanadaComputersScrape = async (input: string) => {
+export const massCanadaComputersScrape = async (input: string): Promise<itemInfo[]> => {
   const driver = makeDriver();
 
   //create search query string

@@ -15,7 +15,7 @@ const IMAGE_SELECTOR = "product-view-img-original";
   @params
     url: link to a listing of an Newegg item
 */
-export const neweggScrape = async (url: string) => {
+export const neweggScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
 
   try {
@@ -45,7 +45,7 @@ export const neweggScrape = async (url: string) => {
   @params
     input: a search query for items on Newegg
 */
-export const massNeweggScrape = async (input: string) => {
+export const massNeweggScrape = async (input: string): Promise<itemInfo[]> => {
   const driver = makeDriver();
 
   //create search query string

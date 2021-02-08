@@ -17,7 +17,7 @@ const SEARCH_IMAGE = ".//img[@data-auto-id='productTileImage']";
   @params
     url: link to a listing of an Asos item
 */
-export const asosScrape = async (url: string) => {
+export const asosScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
 
   try {
@@ -46,7 +46,7 @@ export const asosScrape = async (url: string) => {
   @params
     input: a search query for items on Asos
 */
-export const massAsosScrape = async (input: string) => {
+export const massAsosScrape = async (input: string): Promise<itemInfo[]> => {
   const driver = makeDriver();
 
   // create search query string

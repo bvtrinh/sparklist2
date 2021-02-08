@@ -15,7 +15,7 @@ const SEARCH_IMAGE_SELECTOR = ".//img[@class='productItemImage_1en8J']";
   @params
     url: link to a listing of an Bestbuy item
 */
-export const bestBuyScrape = async (url: string) => {
+export const bestBuyScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
 
   try {
@@ -45,7 +45,7 @@ export const bestBuyScrape = async (url: string) => {
   @params
     input: a search query for items on BestBuy
 */
-export const massBestBuyScrape = async (input: string) => {
+export const massBestBuyScrape = async (input: string): Promise<itemInfo[]> => {
   const driver = makeDriver();
 
   try {

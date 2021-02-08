@@ -15,7 +15,7 @@ const IMAGE_SELECTOR = "//span[@class='Image Image--product Image--square']/img"
   @params
     url: link to a listing of an Footlocker item
 */
-export const footlockerScrape = async (url: string) => {
+export const footlockerScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
 
   try {
@@ -45,7 +45,7 @@ export const footlockerScrape = async (url: string) => {
   @params
     input: a search query for items on Footlocker
 */
-export const massFootlockerScrape = async (input: string) => {
+export const massFootlockerScrape = async (input: string): Promise<itemInfo[]> => {
   const driver = makeDriver();
 
   //create search query string
