@@ -19,7 +19,7 @@ export const footlockerScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
 
   try {
-    // navigate to bestbuy item page
+    // navigate to Foot Locker item page
     await driver.get(url);
     const title = await (await driver.findElement(By.className(TITLE))).getText();
 

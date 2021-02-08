@@ -53,7 +53,7 @@ export const massCanadaComputersScrape = async (input: string): Promise<itemInfo
   const searchQuery = input.replace(" ", "+");
 
   try {
-    // navigate to Newegg)
+    // navigate to Canada Computers
     await driver.get(CANADA_COMPUTERS_URL + searchQuery);
     // wait for page to load
     await driver.wait(until.elementLocated(By.id(PRODUCT_LIST_IDENTIFIER)), 5000);
