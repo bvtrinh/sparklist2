@@ -18,8 +18,8 @@ export const makeDriver = (): ThenableWebDriver => {
 
 export type itemInfo = {
   title: string;
-  price: number;
-  itemURL: string;
+  currentPrice: number;
+  url: string;
   imageURL?: string;
 };
 

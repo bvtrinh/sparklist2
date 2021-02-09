@@ -24,7 +24,7 @@ export const walmartScrape = async (url: string): Promise<itemInfo> => {
     ));
     const imageURL = await (await driver.findElement(By.css(IMAGE_CLASS))).getAttribute("src");
 
-    const info: itemInfo = { title, price, imageURL, itemURL: url };
+    const info: itemInfo = { title, currentPrice: price, url, imageURL };
     return info;
   } catch (err) {
     console.error(err);

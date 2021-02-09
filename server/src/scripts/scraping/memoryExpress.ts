@@ -34,7 +34,7 @@ export const memoryExpressScrape = async (url: string): Promise<itemInfo> => {
 
     const imageURL = await (await driver.findElement(By.css(IMAGE_CLASS))).getAttribute("src");
 
-    const info: itemInfo = { title, price, imageURL, itemURL: url };
+    const info: itemInfo = { title, currentPrice: price, url, imageURL };
     return info;
   } catch (err) {
     console.error(err);
@@ -76,7 +76,7 @@ export const massMemoryExpressScrape = async (urls: string[]): Promise<itemInfo[
           "src"
         );
 
-        items.push({ title, price, itemURL, imageURL });
+        items.push({ title, currentPrice: price, url: itemURL, imageURL });
       }
     }
 

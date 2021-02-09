@@ -29,7 +29,7 @@ export const footlockerScrape = async (url: string): Promise<itemInfo> => {
     const imageElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
     const imageURL = await imageElement.getAttribute("src");
 
-    const info: itemInfo = { title, price, itemURL: url, imageURL };
+    const info: itemInfo = { title, currentPrice: price, url, imageURL };
     return info;
   } catch (err) {
     console.error(err);
@@ -72,14 +72,14 @@ export const massFootlockerScrape = async (input: string): Promise<itemInfo[]> =
         priceText = await (await item.findElement(By.className(PRICE))).getText();
       }
 
-      const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
+      const itemURL = await (await item.findElement(By.css("a"))).getAttribute("href");
 
       const imageElement = item.findElement(By.css("img"));
       const imageURL = await imageElement.getAttribute("src");
 
       const price = +priceText.substring(1);
 
-      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      const info: itemInfo = { title, currentPrice: price, url: itemURL, imageURL };
       items.push(info);
     }
 

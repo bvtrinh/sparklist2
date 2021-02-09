@@ -38,7 +38,7 @@ export const americanEagleScrape = async (url: string): Promise<itemInfo> => {
     }
     const imageURL = await (await driver.findElement(By.css(IMAGE_CLASS))).getAttribute("src");
 
-    const info: itemInfo = { title, price, imageURL, itemURL: url };
+    const info: itemInfo = { title, currentPrice: price, url, imageURL };
     return info;
   } catch (err) {
     console.error(err);
@@ -89,7 +89,7 @@ export const massAmericanEagleScrape = async (urls: string[]): Promise<itemInfo[
         imageURL = await (await item.findElement(By.css(GRID_ITEM_IMAGE_URL_CLASS))).getAttribute(
           "src"
         );
-        items.push({ title, price, itemURL, imageURL });
+        items.push({ title, currentPrice: price, url: itemURL, imageURL });
       }
     }
 

@@ -29,7 +29,7 @@ export const neweggScrape = async (url: string): Promise<itemInfo> => {
     const imageElement = await driver.findElement(By.className(IMAGE_SELECTOR));
     const imageURL = await imageElement.getAttribute("src");
 
-    const info: itemInfo = { title, price, itemURL: url, imageURL };
+    const info: itemInfo = { title, currentPrice: price, url, imageURL };
     return info;
   } catch (err) {
     console.error(err);
@@ -64,12 +64,12 @@ export const massNeweggScrape = async (input: string): Promise<itemInfo[]> => {
       const priceText = await (await item.findElement(By.className(RESULT_PRICE))).getText();
       const price = +priceText.split(" ")[0].substring(1);
 
-      const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
+      const itemURL = await (await item.findElement(By.css("a"))).getAttribute("href");
 
       const imageElement = await item.findElement(By.css("img"));
       const imageURL = await imageElement.getAttribute("src");
 
-      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      const info: itemInfo = { title, currentPrice: price, url: itemURL, imageURL };
       items.push(info);
     }
 
