@@ -7,10 +7,11 @@ import {
   getOneItem,
   updateItem,
 } from "../controllers/item";
+import { itemURLValidation } from "../middleware/validation";
 
 const router = Router();
 
-router.post("/", createItem);
+router.post("/", itemURLValidation, createItem);
 router.get("/", getAllItems);
 router.get("/:id", getOneItem);
 router.post("/:id", updateItem);

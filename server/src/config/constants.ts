@@ -8,3 +8,5 @@ export const SCROLL_SCRIPT =
 
 export const SESSION_NAME = "SESSION_ID";
 export const REDIRECT_CLIENT_URL = "http://localhost:3000/profile";
+
+export const MIN_LEN = 1;
