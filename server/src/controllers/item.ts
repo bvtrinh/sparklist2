@@ -45,7 +45,7 @@ export const createItem: RequestHandler = async (req, res) => {
   // Write to DB
   try {
     await newItem.save();
-    return res.status(200).json({ payload: newItem, message: "Created the Item.", error: false });
+    return res.status(201).json({ payload: newItem, message: "Created the Item.", error: false });
   } catch (err) {
     console.log(err);
 

@@ -44,7 +44,7 @@ describe("Item Endpoints", () => {
 
   test("create an item", async () => {
     const res = await request.post("/api/i/").send(itemData);
-    expect(res.statusCode).toEqual(200);
+    expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty("payload");
     const payload = res.body.payload;
 
