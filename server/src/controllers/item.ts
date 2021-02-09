@@ -1,30 +1,26 @@
 import { RequestHandler } from "express";
+import { validationResult } from "express-validator";
+import { scrapeURL } from "../middleware/scraping";
 import { Item, IItem } from "../models/item.model";
-
-const validateItem = (item: any) => {
-  for (var key in item) {
-    if (item[key] == "") return false;
-  }
-  return true;
-};
+import { itemInfo } from "../scripts/scraping";
 
 export const createItem: RequestHandler = async (req, res) => {
-  const itemData = req.body;
+  const { url } = req.body;
 
-  // validate itemData
-  if (!validateItem(itemData)) {
-    return res.status(422).json({
-      message: `Invalid item data`,
-      error: true,
-    });
+  // validate URL
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
   }
+
+  const itemData = await scrapeURL(url);
 
   // create item object with Item Interface
   const newItem: IItem = new Item({
     ...itemData,
     priceHistory: [
       {
-        price: itemData.currentPrice,
+        price: itemData?.currentPrice,
         date: new Date(),
       },
     ],
