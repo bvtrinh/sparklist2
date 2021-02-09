@@ -60,24 +60,6 @@ export const createItem: RequestHandler = async (req, res) => {
   }
 };
 
-export const getAllItems: RequestHandler = async (req, res) => {
-  try {
-    const items = await Item.find();
-    return res.status(200).json({
-      payload: items,
-      message: "Success, retrieved all Items",
-      error: false,
-    });
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({
-      payload: err,
-      message: "Error retrieving Items",
-      error: true,
-    });
-  }
-};
-
 export const getOneItem: RequestHandler = async (req, res) => {
   try {
     const id = req.params.id;
@@ -97,7 +79,7 @@ export const getOneItem: RequestHandler = async (req, res) => {
   }
 };
 
-export const getItemsPaginated: RequestHandler = async (req, res) => {
+export const getAllItems: RequestHandler = async (req, res) => {
   const limit: number = +req.params.limit;
   const page: number = +req.params.page;
 
