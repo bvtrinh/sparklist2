@@ -71,17 +71,6 @@ describe("Item Endpoints", () => {
     expect(payload.imageURL).toEqual(itemData.imageURL);
   });
 
-  test("update item", async () => {
-    await request.post(`/api/i/${itemId}`).send(updatedItemData);
-    const res = await request.get(`/api/i/${itemId}`);
-    const payload = res.body.payload;
-
-    expect(payload.title).toEqual(updatedItemData.title);
-    expect(payload.currentPrice).toEqual(updatedItemData.currentPrice);
-    expect(payload.url).toEqual(updatedItemData.url);
-    expect(payload.imageURL).toEqual(updatedItemData.imageURL);
-  });
-
   test("create second item", async () => {
     const res = await request.post("/api/i/").send(secondItemData);
     expect(res.statusCode).toEqual(200);
