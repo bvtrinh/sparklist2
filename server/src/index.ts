@@ -68,7 +68,7 @@ if (process.env.NODE_ENV === "test") {
   // export app for jest testing
   module.exports = app;
 } else {
-  app.listen(port, () =>
-    console.log(`Running ${NODE_ENV} environment.\nServer started on port ${port}`)
+  app.listen(PORT, () =>
+    console.log(`Running ${NODE_ENV} environment.\nServer started on port ${PORT}`)
   );
 }
