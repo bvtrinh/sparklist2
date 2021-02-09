@@ -4,6 +4,14 @@ import { scrapeURL } from "../middleware/scraping";
 import { Item, IItem } from "../models/item.model";
 import { itemInfo } from "../scripts/scraping";
 
+const validateItemData = (itemData: itemInfo | undefined) => {
+  if (!itemData) return false;
+  if (itemData.title.length === 0 || !itemData.currentPrice) {
+    return false;
+  }
+  return true;
+};
+
 export const createItem: RequestHandler = async (req, res) => {
   const { url } = req.body;
 
@@ -14,6 +22,14 @@ export const createItem: RequestHandler = async (req, res) => {
   }
 
   const itemData = await scrapeURL(url);
+
+  // validate scraped data
+  if (!validateItemData(itemData)) {
+    return res.status(422).json({
+      message: `Error fetching item data`,
+      error: true,
+    });
+  }
 
   // create item object with Item Interface
   const newItem: IItem = new Item({
