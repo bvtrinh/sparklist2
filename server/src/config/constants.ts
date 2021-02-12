@@ -1,5 +1,8 @@
 // Any constants that is going to used throughout the project store in here
 
+export const DEV_ENV = "../.env.development";
+export const TEST_ENV = "../.env.test";
+
 export const FLOAT_REGEX = /[^\d.-]/g;
 export const LINE_BREAK_REGEX = /\r?\n|\r/;
 

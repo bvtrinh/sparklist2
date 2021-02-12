@@ -1,7 +1,12 @@
 import { join, resolve } from "path";
+import { SESSION_NAME, DEV_ENV, TEST_ENV } from "./config/constants";
+
 if (process.env.NODE_ENV === "development") {
   // eslint-disable-next-line
-  require("dotenv").config({ path: resolve(__dirname, "../.env.development") });
+  require("dotenv").config({ path: resolve(__dirname, DEV_ENV) });
+} else if (process.env.NODE_ENV === "test") {
+  // eslint-disable-next-line
+  require("dotenv").config({ path: resolve(__dirname, TEST_ENV) });
 }
 
 import express, { json, urlencoded } from "express";
@@ -11,9 +16,8 @@ import { connect } from "./models/connect";
 import Routes from "./routes";
 import passport from "passport";
 import Mongoose from "mongoose";
-import { SESSION_NAME } from "./config/constants";
-
 import session from "express-session";
+
 const MongoStore = connectMongo(session);
 declare module "express-session" {
   export interface SessionData {
