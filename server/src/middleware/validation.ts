@@ -1,5 +1,6 @@
 import { body } from "express-validator";
 import { MIN_LEN } from "../config/constants";
+import { itemInfo } from "../scripts/scraping/index";
 
 // url whitelist for supported sites
 const urlOptions = {
@@ -20,3 +21,11 @@ const urlOptions = {
 export const itemURLValidation = [
   body("url", "Unsupported site").exists().isURL(urlOptions).isLength({ min: MIN_LEN }),
 ];
+
+export const validateItemData = (itemData: itemInfo | undefined) => {
+  if (!itemData) return false;
+  if (itemData.title.length === 0 || !itemData.currentPrice) {
+    return false;
+  }
+  return true;
+};

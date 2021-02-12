@@ -2,15 +2,7 @@ import { RequestHandler } from "express";
 import { validationResult } from "express-validator";
 import { scrapeURL } from "../middleware/scraping";
 import { Item, IItem } from "../models/item.model";
-import { itemInfo } from "../scripts/scraping";
-
-const validateItemData = (itemData: itemInfo | undefined) => {
-  if (!itemData) return false;
-  if (itemData.title.length === 0 || !itemData.currentPrice) {
-    return false;
-  }
-  return true;
-};
+import { validateItemData } from "../middleware/validation";
 
 export const createItem: RequestHandler = async (req, res) => {
   const { url } = req.body;
