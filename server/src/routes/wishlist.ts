@@ -3,6 +3,7 @@ import {
   addItem,
   createWishlist,
   deleteWishlist,
+  getOneWishlist,
   getOwnWishlists,
   getSharedWishlists,
 } from "../controllers/wishlist";
@@ -10,6 +11,7 @@ import {
 const router = Router();
 
 router.post("/", createWishlist);
+router.get("/id/:id", getOneWishlist);
 router.get("/", getOwnWishlists);
 router.get("/shared", getSharedWishlists);
 router.delete("/", deleteWishlist);
