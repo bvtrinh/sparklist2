@@ -64,3 +64,22 @@ export const getSharedWishlists: RequestHandler = async (req, res) => {
     });
   }
 };
+
+export const deleteWishlist: RequestHandler = async (req, res) => {
+  const { userId, wishlistId } = req.body;
+
+  try {
+    await Wishlist.deleteOne({ _id: wishlistId, owner: userId });
+    return res.status(200).json({
+      message: "Deleted the wishlist",
+      error: false,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      payload: err,
+      message: "Error while deleting wishlists",
+      error: true,
+    });
+  }
+};
