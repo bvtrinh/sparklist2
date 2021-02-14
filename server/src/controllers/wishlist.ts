@@ -78,7 +78,33 @@ export const deleteWishlist: RequestHandler = async (req, res) => {
     console.log(err);
     return res.status(500).json({
       payload: err,
-      message: "Error while deleting wishlists",
+      message: "Error while deleting wishlist",
+      error: true,
+    });
+  }
+};
+
+export const addItem: RequestHandler = async (req, res) => {
+  const { itemId, wishlistId, userId } = req.body;
+
+  try {
+    let wishlist: IWishlist = await Wishlist.findOne({ _id: wishlistId, owner: userId });
+
+    if (wishlist) {
+      wishlist.items.push(itemId);
+      await wishlist.save();
+      return res.status(200).json({
+        message: "Item added to wishlist",
+        error: false,
+      });
+    } else {
+      throw new Error("Cannot find wishlist.");
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      payload: err,
+      message: "Error while adding item to wishlist",
       error: true,
     });
   }

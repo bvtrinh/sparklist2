@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { deleteModel } from "mongoose";
 import {
+  addItem,
   createWishlist,
   deleteWishlist,
   getOwnWishlists,
@@ -13,5 +13,6 @@ router.post("/", createWishlist);
 router.get("/", getOwnWishlists);
 router.get("/shared", getSharedWishlists);
 router.delete("/", deleteWishlist);
+router.post("/addItem", addItem);
 
 export default router;
