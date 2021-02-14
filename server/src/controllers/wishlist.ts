@@ -136,3 +136,29 @@ export const addItem: RequestHandler = async (req, res) => {
     });
   }
 };
+
+export const updateWishlist: RequestHandler = async (req, res) => {
+  const { id, name, items, sharedUsers } = req.body;
+
+  try {
+    const wishlist = await Wishlist.findById(id);
+    wishlist.name = name;
+    wishlist.items = items;
+    wishlist.sharedUsers = sharedUsers;
+    wishlist.modifyDate = new Date();
+
+    await wishlist.save();
+    return res.status(200).json({
+      payload: wishlist,
+      message: "Wishlist updated successfully",
+      error: false,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      payload: err,
+      message: "Error while updating wishlist",
+      error: true,
+    });
+  }
+};
