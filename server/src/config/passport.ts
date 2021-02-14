@@ -1,43 +1,81 @@
 import { OAuth2Strategy as GoogleStrategy, VerifyFunction, Profile } from "passport-google-oauth";
+import { Request } from "express";
 import { Strategy as TwitterStrategy } from "passport-twitter";
 import { User } from "../models/user.model";
+import { Invite } from "../models/invite.model";
 
-const googleVerifyCallback = async (
+const validateInvite = async (inviteID: string) => {
+  return (await Invite.findByIdAndDelete(inviteID)) ? true : false;
+};
+
+const googleSignUpCallback = async (
+  req: Request,
   accessToken: string,
   refreshToken: string,
   profile: Profile,
   done: VerifyFunction
 ) => {
-  const email = profile.emails?.[0].value;
   try {
-    const existingUser = await User.findOne({ email });
-    // User doesn't exist; create an account
-    if (!existingUser) {
-      const newUser = new User({
-        email: email,
-        firstName: profile.name?.givenName,
-        lastName: profile.name?.familyName,
-      });
+    const email = profile.emails?.[0].value;
+    const inviteID = req.query.state as string;
 
-      await newUser.save();
-      return done(null, newUser);
-    }
+    if (!(await validateInvite(inviteID)))
+      return done(null, false, { message: "Invalid Invite link." });
 
-    return done(null, existingUser);
+    const newUser = new User({
+      email: email,
+      firstName: profile.name?.givenName,
+      lastName: profile.name?.familyName,
+    });
+
+    await newUser.save();
+    return done(null, newUser, { message: "Sucessfully created account!" });
   } catch (err) {
     console.error(err);
     // TODO: Display error on client
-    return done("Unable to authenticate with Google");
+    return done(null, false, { message: "Unable to sign up with Google." });
   }
 };
 
-export const passportGoogle = new GoogleStrategy(
+const googleLoginCallback = async (
+  accessToken: string,
+  refreshToken: string,
+  profile: Profile,
+  done: VerifyFunction
+) => {
+  try {
+    const email = profile.emails?.[0].value;
+    const existingUser = await User.findOne({ email });
+
+    if (!existingUser) {
+      throw new Error("No account associated with that email. You need an invite link.");
+    }
+
+    return done(undefined, existingUser, { message: "Sucessful login." });
+  } catch (err) {
+    console.error(err);
+    // TODO: Display error on client
+    return done(undefined, false, { message: "Unable to sign up with Google." });
+  }
+};
+
+export const passportGoogleLogin = new GoogleStrategy(
   {
     clientID: process.env.GOOGLE_CLIENT_ID as string,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    callbackURL: `${process.env.API_URL}/api/u/google/callback`,
+    callbackURL: `${process.env.API_URL}/api/u/google-login/callback`,
   },
-  googleVerifyCallback
+  googleLoginCallback
+);
+
+export const passportGoogleSignUp = new GoogleStrategy(
+  {
+    passReqToCallback: true,
+    clientID: process.env.GOOGLE_CLIENT_ID as string,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    callbackURL: `${process.env.API_URL}/api/u/google-signup/callback`,
+  },
+  googleSignUpCallback
 );
 
 const twitterVerifyCallback = async (

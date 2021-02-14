@@ -16,12 +16,13 @@ import { connect } from "./models/connect";
 import Routes from "./routes";
 import passport from "passport";
 import Mongoose from "mongoose";
+import { passportGoogleLogin, passportGoogleSignUp, passportTwitter } from "./config/passport";
 import session from "express-session";
-
+import { IUser } from "./models/user.model";
 const MongoStore = connectMongo(session);
 declare module "express-session" {
   export interface SessionData {
-    passport: { [key: string]: string };
+    passport: { user: IUser };
   }
 }
 
@@ -54,6 +55,7 @@ app.use(
 );
 
 app.use(passport.initialize());
+app.use(passport.session());
 passport.serializeUser((user, done) => {
   done(undefined, user);
 });
@@ -61,6 +63,10 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((obj: any, done) => {
   done(null, obj);
 });
+
+passport.use("google-login", passportGoogleLogin);
+passport.use("google-signup", passportGoogleSignUp);
+passport.use(passportTwitter);
 
 // Import in routes
 Routes(app);
