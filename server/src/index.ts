@@ -16,7 +16,7 @@ import { connect } from "./models/connect";
 import Routes from "./routes";
 import passport from "passport";
 import Mongoose from "mongoose";
-import { passportGoogleLogin, passportGoogleSignUp, passportTwitter } from "./config/passport";
+import { passportGoogleLogin, passportGoogleSignUp, passportTwitterLogin } from "./config/passport";
 import session from "express-session";
 import { IUser } from "./models/user.model";
 const MongoStore = connectMongo(session);
@@ -66,7 +66,7 @@ passport.deserializeUser((obj: any, done) => {
 
 passport.use("google-login", passportGoogleLogin);
 passport.use("google-signup", passportGoogleSignUp);
-passport.use(passportTwitter);
+passport.use("twitter-login", passportTwitterLogin);
 
 // Import in routes
 Routes(app);

@@ -55,3 +55,22 @@ export const googleSignUp: RequestHandler = (req, res, next) => {
     }
   )(req, res, next);
 };
+
+export const twitterSignUp: RequestHandler = (req, res, next) => {
+  passport.authenticate(
+    "twitter-signup",
+    {
+      state: req.params.invite,
+    },
+    (err, user, info) => {
+      if (err) {
+        console.error(info.message);
+        return res.status(400).redirect(REDIRECT_CLIENT_URL);
+      } else {
+        req.login(user, () => {
+          return res.status(201).redirect(REDIRECT_CLIENT_URL);
+        });
+      }
+    }
+  )(req, res, next);
+};

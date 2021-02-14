@@ -47,9 +47,8 @@ const googleLoginCallback = async (
     const email = profile.emails?.[0].value;
     const existingUser = await User.findOne({ email });
 
-    if (!existingUser) {
+    if (!existingUser)
       throw new Error("No account associated with that email. You need an invite link.");
-    }
 
     return done(undefined, existingUser, { message: "Sucessful login." });
   } catch (err) {
@@ -58,15 +57,6 @@ const googleLoginCallback = async (
     return done(undefined, false, { message: "Unable to sign up with Google." });
   }
 };
-
-export const passportGoogleLogin = new GoogleStrategy(
-  {
-    clientID: process.env.GOOGLE_CLIENT_ID as string,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    callbackURL: `${process.env.API_URL}/api/u/google-login/callback`,
-  },
-  googleLoginCallback
-);
 
 export const passportGoogleSignUp = new GoogleStrategy(
   {
@@ -78,42 +68,83 @@ export const passportGoogleSignUp = new GoogleStrategy(
   googleSignUpCallback
 );
 
-const twitterVerifyCallback = async (
+export const passportGoogleLogin = new GoogleStrategy(
+  {
+    clientID: process.env.GOOGLE_CLIENT_ID as string,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    callbackURL: `${process.env.API_URL}/api/u/google-login/callback`,
+  },
+  googleLoginCallback
+);
+
+const twitterSignUpCallback = async (
+  req: Request,
   accessToken: string,
   refreshToken: string,
   profile: Profile,
   done: VerifyFunction
 ) => {
-  const email = profile.emails?.[0].value;
   try {
-    const existingUser = await User.findOne({ email });
-    // User doesn't exist; create an account
-    if (!existingUser) {
-      const [firstName, lastName] = profile.displayName.split(" ");
-      const newUser = new User({
-        email,
-        firstName,
-        lastName,
-      });
+    const email = profile.emails?.[0].value;
+    const inviteID = req.query.state as string;
 
-      await newUser.save();
-      return done(null, newUser);
-    }
+    if (!(await validateInvite(inviteID)))
+      return done(null, false, { message: "Invalid Invite link." });
 
-    return done(null, existingUser);
+    const [firstName, lastName] = profile.displayName.split(" ");
+    const newUser = new User({
+      email,
+      firstName,
+      lastName,
+    });
+
+    await newUser.save();
+    return done(null, newUser, { message: "Sucessfully created account!" });
   } catch (err) {
     console.error(err);
     // TODO: Display error on client
-    return done("Unable to authenticate with Twitter");
+    return done(null, false, { message: "Unable to authenticate with Twitter" });
   }
 };
 
-export const passportTwitter = new TwitterStrategy(
+const twitterLoginCallback = async (
+  accessToken: string,
+  refreshToken: string,
+  profile: Profile,
+  done: VerifyFunction
+) => {
+  try {
+    const email = profile.emails?.[0].value;
+    const existingUser = await User.findOne({ email });
+
+    if (!existingUser)
+      throw new Error("No account associated with that email. You need an invite link.");
+
+    return done(null, existingUser, { message: "Sucessful login." });
+  } catch (err) {
+    console.error(err);
+    // TODO: Display error on client
+    return done(null, false, { message: "Unable to sign up with Twitter." });
+  }
+};
+
+export const passportTwitterSignUp = new TwitterStrategy(
+  {
+    passReqToCallback: true,
+    consumerKey: process.env.TWITTER_API_KEY as string,
+    consumerSecret: process.env.TWITTER_API_SECRET as string,
+    includeEmail: true,
+    callbackURL: `${process.env.API_URL}/api/u/twitter-signup/callback`,
+  },
+  twitterSignUpCallback
+);
+
+export const passportTwitterLogin = new TwitterStrategy(
   {
     consumerKey: process.env.TWITTER_API_KEY as string,
     consumerSecret: process.env.TWITTER_API_SECRET as string,
     includeEmail: true,
-    callbackURL: `${process.env.API_URL}/api/u/twitter/callback`,
+    callbackURL: `${process.env.API_URL}/api/u/twitter-login/callback`,
   },
-  twitterVerifyCallback
+  twitterLoginCallback
 );
