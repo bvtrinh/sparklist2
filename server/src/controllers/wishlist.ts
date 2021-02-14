@@ -21,3 +21,46 @@ export const createWishlist: RequestHandler = async (req, res) => {
     });
   }
 };
+
+export const getOwnWishlists: RequestHandler = async (req, res) => {
+  const { owner } = req.body;
+
+  try {
+    const wishlists = await Wishlist.find({ owner: owner });
+    return res.status(200).json({
+      payload: wishlists,
+      message: "Success retrieving own wishlists",
+      error: false,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      payload: err,
+      message: "Error retrieving own wishlists",
+      error: true,
+    });
+  }
+};
+
+export const getSharedWishlists: RequestHandler = async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    // get all wishlists and filter by shared users
+    const wishlists: IWishlist[] = await Wishlist.find();
+    const sharedWishlists = wishlists.filter((wishlist) => wishlist.sharedUsers.includes(id));
+
+    return res.status(200).json({
+      payload: sharedWishlists,
+      message: "Success retrieving shared wishlists",
+      error: false,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      payload: err,
+      message: "Error retrieving shared wishlists",
+      error: true,
+    });
+  }
+};
