@@ -118,6 +118,7 @@ export const addItem: RequestHandler = async (req, res) => {
 
     if (wishlist) {
       wishlist.items.push(itemId);
+      wishlist.modifyDate = new Date();
       await wishlist.save();
       return res.status(200).json({
         message: "Item added to wishlist",
