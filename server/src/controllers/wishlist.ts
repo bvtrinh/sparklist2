@@ -22,6 +22,32 @@ export const createWishlist: RequestHandler = async (req, res) => {
   }
 };
 
+export const getOneWishlist: RequestHandler = async (req, res) => {
+  const { wishlistId, userId } = req.body;
+
+  try {
+    const wishlist = await Wishlist.findOne({ _id: wishlistId });
+
+    // check if this user is either owner or wishlist is shared with them
+    if (!wishlist.owner === userId && !wishlist.sharedUsers.includes(userId)) {
+      throw new Error("You do not have the permissions to access this wishlist.");
+    }
+
+    return res.status(200).json({
+      payload: wishlist,
+      message: "Success retrieving one wishlist",
+      error: false,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      payload: err,
+      message: "Error retrieving one wishlist",
+      error: true,
+    });
+  }
+};
+
 export const getOwnWishlists: RequestHandler = async (req, res) => {
   const { owner } = req.body;
 
