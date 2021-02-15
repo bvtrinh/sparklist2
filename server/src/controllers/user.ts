@@ -57,20 +57,20 @@ export const googleSignUp: RequestHandler = (req, res, next) => {
 };
 
 export const twitterSignUp: RequestHandler = (req, res, next) => {
-  passport.authenticate(
-    "twitter-signup",
-    {
-      state: req.params.invite,
-    },
-    (err, user, info) => {
-      if (err) {
-        console.error(info.message);
-        return res.status(400).redirect(REDIRECT_CLIENT_URL);
-      } else {
-        req.login(user, () => {
-          return res.status(201).redirect(REDIRECT_CLIENT_URL);
-        });
-      }
+  // Bug with passport twitter sending two different endpoints to
+  // authenticate which overwrites the params
+  if (req.session.invite && req.session.invite.length >= 0)
+    req.session.invite?.push(req.params.invite);
+  else req.session.invite = [req.params.invite];
+
+  passport.authenticate("twitter-signup", { passReqToCallback: true }, function (err, user) {
+    if (err) {
+      console.error(err);
+      return res.status(400).redirect(REDIRECT_CLIENT_URL);
+    } else {
+      req.login(user, () => {
+        return res.status(201).redirect(REDIRECT_CLIENT_URL);
+      });
     }
-  )(req, res, next);
+  })(req, res, next);
 };

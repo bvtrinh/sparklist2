@@ -86,10 +86,10 @@ const twitterSignUpCallback = async (
 ) => {
   try {
     const email = profile.emails?.[0].value;
-    const inviteID = req.query.state as string;
+    const inviteID = req.session.invite?.[0] as string;
+    delete req.session.invite;
 
-    if (!(await validateInvite(inviteID)))
-      return done(null, false, { message: "Invalid Invite link." });
+    if (!(await validateInvite(inviteID))) return done({ message: "Invalid invite link" }, false);
 
     const [firstName, lastName] = profile.displayName.split(" ");
     const newUser = new User({
@@ -103,7 +103,7 @@ const twitterSignUpCallback = async (
   } catch (err) {
     console.error(err);
     // TODO: Display error on client
-    return done(null, false, { message: "Unable to authenticate with Twitter" });
+    return done({ message: "Unable to authenticate with Twitter" }, false);
   }
 };
 
