@@ -7,7 +7,7 @@ interface RouteParamsProps {
   id: string;
 }
 
-export const Invite = () => {
+export const Signup = () => {
   const { id } = useParams<RouteParamsProps>();
   return (
     <div>
