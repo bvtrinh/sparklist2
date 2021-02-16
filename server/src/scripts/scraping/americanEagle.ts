@@ -26,10 +26,10 @@ export const americanEagleScrape = async (url: string): Promise<itemInfo> => {
 
   try {
     await driver.get(url);
-    scrollPage(driver, 3);
+    await driver.sleep(1000);
     const title = driver.wait(until.elementLocated(By.className(TITLE_CLASS))).getText();
-    const price = driver.findElement(By.css(LIST_PRICE_CLASS)).getText();
-    const imageURL = driver.findElement(By.css(IMAGE_CLASS)).getAttribute("src");
+    const price = driver.wait(until.elementLocated(By.css(LIST_PRICE_CLASS))).getText();
+    const imageURL = driver.wait(until.elementLocated(By.css(IMAGE_CLASS))).getAttribute("src");
     const item = await Promise.all([title, price, imageURL]);
 
     const checkSalePrice = await driver.findElements(By.css(SALE_PRICE_CLASS));
