@@ -23,18 +23,17 @@ export const memoryExpressScrape = async (url: string): Promise<itemInfo> => {
 
   try {
     await driver.get(url);
-    const title = await (await (await driver.findElement(By.css(TITLE_CLASS))).getText()).replace(
-      LINE_BREAK_REGEX,
-      " "
-    );
-    const price = +(await (await (await driver.findElement(By.css(PRICE_CLASS))).getText()).replace(
-      FLOAT_REGEX,
-      ""
-    ));
+    const title = driver.findElement(By.css(TITLE_CLASS)).getText();
+    const price = driver.findElement(By.css(PRICE_CLASS)).getText();
+    const imageURL = driver.findElement(By.css(IMAGE_CLASS)).getAttribute("src");
+    const item = await Promise.all([title, price, imageURL]);
 
-    const imageURL = await (await driver.findElement(By.css(IMAGE_CLASS))).getAttribute("src");
-
-    const info: itemInfo = { title, price, imageURL, itemURL: url };
+    const info: itemInfo = {
+      title: item[0].replace(LINE_BREAK_REGEX, ""),
+      price: +item[1].replace(FLOAT_REGEX, ""),
+      itemURL: url,
+      imageURL: item[2],
+    };
     return info;
   } catch (err) {
     console.error(err);
