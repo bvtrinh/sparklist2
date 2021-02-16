@@ -24,21 +24,20 @@ export const amazonScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
   try {
     await driver.get(url);
-    const title = await (await driver.findElement(By.css(TITLE_CLASS))).getText();
+    const title = driver.findElement(By.css(TITLE_CLASS)).getText();
+    const price = await driver.findElement(By.css(LIST_PRICE_CLASS)).getText();
+    const imageURL = driver.findElement(By.css(IMAGE_CLASS)).getAttribute("src");
+    const checkSalePrice = driver.findElements(By.css(SALE_PRICE_CLASS));
+    const item = await Promise.all([title, price, imageURL, checkSalePrice]);
 
-    let price = 0;
-    const checkSalePrice = await driver.findElements(By.css(SALE_PRICE_CLASS));
-    if ((await checkSalePrice.length) > 0) {
-      price = +(await (await checkSalePrice[0].getText()).replace(FLOAT_REGEX, ""));
-    } else {
-      price = +(
-        await (await (await driver).findElement(By.css(LIST_PRICE_CLASS))).getText()
-      ).replace(FLOAT_REGEX, "");
-    }
+    if (item[3].length > 0) item[1] = await item[3][0].getText();
 
-    const imageURL = await (await driver.findElement(By.css(IMAGE_CLASS))).getAttribute("src");
-
-    const info: itemInfo = { title, price, imageURL, itemURL: url };
+    const info: itemInfo = {
+      title: item[0],
+      price: +item[1].replace(FLOAT_REGEX, ""),
+      imageURL: item[2],
+      itemURL: url,
+    };
     return info;
   } catch (err) {
     console.error(err);
