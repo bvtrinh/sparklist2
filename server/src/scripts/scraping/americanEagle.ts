@@ -1,5 +1,5 @@
-import { By, WebElement } from "selenium-webdriver";
-import { makeDriver, itemInfo } from "./index";
+import { By, WebElement, until } from "selenium-webdriver";
+import { makeDriver, itemInfo, scrollPage } from "./index";
 import { FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
 const TITLE_CLASS = "product-name cms-ae-product-name";
@@ -26,8 +26,11 @@ export const americanEagleScrape = async (url: string): Promise<itemInfo> => {
 
   try {
     await driver.get(url);
-    await driver.sleep(3000);
-    const title = await (await driver.findElement(By.className(TITLE_CLASS))).getText();
+    scrollPage(driver, 1);
+    const title = await (
+      await driver.wait(until.elementLocated(By.className(TITLE_CLASS)))
+    ).getText();
+    // const title = await (await driver.findElement(By.className(TITLE_CLASS))).getText();
     let price = +(
       await (await (await driver).findElement(By.css(LIST_PRICE_CLASS))).getText()
     ).replace(FLOAT_REGEX, "");
