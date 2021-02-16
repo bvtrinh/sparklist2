@@ -54,7 +54,7 @@ const testScrape = async (site: SupportedSite) => {
   expect(item.imageURL).toBeTruthy();
 };
 
-describe("testing last 5 scraping websites", () => {
+describe("testing all 10 scraping methods", () => {
   test("amazon item scraping", async () => {
     await testScrape(SupportedSite.AMAZON);
   });
