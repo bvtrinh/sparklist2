@@ -10,6 +10,9 @@ browserCapabilities.set("goog:chromeOptions", {
     "--disable-gpu",
     "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
   ],
+  prefs: {
+    "profile.managed_default_content_settings.images": 3,
+  },
 });
 
 export const makeDriver = (): ThenableWebDriver => {
