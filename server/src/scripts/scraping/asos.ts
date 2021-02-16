@@ -21,7 +21,7 @@ export const asosScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
 
   try {
-    // navigate to bestbuy item page
+    // navigate to asos item page
     await driver.get(url);
     const title = await (await driver.findElement(By.css(TITLE))).getText();
 
