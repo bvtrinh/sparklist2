@@ -21,15 +21,17 @@ export const footlockerScrape = async (url: string): Promise<itemInfo> => {
   try {
     // navigate to Foot Locker item page
     await driver.get(url);
-    const title = await (await driver.findElement(By.className(TITLE))).getText();
+    const title = driver.findElement(By.className(TITLE)).getText();
+    const price = driver.findElement(By.className(PRICE)).getText();
+    const imageURL = driver.findElement(By.xpath(IMAGE_SELECTOR)).getAttribute("src");
+    const item = await Promise.all([title, price, imageURL]);
 
-    const priceText = await (await driver.findElement(By.className(PRICE))).getText();
-    const price = +priceText.substring(1);
-
-    const imageElement = await driver.findElement(By.xpath(IMAGE_SELECTOR));
-    const imageURL = await imageElement.getAttribute("src");
-
-    const info: itemInfo = { title, price, itemURL: url, imageURL };
+    const info: itemInfo = {
+      title: item[0],
+      price: +item[1].substring(1),
+      itemURL: url,
+      imageURL: item[2],
+    };
     return info;
   } catch (err) {
     console.error(err);
