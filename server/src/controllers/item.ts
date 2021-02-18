@@ -39,7 +39,7 @@ export const createItem: RequestHandler = async (req, res) => {
     await newItem.save();
     return res.status(201).json({ payload: newItem, message: "Created the Item.", error: false });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     // In case of duplicate key errors
     if (err.code === 11000) {
@@ -62,7 +62,7 @@ export const getOneItem: RequestHandler = async (req, res) => {
       error: false,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       payload: err,
       message: "Error retrieving single Item",
@@ -86,7 +86,7 @@ export const getAllItems: RequestHandler = async (req, res) => {
       error: false,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       payload: err,
       message: `Error retrieving ${limit} Items`,
@@ -102,7 +102,7 @@ export const deleteItem: RequestHandler = async (req, res) => {
     await Item.deleteOne({ _id: id });
     return res.status(200).json({ message: "Deleted the Item.", error: false });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({ payload: err, message: err.message, error: true });
   }
 };
