@@ -7,42 +7,41 @@ import { scrapeURL } from "../middleware/scraping";
 import { validateItemData } from "../middleware/validation";
 
 export const updateItem = async () => {
-  console.log("updating item");
-
-  const itemID = "602499bf88b9e256e860fb12";
   // connect to db
   connect(false);
 
-  // Find the Item in DB
+  // Get all items in DB
   try {
-    const item = await Item.findById(itemID);
-    if (!item) {
+    const items = await Item.find();
+    if (!items) {
       // ID does not exist
-      throw new Error("ID does not exist");
+      throw new Error("No items in database");
     }
 
-    // scrape for updated info
-    const itemData = await scrapeURL(item.url);
+    for (let i = 0; i < items.length; i++) {
+      // scrape for updated info
+      const itemData = await scrapeURL(items[i].url);
 
-    if (itemData) {
-      // validate scraped data
-      if (!validateItemData(itemData)) {
-        throw new Error("Item data not valid");
+      if (itemData) {
+        // validate scraped data
+        if (!validateItemData(itemData)) {
+          throw new Error("Item data not valid");
+        }
+
+        // update item with new data
+        items[i].title = itemData.title;
+        items[i].currentPrice = itemData.currentPrice;
+        items[i].imageURL = itemData.imageURL;
+        items[i].modifyDate = new Date();
+        items[i].priceHistory.push({
+          price: itemData.currentPrice,
+          date: new Date(),
+        });
+
+        // Update on DB
+        await items[i].save();
+        console.log(`Updated: ${items[i].title}`);
       }
-
-      // update item with new data
-      item.title = itemData.title;
-      item.currentPrice = itemData.currentPrice;
-      item.imageURL = itemData.imageURL;
-      item.modifyDate = new Date();
-      item.priceHistory.push({
-        price: itemData.currentPrice,
-        date: new Date(),
-      });
-
-      // Update on DB
-      await Item.updateOne({ _id: itemID }, item);
-      console.log("Item updated on db");
     }
   } catch (err) {
     console.log(err);
