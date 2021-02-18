@@ -12,11 +12,11 @@ import {
 const router = Router();
 
 router.post("/", createWishlist);
-router.get("/id/:id", getOneWishlist);
-router.get("/", getOwnWishlists);
-router.get("/shared", getSharedWishlists);
 router.delete("/", deleteWishlist);
-router.post("/addItem", addItem);
 router.patch("/", updateWishlist);
+router.get("/one", getOneWishlist);
+router.get("/own", getOwnWishlists);
+router.get("/shared", getSharedWishlists);
+router.post("/addItem", addItem);
 
 export default router;
