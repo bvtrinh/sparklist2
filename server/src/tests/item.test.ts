@@ -16,7 +16,7 @@ const itemURLs = [
   { url: "https://www.footlocker.ca/en/product/jordan-retro-5-mens/4100636.html" },
 ];
 
-let items: IItem[] = [];
+const items: IItem[] = [];
 
 describe("Item Endpoints", () => {
   beforeAll(async () => {
@@ -68,17 +68,6 @@ describe("Item Endpoints", () => {
     expect(payload.imageURL).toBeTruthy();
 
     items.push(payload);
-  });
-
-  test("get all items", async () => {
-    const res = await request.get("/api/i/");
-    expect(res.status).toEqual(200);
-    expect(res.body).toHaveProperty("payload");
-
-    const payload = res.body.payload;
-    expect(payload.length).toEqual(2);
-    expect(payload[0].title).toEqual(items[0].title);
-    expect(payload[1].title).toEqual(items[1].title);
   });
 
   test("get paginated items", async () => {

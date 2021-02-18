@@ -5,7 +5,6 @@ import { itemURLValidation } from "../middleware/validation";
 const router = Router();
 
 router.post("/", itemURLValidation, createItem);
-router.get("/", getAllItems);
 router.get("/limit/:limit/page/:page", getAllItems);
 router.get("/:id", getOneItem);
 router.delete("/:id", deleteItem);
