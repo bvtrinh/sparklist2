@@ -42,10 +42,8 @@ export const validateWishlistName = async (wishlistData: any) => {
 
   for (let wishlist of wishlists) {
     if (wishlist.name === wishlistData.name) {
-      console.log("duplicate found");
       return false;
     }
   }
-  console.log("returning true");
   return true;
 };
