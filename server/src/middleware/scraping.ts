@@ -9,7 +9,7 @@ import { neweggScrape } from "../scripts/scraping/newegg";
 import { uniqloScrape } from "../scripts/scraping/uniqlo";
 import { walmartScrape } from "../scripts/scraping/walmart";
 
-enum SupportedURLs {
+export enum SupportedURLs {
   AMAZON = "www.amazon.ca",
   AEO = "www.ae.ca",
   ASOS = "www.asos.com",

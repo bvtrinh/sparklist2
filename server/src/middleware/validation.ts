@@ -1,20 +1,21 @@
 import { body } from "express-validator";
 import { MIN_LEN } from "../config/constants";
 import { itemInfo } from "../scripts/scraping/index";
+import { SupportedURLs } from "./scraping";
 
 // url whitelist for supported sites
 const urlOptions = {
   host_whitelist: [
-    "www.amazon.ca",
-    "www.ae.ca",
-    "www.asos.com",
-    "www.bestbuy.ca",
-    "www.canadacomputers.com",
-    "www.footlocker.ca",
-    "www.memoryexpress.com",
-    "www.newegg.ca",
-    "www.walmart.ca",
-    "www.uniqlo.com",
+    SupportedURLs.AMAZON,
+    SupportedURLs.AEO,
+    SupportedURLs.ASOS,
+    SupportedURLs.BESTBUY,
+    SupportedURLs.CANADA_COMPUTERS,
+    SupportedURLs.FOOTLOCKER,
+    SupportedURLs.MEMORY_EXPRESS,
+    SupportedURLs.NEWEGG,
+    SupportedURLs.WALMART,
+    SupportedURLs.UNIQLO,
   ],
 };
 
