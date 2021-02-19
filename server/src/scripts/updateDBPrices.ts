@@ -2,7 +2,7 @@ import { resolve } from "path";
 import { config } from "dotenv";
 config({ path: resolve(__dirname, "../../.env.development") });
 import { connect, disconnect } from "../models/connect";
-import { Item, IItem } from "../models/item.model";
+import { Item } from "../models/item.model";
 import { scrapeURL } from "../middleware/scraping";
 import { validateItemData } from "../middleware/validation";
 

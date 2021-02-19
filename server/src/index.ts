@@ -66,7 +66,7 @@ passport.deserializeUser((obj: any, done) => {
 Routes(app);
 
 // Conenct to
-connect();
+connect(process.env.NODE_ENV === "test" ? false : true);
 
 if (process.env.NODE_ENV === "test") {
   // export app for jest testing
