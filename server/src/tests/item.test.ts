@@ -43,7 +43,7 @@ describe("Item Endpoints", () => {
 
   test("add duplicate item", async () => {
     const res = await request.post("/api/i/").send(itemURLs[0]);
-    expect(res.status).toEqual(422);
+    expect(res.status).toEqual(200);
   });
 
   test("get 1 item", async () => {

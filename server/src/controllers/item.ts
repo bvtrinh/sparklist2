@@ -13,6 +13,14 @@ export const createItem: RequestHandler = async (req, res) => {
     return res.status(422).json({ errors: errors.array() });
   }
 
+  // check if item already exists, return item as payload if it does
+  const existingItem = await Item.findOne({ url: url });
+  if (existingItem) {
+    return res
+      .status(200)
+      .json({ payload: existingItem, message: "Found existing item.", error: false });
+  }
+
   const itemData = await scrapeURL(url);
 
   // validate scraped data
@@ -40,15 +48,6 @@ export const createItem: RequestHandler = async (req, res) => {
     return res.status(201).json({ payload: newItem, message: "Created the Item.", error: false });
   } catch (err) {
     console.error(err);
-
-    // In case of duplicate key errors
-    if (err.code === 11000) {
-      return res.status(422).json({
-        payload: err,
-        message: `Duplicate key error (${JSON.stringify(err.keyValue)})`,
-        error: true,
-      });
-    }
   }
 };
 
