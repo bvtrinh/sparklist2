@@ -3,7 +3,7 @@ import { INVITE_EXPIRY } from "../config/constants";
 
 export interface IInvite extends Document {
   creator: string;
-  expireAt?: Date;
+  createdAt?: Date;
 }
 
 const InviteSchema: Schema = new Schema({
