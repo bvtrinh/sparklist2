@@ -30,7 +30,6 @@ export const createInvite = async () => {
     const res = await axios.get("/api/u/create_invite");
     return res;
   } catch (err) {
-    console.log(err);
     return err.response;
   }
 };
