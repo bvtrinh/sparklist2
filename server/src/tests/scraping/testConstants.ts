@@ -9,7 +9,7 @@ export enum SupportedSite {
   FOOTLOCKER = "FOOTLOCKER",
   MEMORY_EXPRESS = "MEMORY_EXPRESS",
   NEWEGG = "NEWEGG",
-  WALMART = "WALMART",
+  THE_SOURCE = "THE_SOURCE",
   UNIQLO = "UNIQLO",
 }
 
@@ -54,9 +54,9 @@ export const TEST_URLS: SupportedSiteMap<string[]> = {
     "https://www.newegg.ca/black-nvidia-shield-tv-pro-digital-media-streamer/p/N82E16815351017?Item=N82E16815351017&cm_sp=Homepage_dailydeals-_-P3_15-351-017-_-02032021",
     "https://www.newegg.ca/corsair-16gb-288-pin-ddr4-sdram/p/N82E16820233859?Item=N82E16820233859&cm_sp=Homepage_MKPL-_-P1_20-233-859-_-02032021",
   ],
-  WALMART: [
-    "https://www.walmart.ca/en/ip/blue-microphones-yeti-usb-microphone-blackout-edition/PRD6ELCF922S7Z9?rrid=richrelevance",
-    "https://www.walmart.ca/en/ip/keurig-k-mini-single-serve-coffee-maker-black/6000198453943?rrid=richrelevance",
+  THE_SOURCE: [
+    "https://www.thesource.ca/en-ca/computers-tablets/computer-accessories/headsets-microphones/blue-microphones-yeti-nano-desktop-microphone---black/p/108092339",
+    "https://www.thesource.ca/en-ca/audio-headphones/headphones/on-ear-headphones/skullcandy-hesh-3-foldable-on-ear-bluetooth%c2%ae-wireless-headphone---moab-red/p/108084719",
   ],
   UNIQLO: [
     "https://www.uniqlo.com/ca/en/products/E433399-000?colorCode=COL00",
@@ -134,12 +134,12 @@ export const TEST_VALS: SupportedSiteMap<TestableValues[]> = {
         "CORSAIR Vengeance LPX 16GB (2 x 8GB) 288-Pin DDR4 SDRAM DDR4 3200 (PC4 25600) Intel XMP 2.0 Desktop Memory Model CMK16GX4M2B3200C16",
     },
   ],
-  WALMART: [
+  THE_SOURCE: [
     {
-      title: "Blue Microphones Yeti USB Microphone, Blackout Edition",
+      title: "Blue Microphones Yeti Nano Desktop Microphone - Black",
     },
     {
-      title: "Keurig® K-Mini® Single Serve Coffee Maker",
+      title: "Skullcandy HESH 3 Foldable On-ear Bluetooth® Wireless Headphone - Moab & Re",
     },
   ],
   UNIQLO: [

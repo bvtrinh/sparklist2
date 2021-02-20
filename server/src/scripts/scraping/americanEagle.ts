@@ -1,5 +1,5 @@
-import { By, WebElement } from "selenium-webdriver";
-import { makeDriver, itemInfo } from "./index";
+import { By, WebElement, until } from "selenium-webdriver";
+import { makeDriver, itemInfo, scrollPage } from "./index";
 import { FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
 const TITLE_CLASS = "product-name cms-ae-product-name";
@@ -26,19 +26,21 @@ export const americanEagleScrape = async (url: string): Promise<itemInfo> => {
 
   try {
     await driver.get(url);
-    await driver.sleep(3000);
-    const title = await (await driver.findElement(By.className(TITLE_CLASS))).getText();
-    let price = +(
-      await (await (await driver).findElement(By.css(LIST_PRICE_CLASS))).getText()
-    ).replace(FLOAT_REGEX, "");
+    await driver.sleep(1000);
+    const title = driver.wait(until.elementLocated(By.className(TITLE_CLASS))).getText();
+    const price = driver.wait(until.elementLocated(By.css(LIST_PRICE_CLASS))).getText();
+    const imageURL = driver.wait(until.elementLocated(By.css(IMAGE_CLASS))).getAttribute("src");
+    const item = await Promise.all([title, price, imageURL]);
 
     const checkSalePrice = await driver.findElements(By.css(SALE_PRICE_CLASS));
-    if ((await checkSalePrice.length) > 0) {
-      price = +(await (await checkSalePrice[0].getText()).replace(FLOAT_REGEX, ""));
-    }
-    const imageURL = await (await driver.findElement(By.css(IMAGE_CLASS))).getAttribute("src");
+    if (checkSalePrice.length > 0) item[1] = await checkSalePrice[0].getText();
 
-    const info: itemInfo = { title, price, imageURL, itemURL: url };
+    const info: itemInfo = {
+      title: item[0],
+      price: +item[1].replace(FLOAT_REGEX, ""),
+      imageURL: item[2],
+      itemURL: url,
+    };
     return info;
   } catch (err) {
     console.error(err);

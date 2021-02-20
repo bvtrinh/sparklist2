@@ -6,15 +6,15 @@ import { canadaComputersScrape } from "../../scripts/scraping/canadaComputers";
 import { footlockerScrape } from "../../scripts/scraping/footlocker";
 import { memoryExpressScrape } from "../../scripts/scraping/memoryExpress";
 import { neweggScrape } from "../../scripts/scraping/newegg";
+import { theSourceScrape } from "../../scripts/scraping/thesource";
 import { uniqloScrape } from "../../scripts/scraping/uniqlo";
-import { walmartScrape } from "../../scripts/scraping/walmart";
 import { SupportedSite, TEST_URLS, TEST_VALS } from "./testConstants";
 import { itemInfo } from "../../scripts/scraping";
 
 jest.setTimeout(15000);
 
 const testScrape = async (site: SupportedSite) => {
-  let item: itemInfo;
+  let item: itemInfo = { title: "", price: 0, itemURL: "" };
   switch (site) {
     case SupportedSite.AMAZON:
       item = await amazonScrape(TEST_URLS[site][0]);
@@ -40,8 +40,8 @@ const testScrape = async (site: SupportedSite) => {
     case SupportedSite.NEWEGG:
       item = await neweggScrape(TEST_URLS[site][0]);
       break;
-    case SupportedSite.WALMART:
-      item = await walmartScrape(TEST_URLS[site][0]);
+    case SupportedSite.THE_SOURCE:
+      item = await theSourceScrape(TEST_URLS[site][0]);
       break;
     case SupportedSite.UNIQLO:
       item = await uniqloScrape(TEST_URLS[site][0]);
@@ -54,7 +54,7 @@ const testScrape = async (site: SupportedSite) => {
   expect(item.imageURL).toBeTruthy();
 };
 
-describe("testing last 5 scraping websites", () => {
+describe("testing all 10 scraping methods", () => {
   test("amazon item scraping", async () => {
     await testScrape(SupportedSite.AMAZON);
   });
@@ -79,8 +79,8 @@ describe("testing last 5 scraping websites", () => {
   test("newegg item scraping", async () => {
     await testScrape(SupportedSite.NEWEGG);
   });
-  test("walmart item scraping", async () => {
-    await testScrape(SupportedSite.WALMART);
+  test("the source item scraping", async () => {
+    await testScrape(SupportedSite.THE_SOURCE);
   });
   test("uniqlo item scraping", async () => {
     await testScrape(SupportedSite.UNIQLO);
