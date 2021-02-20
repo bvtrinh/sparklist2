@@ -16,14 +16,13 @@ const googleSignUpCallback = async (
   done: VerifyFunction
 ) => {
   try {
-    const email = profile.emails?.[0].value;
     const inviteID = req.query.state as string;
 
     if (!(await validateInvite(inviteID)))
       return done(null, false, { message: "Invalid Invite link." });
 
     const newUser = new User({
-      email: email,
+      email: profile.emails?.[0].value,
       firstName: profile.name?.givenName,
       lastName: profile.name?.familyName,
     });
@@ -44,8 +43,7 @@ const googleLoginCallback = async (
   done: VerifyFunction
 ) => {
   try {
-    const email = profile.emails?.[0].value;
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: profile.emails?.[0].value });
 
     if (!existingUser)
       throw new Error("No account associated with that email. You need an invite link.");
@@ -85,7 +83,6 @@ const twitterSignUpCallback = async (
   done: VerifyFunction
 ) => {
   try {
-    const email = profile.emails?.[0].value;
     const inviteID = req.session.invite?.[0] as string;
     delete req.session.invite;
 
@@ -93,7 +90,7 @@ const twitterSignUpCallback = async (
 
     const [firstName, lastName] = profile.displayName.split(" ");
     const newUser = new User({
-      email,
+      email: profile.emails?.[0].value,
       firstName,
       lastName,
     });
@@ -114,8 +111,7 @@ const twitterLoginCallback = async (
   done: VerifyFunction
 ) => {
   try {
-    const email = profile.emails?.[0].value;
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: profile.emails?.[0].value });
 
     if (!existingUser)
       throw new Error("No account associated with that email. You need an invite link.");
