@@ -21,16 +21,19 @@ export const asosScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
 
   try {
-    // navigate to bestbuy item page
+    // navigate to asos item page
     await driver.get(url);
-    const title = await (await driver.findElement(By.css(TITLE))).getText();
+    const title = driver.findElement(By.css(TITLE)).getText();
+    const priceText = driver.findElement(By.xpath(PRICE)).getText();
+    const imageURL = driver.findElement(By.className(IMAGE_TAG)).getAttribute("src");
+    const item = await Promise.all([title, priceText, imageURL]);
 
-    const priceText = await (await driver.findElement(By.xpath(PRICE))).getText();
-    const price = +priceText.substring(2);
-
-    const imageURL = await (await driver.findElement(By.className(IMAGE_TAG))).getAttribute("src");
-
-    const info: itemInfo = { title, currentPrice: price, url, imageURL };
+    const info: itemInfo = {
+      title: item[0],
+      price: +item[1].substring(2),
+      itemURL: url,
+      imageURL: item[2],
+    };
     return info;
   } catch (err) {
     console.error(err);
