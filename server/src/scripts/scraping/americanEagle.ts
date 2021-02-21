@@ -34,7 +34,7 @@ export const americanEagleScrape = async (url: string): Promise<itemInfo> => {
 
     const checkSalePrice = await driver.findElements(By.css(SALE_PRICE_CLASS));
     if (checkSalePrice.length > 0) item[1] = await checkSalePrice[0].getText();
-
+    
     const info: itemInfo = {
       title: item[0],
       price: +item[1].replace(FLOAT_REGEX, ""),
@@ -91,7 +91,7 @@ export const massAmericanEagleScrape = async (urls: string[]): Promise<itemInfo[
         imageURL = await (await item.findElement(By.css(GRID_ITEM_IMAGE_URL_CLASS))).getAttribute(
           "src"
         );
-        items.push({ title, price, itemURL, imageURL });
+        items.push({ title, currentPrice: price, url: itemURL, imageURL });
       }
     }
 

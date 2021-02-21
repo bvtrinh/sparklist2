@@ -21,6 +21,7 @@ export const footlockerScrape = async (url: string): Promise<itemInfo> => {
   try {
     // navigate to Foot Locker item page
     await driver.get(url);
+
     const title = driver.findElement(By.className(TITLE)).getText();
     const price = driver.findElement(By.className(PRICE)).getText();
     const imageURL = driver.findElement(By.xpath(IMAGE_SELECTOR)).getAttribute("src");
@@ -74,14 +75,14 @@ export const massFootlockerScrape = async (input: string): Promise<itemInfo[]> =
         priceText = await (await item.findElement(By.className(PRICE))).getText();
       }
 
-      const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
+      const itemURL = await (await item.findElement(By.css("a"))).getAttribute("href");
 
       const imageElement = item.findElement(By.css("img"));
       const imageURL = await imageElement.getAttribute("src");
 
       const price = +priceText.substring(1);
 
-      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      const info: itemInfo = { title, currentPrice: price, url: itemURL, imageURL };
       items.push(info);
     }
 

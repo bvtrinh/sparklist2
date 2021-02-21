@@ -74,11 +74,11 @@ export const massAsosScrape = async (input: string): Promise<itemInfo[]> => {
       }
       const price = +priceText.substring(2);
 
-      const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
+      const itemURL = await (await item.findElement(By.css("a"))).getAttribute("href");
 
       const imageURL = await (await item.findElement(By.xpath(SEARCH_IMAGE))).getAttribute("src");
 
-      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      const info: itemInfo = { title, currentPrice: price, url: itemURL, imageURL };
       items.push(info);
     }
 

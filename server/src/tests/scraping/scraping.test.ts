@@ -49,8 +49,8 @@ const testScrape = async (site: SupportedSite) => {
   }
 
   expect(item.title).toBe(TEST_VALS[site][0].title);
-  expect(item.price).toBeTruthy();
-  expect(item.itemURL).toBeTruthy();
+  expect(item.currentPrice).toBeTruthy();
+  expect(item.url).toBeTruthy();
   expect(item.imageURL).toBeTruthy();
 };
 

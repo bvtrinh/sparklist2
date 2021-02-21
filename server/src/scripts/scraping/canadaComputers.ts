@@ -74,12 +74,12 @@ export const massCanadaComputersScrape = async (input: string): Promise<itemInfo
       ).getText();
       const price = +priceText.split(" ")[0].substring(1).replace(",", "");
 
-      const URL = await (await item.findElement(By.css("a"))).getAttribute("href");
+      const itemURL = await (await item.findElement(By.css("a"))).getAttribute("href");
 
       const imageElement = await item.findElement(By.css("img"));
       const imageURL = await imageElement.getAttribute("src");
 
-      const info: itemInfo = { title, price, itemURL: URL, imageURL };
+      const info: itemInfo = { title, currentPrice: price, url: itemURL, imageURL };
       items.push(info);
     }
 

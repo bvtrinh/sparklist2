@@ -65,7 +65,7 @@ export const massUniqloScrape = async (urls: string[]): Promise<itemInfo[]> => {
         imageURL = await (await item.findElement(By.css(GRID_ITEM_IMAGE_URL_CLASS))).getAttribute(
           "src"
         );
-        items.push({ title, price, itemURL, imageURL });
+        items.push({ title, currentPrice: price, url: itemURL, imageURL });
       }
     }
 

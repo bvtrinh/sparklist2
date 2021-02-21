@@ -90,7 +90,7 @@ export const massAmazonScrape = async (urls: string[]): Promise<itemInfo[]> => {
           "src"
         );
 
-        items.push({ title, price, itemURL, imageURL });
+        items.push({ title, currentPrice: price, url: itemURL, imageURL });
       }
     }
 
