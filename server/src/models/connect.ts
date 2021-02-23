@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 let database: mongoose.Connection;
 
-export const connect = (log = true): void => {
+export const connect = (log = false): void => {
   const uri = process.env.MONGO_URI as string;
   if (database) {
     return;
