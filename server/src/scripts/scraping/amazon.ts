@@ -34,9 +34,9 @@ export const amazonScrape = async (url: string): Promise<itemInfo> => {
 
     const info: itemInfo = {
       title: item[0],
-      price: +item[1].replace(FLOAT_REGEX, ""),
+      currentPrice: +item[1].replace(FLOAT_REGEX, ""),
       imageURL: item[2],
-      itemURL: url,
+      url: url,
     };
     return info;
   } catch (err) {

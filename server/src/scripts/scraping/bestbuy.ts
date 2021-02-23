@@ -29,8 +29,8 @@ export const bestBuyScrape = async (url: string): Promise<itemInfo> => {
 
     const info: itemInfo = {
       title: item[0],
-      price: +item[1].substring(1),
-      itemURL: url,
+      currentPrice: +item[1].substring(1),
+      url: url,
       imageURL: item[2],
     };
     return info;

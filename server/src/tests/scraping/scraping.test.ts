@@ -14,7 +14,7 @@ import { itemInfo } from "../../scripts/scraping";
 jest.setTimeout(15000);
 
 const testScrape = async (site: SupportedSite) => {
-  let item: itemInfo = { title: "", price: 0, itemURL: "" };
+  let item: itemInfo = { title: "", currentPrice: 0, url: "" };
   switch (site) {
     case SupportedSite.AMAZON:
       item = await amazonScrape(TEST_URLS[site][0]);
