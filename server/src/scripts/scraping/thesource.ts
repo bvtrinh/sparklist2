@@ -30,8 +30,8 @@ export const theSourceScrape = async (url: string): Promise<itemInfo> => {
 
     const info: itemInfo = {
       title: item[0],
-      price: +item[1].replace(FLOAT_REGEX, ""),
-      itemURL: url,
+      currentPrice: +item[1].replace(FLOAT_REGEX, ""),
+      url: url,
       imageURL: item[2],
     };
     return info;

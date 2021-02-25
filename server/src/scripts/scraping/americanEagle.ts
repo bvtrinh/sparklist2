@@ -1,5 +1,5 @@
 import { By, WebElement, until } from "selenium-webdriver";
-import { makeDriver, itemInfo, scrollPage } from "./index";
+import { makeDriver, itemInfo } from "./index";
 import { FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
 const TITLE_CLASS = "product-name cms-ae-product-name";
@@ -34,12 +34,12 @@ export const americanEagleScrape = async (url: string): Promise<itemInfo> => {
 
     const checkSalePrice = await driver.findElements(By.css(SALE_PRICE_CLASS));
     if (checkSalePrice.length > 0) item[1] = await checkSalePrice[0].getText();
-    
+
     const info: itemInfo = {
       title: item[0],
-      price: +item[1].replace(FLOAT_REGEX, ""),
+      currentPrice: +item[1].replace(FLOAT_REGEX, ""),
       imageURL: item[2],
-      itemURL: url,
+      url: url,
     };
     return info;
   } catch (err) {
