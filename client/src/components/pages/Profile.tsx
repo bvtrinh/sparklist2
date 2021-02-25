@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { userInfo, logout } from "../../api/auth";
 import { checkAuth, getItem } from "../../helpers/authSession";
+import { CreateInviteButton } from "../UI/CreateInviteButton";
 
 export const Profile: React.FC = () => {
   const [email, setEmail] = useState<string>(getItem("email"));
@@ -45,6 +46,7 @@ export const Profile: React.FC = () => {
     <div>
       Authenticated!
       {userData}
+      <CreateInviteButton />
       <button onClick={logoutHandler}>Logout</button>
     </div>
   );

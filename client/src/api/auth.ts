@@ -23,3 +23,13 @@ export const logout = async () => {
     return err.response;
   }
 };
+
+export const createInvite = async () => {
+  try {
+    // Include check to see if admin
+    const res = await axios.get("/api/u/create_invite");
+    return res;
+  } catch (err) {
+    return err.response;
+  }
+};
