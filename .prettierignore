@@ -1,5 +1,6 @@
 node_modules/
-server/dist/
-client/public/
+dist/
+public/
+build/
 server/src/tests/scraping/scrapingTest.ts
 server/src/tests/scraping/testMass.ts
