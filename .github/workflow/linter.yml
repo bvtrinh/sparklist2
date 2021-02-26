@@ -36,7 +36,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install linting dependencies
-        run: npm ci
+        run: npm ci --cache ~/.npm --prefer-offline
 
       - name: Run linter
         run: npm run lint
