@@ -1,11 +1,11 @@
 import { resolve } from "path";
 import { config } from "dotenv";
-config({ path: resolve(__dirname, "../../.env.test") });
-import { connect, disconnect } from "../models/connect";
-import { IItem } from "../models/item.model";
+config({ path: resolve(__dirname, "../../../.env.test") });
+import { connect, disconnect } from "../../models/connect";
+import { IItem } from "../../models/item.model";
 
 // eslint-disable-next-line
-const app = require("../index");
+const app = require("../../index");
 import supertest from "supertest";
 const request = supertest(app);
 

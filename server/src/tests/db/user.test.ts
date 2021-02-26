@@ -1,8 +1,8 @@
 import { resolve } from "path";
 import { config } from "dotenv";
-config({ path: resolve(__dirname, "../../.env.test") });
-import { connect, disconnect } from "../models/connect";
-import { User } from "../models/user.model";
+config({ path: resolve(__dirname, "../../../.env.test") });
+import { connect, disconnect } from "../../models/connect";
+import { User } from "../../models/user.model";
 
 describe("User CRUD", () => {
   const email = "jtran@test.ca";
