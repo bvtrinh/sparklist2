@@ -77,7 +77,7 @@ describe("Item Endpoints", () => {
 
     const payload = res.body.payload;
     expect(payload.length).toEqual(1);
-    expect(payload[0].title).toEqual(items[0].title);
+    expect(payload[0].title).toEqual(items[1].title);
   });
 
   test("delete items", async () => {
