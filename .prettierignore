@@ -4,3 +4,4 @@ public/
 build/
 server/src/tests/scraping/scrapingTest.ts
 server/src/tests/scraping/testMass.ts
+.github/

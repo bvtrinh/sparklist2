@@ -1,0 +1,37 @@
+name: Sparklist CI
+
+on: push
+
+jobs:
+  testing:
+    name: Run linting, formatter and tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: setup environment variables
+        env:
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          API_URL: ${{ secrets.API_URL }}
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install linting dependencies
+        run: npm ci
+
+      - name: Install server dependencies
+        run: cd server && npm ci
+      
+      - name: Run DB tests
+        run: cd server && npm run test -- ./src/tests/db
