@@ -12,7 +12,7 @@ const request = supertest(app);
 jest.setTimeout(15000);
 
 const itemURLs = [
-  { url: "https://www.bestbuy.ca/en-ca/product/14777258" },
+  { url: "https://www.uniqlo.com/ca/en/products/E433399-000?colorCode=COL00" },
   { url: "https://www.footlocker.ca/en/product/jordan-retro-5-mens/4100636.html" },
 ];
 
@@ -77,7 +77,7 @@ describe("Item Endpoints", () => {
 
     const payload = res.body.payload;
     expect(payload.length).toEqual(1);
-    expect(payload[0].title).toEqual(items[1].title);
+    expect(payload[0].title).toEqual(items[0].title);
   });
 
   test("delete items", async () => {
