@@ -1,4 +1,4 @@
-name: Sparklist CI
+name: pipeline
 
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
@@ -40,14 +40,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: Install server dependencies
+        run: cd server && npm ci --cache ~/.npm --prefer-offline
+
+      - name: Install client dependencies
+        run: cd client && npm ci --cache ~/.npm --prefer-offline
+
       - name: Install linting dependencies
         run: npm ci --cache ~/.npm --prefer-offline
 
       - name: Run linter
         run: npm run lint
-
-      - name: Install server dependencies
-        run: cd server && npm ci
       
       - name: Run DB tests
         run: cd server && npm run test -- ./src/tests/db
