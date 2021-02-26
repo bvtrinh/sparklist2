@@ -23,7 +23,7 @@ export const itemURLValidation = [
   body("url", "Unsupported site").exists().isURL(urlOptions).isLength({ min: MIN_LEN }),
 ];
 
-export const validateItemData = (itemData: itemInfo | undefined) => {
+export const validateItemData = (itemData: itemInfo | undefined): boolean => {
   if (!itemData) return false;
   if (itemData.title.length === 0 || !itemData.currentPrice) {
     return false;

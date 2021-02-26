@@ -14,8 +14,7 @@ export const Profile: React.FC = () => {
       try {
         if (!checkAuth()) {
           const res = await userInfo();
-          if (res.status !== 200)
-            throw new Error("Could not retrieve user data.");
+          if (res.status !== 200) throw new Error("Could not retrieve user data.");
 
           setEmail(res.data.user.email);
           setFirstName(res.data.user.firstName);

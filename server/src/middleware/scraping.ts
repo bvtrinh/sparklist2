@@ -1,3 +1,4 @@
+import { itemInfo } from "../scripts/scraping";
 import { amazonScrape } from "../scripts/scraping/amazon";
 import { americanEagleScrape } from "../scripts/scraping/americanEagle";
 import { asosScrape } from "../scripts/scraping/asos";
@@ -22,7 +23,7 @@ export enum SupportedURLs {
   UNIQLO = "www.uniqlo.com",
 }
 
-export const scrapeURL = async (url: string) => {
+export const scrapeURL = async (url: string): Promise<itemInfo | undefined> => {
   const site = url.replace("https://", "").split("/")[0];
 
   switch (site) {
