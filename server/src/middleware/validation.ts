@@ -37,7 +37,7 @@ export const validateWishlistName = async (wishlistData: any) => {
   try {
     wishlists = await Wishlist.find({ owner: wishlistData.owner });
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 
   for (let wishlist of wishlists) {

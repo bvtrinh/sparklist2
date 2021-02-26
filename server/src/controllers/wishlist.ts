@@ -19,6 +19,7 @@ export const createWishlist: RequestHandler = async (req, res) => {
       .status(201)
       .json({ payload: newWishlist, message: "Created the Wishlist.", error: false });
   } catch (err) {
+    console.error(err);
     return res.status(500).json({
       payload: err.error,
       message: err.message,
@@ -44,7 +45,7 @@ export const getOneWishlist: RequestHandler = async (req, res) => {
       error: false,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       payload: err,
       message: "Error retrieving one wishlist",
@@ -64,7 +65,7 @@ export const getOwnWishlists: RequestHandler = async (req, res) => {
       error: false,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       payload: err,
       message: "Error retrieving own wishlists",
@@ -87,7 +88,7 @@ export const getSharedWishlists: RequestHandler = async (req, res) => {
       error: false,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       payload: err,
       message: "Error retrieving shared wishlists",
@@ -106,7 +107,7 @@ export const deleteWishlist: RequestHandler = async (req, res) => {
       error: false,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       payload: err,
       message: "Error while deleting wishlist",
@@ -133,7 +134,7 @@ export const addItem: RequestHandler = async (req, res) => {
       throw new Error("Cannot find wishlist.");
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       payload: err,
       message: "Error while adding item to wishlist",
@@ -159,7 +160,7 @@ export const updateWishlist: RequestHandler = async (req, res) => {
       error: false,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       payload: err,
       message: "Error while updating wishlist",
