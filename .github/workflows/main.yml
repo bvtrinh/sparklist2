@@ -13,17 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: setup environment variables
-        env:
-          NODE_ENV: ${{ secrets.NODE_ENV }}
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-          API_URL: ${{ secrets.API_URL }}
-          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
-          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-
       - name: Check out Git repository
         uses: actions/checkout@v2
 
@@ -53,4 +42,13 @@ jobs:
         run: npm run lint
       
       - name: Run DB tests
+        env:
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          API_URL: ${{ secrets.API_URL }}
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
         run: cd server && npm run test -- ./src/tests/db
