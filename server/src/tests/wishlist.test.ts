@@ -41,7 +41,6 @@ describe("Wishlist Endpoints", () => {
     for (let i = 0; i < userIDs.length; i++) {
       await User.deleteOne({ _id: userIDs[i] });
     }
-    Item.deleteMany({});
 
     for (let i = 0; i < itemData.length; i++) {
       await Item.deleteOne({ _id: itemIDs[i] });

@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 import { MIN_LEN } from "../config/constants";
-import { Wishlist } from "../models/wishlist.model";
+import { IWishlist, Wishlist } from "../models/wishlist.model";
 import { itemInfo } from "../scripts/scraping/index";
 import { SupportedURLs } from "./scraping";
 
@@ -32,7 +32,7 @@ export const validateItemData = (itemData: itemInfo | undefined) => {
   return true;
 };
 
-export const validateWishlistName = async (wishlistData: any) => {
+export const validateWishlistName = async (wishlistData: IWishlist) => {
   let wishlists = [];
   try {
     wishlists = await Wishlist.find({ owner: wishlistData.owner });
