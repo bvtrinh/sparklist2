@@ -78,9 +78,8 @@ export const getSharedWishlists: RequestHandler = async (req, res) => {
   const { id } = req.body;
 
   try {
-    // get all wishlists and filter by shared users
-    const wishlists: IWishlist[] = await Wishlist.find();
-    const sharedWishlists = wishlists.filter((wishlist) => wishlist.sharedUsers.includes(id));
+    // get all wishlists shared with user
+    const sharedWishlists: IWishlist[] = await Wishlist.find({ sharedUsers: { $all: [id] } });
 
     return res.status(200).json({
       payload: sharedWishlists,
