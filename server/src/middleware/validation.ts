@@ -40,7 +40,7 @@ export const validateWishlistName = async (wishlistData: any) => {
     console.error(err);
   }
 
-  for (let wishlist of wishlists) {
+  for (const wishlist of wishlists) {
     if (wishlist.name === wishlistData.name) {
       return false;
     }

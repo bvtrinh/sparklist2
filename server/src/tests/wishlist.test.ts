@@ -14,9 +14,9 @@ const request = supertest(app);
 
 jest.setTimeout(15000);
 
-let userIDs: string[] = [];
-let itemIDs: string[] = [];
-let wishlists: IWishlist[] = [];
+const userIDs: string[] = [];
+const itemIDs: string[] = [];
+const wishlists: IWishlist[] = [];
 
 describe("Wishlist Endpoints", () => {
   beforeAll(async () => {
@@ -24,13 +24,13 @@ describe("Wishlist Endpoints", () => {
 
     // create mock users and items
     for (let i = 0; i < userData.length; i++) {
-      let user = new User(userData[i]);
+      const user = new User(userData[i]);
       await user.save();
       userIDs.push(user._id);
     }
 
     for (let i = 0; i < itemData.length; i++) {
-      let item = new Item(itemData[i]);
+      const item = new Item(itemData[i]);
       await item.save();
       itemIDs.push(item._id);
     }
@@ -148,7 +148,7 @@ describe("Wishlist Endpoints", () => {
 
   test("delete wishlists", async () => {
     for (let i = 0; i < wishlists.length; i++) {
-      let res = await request.delete(`/api/w/`).send({
+      const res = await request.delete(`/api/w/`).send({
         userId: wishlists[i].owner,
         wishlistId: wishlists[i]._id,
       });
