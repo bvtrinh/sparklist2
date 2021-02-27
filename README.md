@@ -1,5 +1,7 @@
 # Sparklist 2
 
+![pipeline-status](https://github.com/bvtrinh/sparklist2/actions/workflows/main.yml/badge.svg)
+
 A new and improved version of Sparklist with a modern technology stack.
 
 Sparklist is a web app to create and share wishlists with friends and family! Know exactly what to to get for upcoming events.

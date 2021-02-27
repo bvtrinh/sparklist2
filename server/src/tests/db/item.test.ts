@@ -1,18 +1,18 @@
 import { resolve } from "path";
 import { config } from "dotenv";
-config({ path: resolve(__dirname, "../../.env.test") });
-import { connect, disconnect } from "../models/connect";
-import { IItem } from "../models/item.model";
+config({ path: resolve(__dirname, "../../../.env.test") });
+import { connect, disconnect } from "../../models/connect";
+import { IItem } from "../../models/item.model";
 
 // eslint-disable-next-line
-const app = require("../index");
+const app = require("../../index");
 import supertest from "supertest";
 const request = supertest(app);
 
 jest.setTimeout(15000);
 
 const itemURLs = [
-  { url: "https://www.bestbuy.ca/en-ca/product/14777258" },
+  { url: "https://www.uniqlo.com/ca/en/products/E433399-000?colorCode=COL00" },
   { url: "https://www.footlocker.ca/en/product/jordan-retro-5-mens/4100636.html" },
 ];
 

@@ -6,7 +6,7 @@ import { Item } from "../models/item.model";
 import { scrapeURL } from "../middleware/scraping";
 import { validateItemData } from "../middleware/validation";
 
-export const updateItem = async () => {
+export const updateItem = async (): Promise<void> => {
   // connect to db
   connect(false);
 
