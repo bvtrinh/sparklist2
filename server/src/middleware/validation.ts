@@ -32,7 +32,7 @@ export const validateItemData = (itemData: itemInfo | undefined): boolean => {
   return true;
 };
 
-export const validateWishlistName = async (wishlistData: IWishlist) => {
+export const validateWishlistName = async (wishlistData: IWishlist): Promise<boolean> => {
   let wishlists = [];
   try {
     wishlists = await Wishlist.find({ owner: wishlistData.owner });

@@ -119,7 +119,7 @@ export const addItem: RequestHandler = async (req, res) => {
   const { itemId, wishlistId, userId } = req.body;
 
   try {
-    let wishlist: IWishlist = await Wishlist.findOne({ _id: wishlistId, owner: userId });
+    const wishlist: IWishlist = await Wishlist.findOne({ _id: wishlistId, owner: userId });
 
     if (wishlist) {
       wishlist.items.push(itemId);
