@@ -23,7 +23,7 @@ export const canadaComputersScrape = async (url: string): Promise<itemInfo> => {
   try {
     // navigate to Canada Computers item page
     await driver.get(url);
-    await driver.sleep(1000);
+    await driver.sleep(3000);
 
     const title = driver.wait(until.elementLocated(By.className(TITLE_IDENTIFIER))).getText();
     const price = driver.wait(until.elementLocated(By.className(PRICE_IDENTIFIER))).getText();
