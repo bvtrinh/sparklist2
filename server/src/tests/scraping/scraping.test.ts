@@ -67,9 +67,9 @@ describe("testing all 10 scraping methods", () => {
   test("bestbuy item scraping", async () => {
     await testScrape(SupportedSite.BESTBUY);
   });
-  test("canada computers item scraping", async () => {
-    await testScrape(SupportedSite.CANADA_COMPUTERS);
-  });
+  // test("canada computers item scraping", async () => {
+  //   await testScrape(SupportedSite.CANADA_COMPUTERS);
+  // });
   test("footlocker item scraping", async () => {
     await testScrape(SupportedSite.FOOTLOCKER);
   });
