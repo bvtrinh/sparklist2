@@ -21,6 +21,8 @@ export const footlockerScrape = async (url: string): Promise<itemInfo> => {
   try {
     // navigate to Foot Locker item page
     await driver.get(url);
+    await driver.sleep(1000);
+
     const title = driver.wait(until.elementLocated(By.className(TITLE))).getText();
     const price = driver.wait(until.elementLocated(By.className(PRICE))).getText();
     const imageURL = driver
