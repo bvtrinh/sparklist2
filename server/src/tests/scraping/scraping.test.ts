@@ -11,7 +11,7 @@ import { uniqloScrape } from "../../scripts/scraping/uniqlo";
 import { SupportedSite, TEST_URLS, TEST_VALS } from "./testConstants";
 import { itemInfo } from "../../scripts/scraping";
 
-jest.setTimeout(15000);
+jest.setTimeout(25000);
 
 const testScrape = async (site: SupportedSite) => {
   let item: itemInfo = { title: "", currentPrice: 0, url: "" };
