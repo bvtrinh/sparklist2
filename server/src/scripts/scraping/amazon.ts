@@ -1,4 +1,4 @@
-import { By, WebElement } from "selenium-webdriver";
+import { By, until, WebElement } from "selenium-webdriver";
 import { makeDriver, itemInfo } from "./index";
 import { FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
@@ -24,9 +24,10 @@ export const amazonScrape = async (url: string): Promise<itemInfo> => {
   const driver = makeDriver();
   try {
     await driver.get(url);
-    const title = driver.findElement(By.css(TITLE_CLASS)).getText();
-    const price = await driver.findElement(By.css(LIST_PRICE_CLASS)).getText();
-    const imageURL = driver.findElement(By.css(IMAGE_CLASS)).getAttribute("src");
+
+    const title = driver.wait(until.elementLocated(By.css(TITLE_CLASS))).getText();
+    const price = await driver.wait(until.elementLocated(By.css(LIST_PRICE_CLASS))).getText();
+    const imageURL = driver.wait(until.elementLocated(By.css(IMAGE_CLASS))).getAttribute("src");
     const checkSalePrice = driver.findElements(By.css(SALE_PRICE_CLASS));
     const item = await Promise.all([title, price, imageURL, checkSalePrice]);
 

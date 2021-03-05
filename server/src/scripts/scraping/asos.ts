@@ -1,4 +1,4 @@
-import { By } from "selenium-webdriver";
+import { By, until } from "selenium-webdriver";
 import { makeDriver, itemInfo, scrollPage } from "./index";
 
 const ASOS_URL = "https://www.asos.com/us/search/?q=";
@@ -23,9 +23,9 @@ export const asosScrape = async (url: string): Promise<itemInfo> => {
   try {
     // navigate to asos item page
     await driver.get(url);
-    const title = driver.findElement(By.css(TITLE)).getText();
-    const priceText = driver.findElement(By.xpath(PRICE)).getText();
-    const imageURL = driver.findElement(By.className(IMAGE_TAG)).getAttribute("src");
+    const title = driver.wait(until.elementLocated(By.css(TITLE))).getText();
+    const priceText = driver.wait(until.elementLocated(By.xpath(PRICE))).getText();
+    const imageURL = driver.wait(until.elementLocated(By.className(IMAGE_TAG))).getAttribute("src");
     const item = await Promise.all([title, priceText, imageURL]);
 
     const info: itemInfo = {

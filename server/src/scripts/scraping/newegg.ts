@@ -23,7 +23,9 @@ export const neweggScrape = async (url: string): Promise<itemInfo> => {
     await driver.get(url);
     const title = driver.wait(until.elementLocated(By.css(TITLE))).getText();
     const price = driver.wait(until.elementLocated(By.className(PRICE))).getText();
-    const imageURL = driver.findElement(By.className(IMAGE_SELECTOR)).getAttribute("src");
+    const imageURL = driver
+      .wait(until.elementLocated(By.className(IMAGE_SELECTOR)))
+      .getAttribute("src");
     const item = await Promise.all([title, price, imageURL]);
 
     const info: itemInfo = {

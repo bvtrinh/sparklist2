@@ -21,10 +21,11 @@ export const bestBuyScrape = async (url: string): Promise<itemInfo> => {
   try {
     // navigate to bestbuy item page
     await driver.get(url);
-
-    const title = driver.findElement(By.css(TITLE_IDENTIFIER)).getText();
-    const price = driver.findElement(By.className(PRICE_IDENTIFIER)).getText();
-    const imageURL = driver.findElement(By.xpath(IMAGE_SELECTOR)).getAttribute("src");
+    const title = driver.wait(until.elementLocated(By.css(TITLE_IDENTIFIER))).getText();
+    const price = driver.wait(until.elementLocated(By.className(PRICE_IDENTIFIER))).getText();
+    const imageURL = driver
+      .wait(until.elementLocated(By.xpath(IMAGE_SELECTOR)))
+      .getAttribute("src");
     const item = await Promise.all([title, price, imageURL]);
 
     const info: itemInfo = {
