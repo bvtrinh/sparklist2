@@ -51,4 +51,4 @@ jobs:
           TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-        run: cd server && npm run test -- ./src/tests/db
+        run: cd server && npm run test -- ./src/tests/db ./src/tests/scraping
