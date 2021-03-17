@@ -1,27 +1,22 @@
 import React from "react";
 import { Box, Flex, Container } from "@chakra-ui/react";
 
-interface NavbarContainerProps {
+interface NavContainerProps {
   children: JSX.Element[];
 }
 
-const NAV_COLOR = "#150135";
+export const NAV_COLOR = "#150135";
 
-export const NavbarContainer: React.FC<NavbarContainerProps> = ({ children, ...props }) => {
+export const NavContainer: React.FC<NavContainerProps> = ({ children, ...props }) => {
   return (
-    <Box bgColor={NAV_COLOR}>
+    <Box as="nav" bg={NAV_COLOR} boxShadow="lg" color="white" px={4}>
       <Container maxW={["100vw", "100vw", "100vw", "75vw"]}>
         <Flex
-          as="nav"
-          align="center"
-          justify="space-between"
-          wrap="wrap"
+          py={4}
           w="100%"
-          mb={8}
-          p={5}
-          bg={NAV_COLOR}
-          color="white"
-          {...props}
+          alignItems={{ base: "start", md: "center" }}
+          justifyContent="space-between"
+          wrap="wrap"
         >
           {children}
         </Flex>
