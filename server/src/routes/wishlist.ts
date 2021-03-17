@@ -8,15 +8,16 @@ import {
   getSharedWishlists,
   updateWishlist,
 } from "../controllers/wishlist";
+import { isAuthenticated } from "../middleware/auth";
 
 const router = Router();
 
-router.post("/", createWishlist);
-router.delete("/", deleteWishlist);
-router.patch("/", updateWishlist);
-router.get("/one", getOneWishlist);
-router.get("/own", getOwnWishlists);
-router.get("/shared", getSharedWishlists);
-router.post("/addItem", addItem);
+router.post("/", isAuthenticated, createWishlist);
+router.delete("/", isAuthenticated, deleteWishlist);
+router.patch("/", isAuthenticated, updateWishlist);
+router.get("/one", isAuthenticated, getOneWishlist);
+router.get("/own", isAuthenticated, getOwnWishlists);
+router.get("/shared", isAuthenticated, getSharedWishlists);
+router.post("/addItem", isAuthenticated, addItem);
 
 export default router;
