@@ -1,4 +1,4 @@
-import { By } from "selenium-webdriver";
+import { By, until } from "selenium-webdriver";
 import { makeDriver, itemInfo } from "./index";
 import { FLOAT_REGEX, SCROLL_SCRIPT } from "../../config/constants";
 
@@ -23,9 +23,9 @@ export const theSourceScrape = async (url: string): Promise<itemInfo> => {
 
   try {
     await driver.get(url);
-    const title = driver.findElement(By.css(TITLE_CLASS)).getText();
-    const price = driver.findElement(By.css(PRICE_CLASS)).getText();
-    const imageURL = driver.findElement(By.css(IMAGE_CLASS)).getAttribute("src");
+    const title = driver.wait(until.elementLocated(By.css(TITLE_CLASS))).getText();
+    const price = driver.wait(until.elementLocated(By.css(PRICE_CLASS))).getText();
+    const imageURL = driver.wait(until.elementLocated(By.css(IMAGE_CLASS))).getAttribute("src");
     const item = await Promise.all([title, price, imageURL]);
 
     const info: itemInfo = {

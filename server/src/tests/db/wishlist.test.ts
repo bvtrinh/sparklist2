@@ -1,14 +1,14 @@
 import { resolve } from "path";
 import { config } from "dotenv";
 config({ path: resolve(__dirname, "../../.env.test") });
-import { connect, disconnect } from "../models/connect";
-import { User } from "../models/user.model";
-import { Item } from "../models/item.model";
-import { IWishlist, Wishlist } from "../models/wishlist.model";
-import { itemData, userData } from "./mockData";
+import { connect, disconnect } from "../../models/connect";
+import { User } from "../../models/user.model";
+import { Item } from "../../models/item.model";
+import { IWishlist, Wishlist } from "../../models/wishlist.model";
+import { itemData, userData } from "../mockData";
 
 // eslint-disable-next-line
-const app = require("../index");
+const app = require("../../index");
 import supertest from "supertest";
 const request = supertest(app);
 
