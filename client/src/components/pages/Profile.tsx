@@ -1,52 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { userInfo, logout } from "../../api/auth";
-import { checkAuth, getItem } from "../../helpers/authSession";
+import React from "react";
+import { Button } from "@chakra-ui/react";
+import { checkAuth } from "../../helpers/authSession";
 import { CreateInviteButton } from "../UI/CreateInviteButton";
+import { UserProps, UserContext } from "../../helpers/UserContext";
 
-export const Profile: React.FC = () => {
-  const [email, setEmail] = useState<string>(getItem("email"));
-  const [firstName, setFirstName] = useState<string>(getItem("firstName"));
-  const [lastName, setLastName] = useState<string>(getItem("lastName"));
-  const history = useHistory();
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!checkAuth()) {
-          const res = await userInfo();
-          if (res.status !== 200) throw new Error("Could not retrieve user data.");
+const UserData: React.FC<UserProps> = ({ EMAIL, FIRSTNAME, LASTNAME }) => (
+  <ul>
+    <li>Email: {EMAIL}</li>
+    <li>First Name: {FIRSTNAME}</li>
+    <li>Last Name: {LASTNAME}</li>
+  </ul>
+);
 
-          setEmail(res.data.user.email);
-          setFirstName(res.data.user.firstName);
-          setLastName(res.data.user.lastName);
-        }
-      } catch (err) {
-        history.push("/");
-      }
-    })();
-  }, [history]);
-
-  const logoutHandler = async () => {
-    await logout();
-    history.push("/");
-  };
-
-  let userData = null;
-  if (checkAuth()) {
-    userData = (
-      <ul>
-        <li>Email: {email}</li>
-        <li>First Name: {firstName}</li>
-        <li>Last Name: {lastName}</li>
-      </ul>
-    );
-  }
+export const Profile = () => {
   return (
-    <div>
-      Authenticated!
-      {userData}
-      <CreateInviteButton />
-      <button onClick={logoutHandler}>Logout</button>
-    </div>
+    <UserContext.Consumer>
+      {(context) => (
+        <div>
+          Authenticated!
+          {checkAuth() ? <UserData {...context.user} /> : null}
+          <CreateInviteButton />
+          <Button onClick={context.logoutHandler}>LOGOUT</Button>
+        </div>
+      )}
+    </UserContext.Consumer>
   );
 };

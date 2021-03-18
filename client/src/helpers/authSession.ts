@@ -1,3 +1,4 @@
+import { UserProps } from "../helpers/UserContext";
 export type User = {
   email: string;
   firstName: string;
@@ -14,9 +15,13 @@ export const setAuth = (user: User) => {
   localStorage.setItem("lastName", user.lastName);
 };
 
-export const getItem = (val: string) => {
-  const value = localStorage.getItem(val);
-  return value ? value : "";
+export const getUser = () => {
+  const user: UserProps = {
+    FIRSTNAME: localStorage.getItem("firstName") ?? "",
+    LASTNAME: localStorage.getItem("lastName") ?? "",
+    EMAIL: localStorage.getItem("email") ?? "",
+  };
+  return user;
 };
 
 export const clearAuth = () => {
