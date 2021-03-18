@@ -24,7 +24,7 @@ export const NavLeft: React.FC<NavLeftProps> = ({ isOpen }) => {
           direction={["column", "row", "row", "row"]}
           pt={[3, 3, 0, 0]}
         >
-          <NavLink to="#">
+          <NavLink to="/">
             <Icon as={MdDashboard} /> Dashboard
           </NavLink>
           <NavLink to="#">

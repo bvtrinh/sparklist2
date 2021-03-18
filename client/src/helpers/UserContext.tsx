@@ -67,7 +67,7 @@ export const UserContextProvider: React.FC<UserContextProviderProps> = ({ childr
           console.log(user);
         }
       } catch (err) {
-        history.push("/");
+        history.push("/login");
       }
     })();
   }, [history, user]);
