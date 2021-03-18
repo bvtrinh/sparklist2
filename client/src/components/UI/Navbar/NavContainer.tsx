@@ -9,7 +9,7 @@ export const NAV_COLOR = "#150135";
 
 export const NavContainer: React.FC<NavContainerProps> = ({ children, ...props }) => {
   return (
-    <Box as="nav" bg={NAV_COLOR} boxShadow="lg" color="white" px={4}>
+    <Box mb={5} as="nav" bg={NAV_COLOR} boxShadow="lg" color="white" px={4}>
       <Container maxW={["100vw", "100vw", "100vw", "75vw"]}>
         <Flex
           py={4}
