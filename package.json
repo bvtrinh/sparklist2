@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "lint": "prettier --check . && eslint .",
-    "lint:fix": "prettier --write . && eslint . --fix"
+    "lint:fix": "prettier --write . && eslint . --fix",
+    "server": "cd server && npm run server",
+    "client": "cd client && npm start",
+    "dev": "concurrently --kill-others --names S,C \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -21,6 +24,7 @@
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
     "babel-eslint": "^10.1.0",
+    "concurrently": "^6.0.0",
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-babel": "^5.3.1",
