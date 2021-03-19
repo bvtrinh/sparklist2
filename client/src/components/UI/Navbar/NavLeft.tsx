@@ -4,6 +4,7 @@ import { MdDashboard } from "react-icons/md";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import { NavLink } from "./NavLink";
 import { NavLogo } from "./NavLogo";
+import { checkAuth } from "../../../helpers/authSession";
 
 interface NavLeftProps {
   isOpen: boolean;
@@ -24,15 +25,19 @@ export const NavLeft: React.FC<NavLeftProps> = ({ isOpen }) => {
           direction={["column", "row", "row", "row"]}
           pt={[3, 3, 0, 0]}
         >
-          <NavLink to="/">
-            <Icon as={MdDashboard} /> Dashboard
-          </NavLink>
-          <NavLink to="#">
-            <Icon as={FaPlus} /> Add
-          </NavLink>
-          <NavLink to="#">
-            <Icon as={FaSearch} /> Search
-          </NavLink>
+          {checkAuth() ? (
+            <>
+              <NavLink to="/">
+                <Icon as={MdDashboard} /> Dashboard
+              </NavLink>
+              <NavLink to="#">
+                <Icon as={FaPlus} /> Add
+              </NavLink>
+              <NavLink to="#">
+                <Icon as={FaSearch} /> Search
+              </NavLink>
+            </>
+          ) : null}
         </Stack>
       </Box>
     </Stack>

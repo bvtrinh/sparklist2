@@ -5,7 +5,7 @@ export type User = {
   lastName: string;
 };
 export const checkAuth = () => {
-  const user = localStorage.getItem("email");
+  const user = localStorage.getItem("email") ?? "";
   return user ? true : false;
 };
 

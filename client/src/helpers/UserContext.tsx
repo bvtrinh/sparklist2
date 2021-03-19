@@ -48,6 +48,7 @@ export const UserContextProvider: React.FC<UserContextProviderProps> = ({ childr
 
   const logoutHandler = async () => {
     await logout();
+    setUser(initialUserContext.user);
     history.push("/");
   };
 
@@ -59,12 +60,9 @@ export const UserContextProvider: React.FC<UserContextProviderProps> = ({ childr
         if (!checkAuth()) {
           const res = await userInfo();
           if (res.status !== 200) throw new Error("Could not retrieve user data.");
-          console.log(res.data.user);
-
           setUserField(UserFields.FIRSTNAME, res.data.user.firstName);
-          setUserField(UserFields.LASTNAME, res.data.user.lastLame);
+          setUserField(UserFields.LASTNAME, res.data.user.lastName);
           setUserField(UserFields.EMAIL, res.data.user.email);
-          console.log(user);
         }
       } catch (err) {
         history.push("/login");

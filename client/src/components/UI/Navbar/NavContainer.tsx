@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Flex, Container } from "@chakra-ui/react";
 
 interface NavContainerProps {
-  children: JSX.Element[];
+  children: React.ReactNode[];
 }
 
 export const NAV_COLOR = "#150135";

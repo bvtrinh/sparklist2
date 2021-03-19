@@ -4,13 +4,14 @@ import { NavContainer } from "./NavContainer";
 import { NavToggle } from "./NavToggle";
 import { NavLeft } from "./NavLeft";
 import { NavRight } from "./NavRight";
+import { checkAuth } from "../../../helpers/authSession";
 
 export const NavBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <NavContainer>
-      <NavToggle isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+      {checkAuth() ? <NavToggle isOpen={isOpen} onOpen={onOpen} onClose={onClose} /> : undefined}
       <NavLeft isOpen={isOpen} />
       <NavRight />
     </NavContainer>
