@@ -49,7 +49,7 @@ export const UserContextProvider: React.FC<UserContextProviderProps> = ({ childr
   const logoutHandler = async () => {
     await logout();
     setUser(initialUserContext.user);
-    history.push("/");
+    history.push("/login");
   };
 
   // If nothing is stored in localStorage, then make a request to see if

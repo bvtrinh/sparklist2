@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { checkAuth } from "../../helpers/authSession";
 import { CreateInviteButton } from "../UI/CreateInviteButton";
 import { UserProps, UserContext } from "../../helpers/UserContext";
@@ -16,12 +16,11 @@ export const Profile = () => {
   return (
     <UserContext.Consumer>
       {(context) => (
-        <div>
-          Authenticated!
+        <Box>
+          <Heading>Profile</Heading>
           {checkAuth() ? <UserData {...context.user} /> : null}
           <CreateInviteButton />
-          <Button onClick={context.logoutHandler}>LOGOUT</Button>
-        </div>
+        </Box>
       )}
     </UserContext.Consumer>
   );
