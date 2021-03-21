@@ -1,4 +1,5 @@
 export type User = {
+  _id: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -9,6 +10,7 @@ export const checkAuth = () => {
 };
 
 export const setAuth = (user: User) => {
+  localStorage.setItem("userId", user._id);
   localStorage.setItem("email", user.email);
   localStorage.setItem("firstName", user.firstName);
   localStorage.setItem("lastName", user.lastName);
