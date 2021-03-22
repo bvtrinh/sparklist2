@@ -16,7 +16,7 @@ router.post("/", isAuthenticated, createWishlist);
 router.delete("/", isAuthenticated, deleteWishlist);
 router.patch("/", isAuthenticated, updateWishlist);
 router.get("/one", isAuthenticated, getOneWishlist);
-router.get("/own", isAuthenticated, getOwnWishlists);
+router.get("/own/owner/:owner", isAuthenticated, getOwnWishlists);
 router.get("/shared", isAuthenticated, getSharedWishlists);
 router.post("/addItem", isAuthenticated, addItem);
 

@@ -55,7 +55,7 @@ export const getOneWishlist: RequestHandler = async (req, res) => {
 };
 
 export const getOwnWishlists: RequestHandler = async (req, res) => {
-  const { owner } = req.body;
+  const owner: any = req.params.owner;
 
   try {
     const wishlists = await Wishlist.find({ owner: owner });
