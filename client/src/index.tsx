@@ -3,11 +3,14 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const app = (
-  <Router>
-    <App />
-  </Router>
+  <ChakraProvider>
+    <Router>
+      <App />
+    </Router>
+  </ChakraProvider>
 );
 
 ReactDOM.render(<React.StrictMode>{app}</React.StrictMode>, document.getElementById("root"));
