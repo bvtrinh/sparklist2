@@ -75,7 +75,7 @@ export const getOwnWishlists: RequestHandler = async (req, res) => {
 };
 
 export const getSharedWishlists: RequestHandler = async (req, res) => {
-  const { id } = req.body;
+  const id = req.params.id;
 
   try {
     // get all wishlists shared with user
