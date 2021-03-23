@@ -6,12 +6,18 @@ const axios = require("axios");
 
 const Wishlist = () => {
   const [wishlists, setWishlists] = useState<any[]>([]);
+  const [sharedWishlists, setSharedWishlists] = useState<any[]>([]);
 
   useEffect(() => {
-    fetchWishlists();
+    fetchOwnWishlists();
+    fetchSharedWishlists();
   }, []);
 
-  const fetchWishlists = () => {
+  useEffect(() => {
+    console.log(sharedWishlists);
+  }, [sharedWishlists]);
+
+  const fetchOwnWishlists = () => {
     const userId = getItem("userId");
     return axios
       .get("/api/w/own/owner/" + userId)
@@ -23,12 +29,31 @@ const Wishlist = () => {
       });
   };
 
-  const renderCards = useMemo(() => {
+  const fetchSharedWishlists = () => {
+    const userId = getItem("userId");
+    return axios
+      .get("/api/w/shared/" + userId)
+      .then((res: any) => {
+        setSharedWishlists(res.data.payload);
+      })
+      .catch((err: any) => {
+        return err;
+      });
+  };
+
+  const renderOwnWishlists = useMemo(() => {
     const cards = wishlists.map((wishlist) => (
       <WishlistCard wishlist={wishlist} key={wishlist._id} />
     ));
     return cards;
   }, [wishlists]);
+
+  const renderSharedWishlists = useMemo(() => {
+    const cards = sharedWishlists.map((wishlist) => (
+      <WishlistCard wishlist={wishlist} key={wishlist._id} />
+    ));
+    return cards;
+  }, [sharedWishlists]);
 
   const getNumColumns = () => {
     if (wishlists.length < 4) {
@@ -43,7 +68,14 @@ const Wishlist = () => {
       <Heading size="lg">Your Wishlists</Heading>
       <Divider my="3" />
       <SimpleGrid bg="gray.150" columns={getNumColumns()} spacing={5}>
-        {renderCards}
+        {renderOwnWishlists}
+      </SimpleGrid>
+      <Heading size="lg" mt="3">
+        Shared Wishlists
+      </Heading>
+      <Divider my="3" />
+      <SimpleGrid bg="gray.150" columns={getNumColumns()} spacing={5}>
+        {renderSharedWishlists}
       </SimpleGrid>
     </Box>
   );
