@@ -1,4 +1,5 @@
 import React from "react";
+import { Box, Link, Image } from "@chakra-ui/react";
 
 interface GoogleBtnProps {
   url?: string;
@@ -8,11 +9,12 @@ const BASE_URL = "http://localhost:5000/api";
 
 export const GoogleButton = ({ url }: GoogleBtnProps) => {
   const endpoint = url ?? "/u/google-login";
+
   return (
-    <div>
-      <a href={`${BASE_URL}${endpoint}`}>
-        <img src="/images/google-btn.png" alt="google login btn" />
-      </a>
-    </div>
+    <Box>
+      <Link href={`${BASE_URL}${endpoint}`}>
+        <Image src="/images/google-btn.png" alt="google login btn" />
+      </Link>
+    </Box>
   );
 };
