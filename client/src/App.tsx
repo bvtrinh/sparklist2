@@ -12,19 +12,17 @@ import { UserContextProvider } from "./helpers/UserContext";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <UserContextProvider>
-        <NavBar />
-        <Container maxW={["100vw", "100vw", "100vw", "75vw"]}>
-          <Switch>
-            <Route path="/invite/:id" component={Signup} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/login" component={Login} />
-            <Route exact path="/" component={Dashboard} />
-          </Switch>
-        </Container>
-      </UserContextProvider>
-    </div>
+    <UserContextProvider>
+      <NavBar />
+      <Container maxW={["100vw", "100vw", "100vw", "75vw"]}>
+        <Switch>
+          <Route path="/profile" component={Profile} />
+          <Route path="/invite/:id" component={Signup} />
+          <Route path="/login" component={Login} />
+          <Route exact path="/" component={Dashboard} />
+        </Switch>
+      </Container>
+    </UserContextProvider>
   );
 };
 
